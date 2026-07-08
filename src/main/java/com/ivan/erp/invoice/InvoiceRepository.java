@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -65,6 +66,9 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     Set<Long> findInvoicedQuoteIds(@Param("quoteIds") Collection<Long> quoteIds);
 
     Optional<Invoice> findTopByInvoiceNumberStartingWithOrderByInvoiceNumberDesc(String prefix);
+
+    @EntityGraph(attributePaths = {"client", "quote"})
+    List<Invoice> findByStatusNotInOrderByIssueDateDescIdDesc(Collection<InvoiceStatus> statuses);
 
     long countByStatus(InvoiceStatus status);
 

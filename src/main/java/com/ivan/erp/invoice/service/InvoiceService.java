@@ -1,6 +1,7 @@
 package com.ivan.erp.invoice.service;
 
 import com.ivan.erp.invoice.*;
+import com.ivan.erp.payment.PaymentRepository;
 import com.ivan.erp.quote.Quote;
 import com.ivan.erp.quote.QuoteLine;
 import com.ivan.erp.quote.QuoteRepository;
@@ -20,10 +21,16 @@ public class InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
     private final QuoteRepository quoteRepository;
+    private final PaymentRepository paymentRepository;
 
-    public InvoiceService(InvoiceRepository invoiceRepository, QuoteRepository quoteRepository) {
+    public InvoiceService(
+            InvoiceRepository invoiceRepository,
+            QuoteRepository quoteRepository,
+            PaymentRepository paymentRepository
+    ) {
         this.invoiceRepository = invoiceRepository;
         this.quoteRepository = quoteRepository;
+        this.paymentRepository = paymentRepository;
     }
 
     @Transactional(readOnly = true)
@@ -58,6 +65,16 @@ public class InvoiceService {
     @Transactional
     public void changeStatus(Long id, InvoiceStatus status) {
         Invoice invoice = getById(id);
+
+        if (status == InvoiceStatus.PAID) {
+            throw new IllegalStateException("Para marcar una factura como cobrada, registra un cobro desde el módulo de Cobros.");
+        }
+
+        if (paymentRepository.sumAmountByInvoiceId(id).signum() > 0
+                && (status == InvoiceStatus.DRAFT || status == InvoiceStatus.CANCELLED)) {
+            throw new IllegalStateException("No puedes cambiar a ese estado una factura que ya tiene cobros registrados.");
+        }
+
         invoice.changeStatus(status);
 
         if (invoice.getQuote() != null) {
@@ -71,6 +88,10 @@ public class InvoiceService {
 
         if (!invoice.isDeletable()) {
             throw new IllegalStateException("Solo se pueden eliminar facturas en borrador. Para facturas emitidas, cambia el estado a cancelada.");
+        }
+
+        if (paymentRepository.countByInvoice_Id(id) > 0) {
+            throw new IllegalStateException("No se puede eliminar una factura con cobros registrados.");
         }
 
         if (invoice.getQuote() != null) {

@@ -1,14 +1,22 @@
-# ERP Spain - Fase 1.5 UX y trazabilidad presupuesto/factura
+# ERP Spain - Fase 1.6 Cobros
 
-Esta versión corrige la relación entre presupuestos y facturas:
+Esta fase añade el módulo de cobros sobre la Fase 1.5.
 
-- Un presupuesto vinculado a una factura ya no se puede eliminar ni editar.
-- El sistema evita errores de integridad si se intenta borrar un presupuesto facturado.
-- Al crear una factura desde un presupuesto, el presupuesto pasa automáticamente a `Aceptado`.
-- El estado del presupuesto facturado queda protegido y se gestiona desde la factura.
-- En presupuestos y facturas se sustituyen los selectores de estado por botones de estado más claros.
-- En el detalle de factura se muestra de forma visible el presupuesto vinculado.
-- En el detalle de presupuesto facturado se muestra la factura vinculada y el bloqueo de trazabilidad.
+## Incluye
+
+- Módulo `/payments`.
+- Registro de cobros parciales o totales.
+- Métodos de cobro: transferencia, tarjeta, efectivo, Bizum, domiciliación y otros.
+- Cobros vinculados a facturas.
+- Cálculo automático de cobrado y pendiente.
+- Actualización automática del estado de la factura:
+  - Si el total cobrado cubre la factura, pasa a **Cobrada**.
+  - Si se elimina un cobro, la factura vuelve a **Enviada** o **Vencida** según fecha.
+- La factura ya no se marca manualmente como cobrada desde estados; se hace registrando cobros.
+- Sección de cobros dentro del detalle de factura.
+- Listado de cobros responsive.
+- Migración `V6__create_payments.sql`.
+- Dashboard ajustado a **Cobrado este mes**.
 
 ## Arranque
 
@@ -19,16 +27,19 @@ $env:DB_PASSWORD="root"
 C:\tools\apache-maven-3.9.16\bin\mvn.cmd spring-boot:run
 ```
 
-Si usas Docker:
+## Rutas
 
-```powershell
-docker compose up -d
-```
+- Facturas: http://localhost:8080/invoices
+- Cobros: http://localhost:8080/payments
 
 ## Usuario inicial
 
-```text
-admin@erp.local
-Admin123!
-```
+- Email: `admin@erp.local`
+- Contraseña: `Admin123!`
 
+## Commit recomendado
+
+```powershell
+git add .
+git commit -m "feat: añadir módulo de cobros"
+```

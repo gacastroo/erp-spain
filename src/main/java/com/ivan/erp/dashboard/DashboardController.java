@@ -3,6 +3,7 @@ package com.ivan.erp.dashboard;
 import com.ivan.erp.client.ClientRepository;
 import com.ivan.erp.invoice.InvoiceRepository;
 import com.ivan.erp.invoice.InvoiceStatus;
+import com.ivan.erp.payment.PaymentRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +20,16 @@ public class DashboardController {
 
     private final ClientRepository clientRepository;
     private final InvoiceRepository invoiceRepository;
+    private final PaymentRepository paymentRepository;
 
-    public DashboardController(ClientRepository clientRepository, InvoiceRepository invoiceRepository) {
+    public DashboardController(
+            ClientRepository clientRepository,
+            InvoiceRepository invoiceRepository,
+            PaymentRepository paymentRepository
+    ) {
         this.clientRepository = clientRepository;
         this.invoiceRepository = invoiceRepository;
+        this.paymentRepository = paymentRepository;
     }
 
     @GetMapping("/")
@@ -36,14 +43,13 @@ public class DashboardController {
         LocalDate startOfMonth = today.withDayOfMonth(1);
         LocalDate endOfMonth = today.withDayOfMonth(today.lengthOfMonth());
 
-        BigDecimal invoicedThisMonth = invoiceRepository.sumTotalByStatusAndIssueDateBetween(
-                InvoiceStatus.PAID,
+        BigDecimal collectedThisMonth = paymentRepository.sumAmountByPaymentDateBetween(
                 startOfMonth,
                 endOfMonth
         );
 
         model.addAttribute("username", authentication.getName());
-        model.addAttribute("totalFacturado", formatCurrency(invoicedThisMonth));
+        model.addAttribute("totalFacturado", formatCurrency(collectedThisMonth));
         model.addAttribute("facturasPendientes", invoiceRepository.countByStatus(InvoiceStatus.ISSUED) + invoiceRepository.countByStatus(InvoiceStatus.SENT));
         model.addAttribute("facturasVencidas", invoiceRepository.countOverdue(today, List.of(InvoiceStatus.PAID, InvoiceStatus.CANCELLED)));
         model.addAttribute("clientesActivos", clientRepository.countByEnabledTrue());

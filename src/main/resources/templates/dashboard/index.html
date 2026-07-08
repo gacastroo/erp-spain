@@ -59,7 +59,7 @@
                 <li class="nav-item"><a class="nav-link" th:href="@{/products}">Productos</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
-                <li class="nav-item"><a class="nav-link disabled" href="#" aria-disabled="true">Cobros</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/payments}">Cobros</a></li>
             </ul>
         </nav>
 
@@ -84,7 +84,7 @@
                     <li class="nav-item"><a class="nav-link" th:href="@{/products}">Productos</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
-                    <li class="nav-item"><a class="nav-link disabled" href="#" aria-disabled="true">Cobros</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/payments}">Cobros</a></li>
                 </ul>
             </nav>
         </aside>
@@ -113,7 +113,7 @@
                         <div class="col-12 col-sm-6 col-xl-3">
                             <article class="card metric-card h-100">
                                 <div class="card-body">
-                                    <p class="text-muted mb-1">Facturado este mes</p>
+                                    <p class="text-muted mb-1">Cobrado este mes</p>
                                     <p class="h4 fw-bold mb-0" th:text="${totalFacturado}">0,00 €</p>
                                 </div>
                             </article>
@@ -176,12 +176,12 @@
                                     </tr>
                                     <tr>
                                         <td>Facturación</td>
-                                        <td><span class="badge text-bg-warning">Pendiente</span></td>
+                                        <td><span class="badge text-bg-success">Activo</span></td>
                                         <td>Alta</td>
                                     </tr>
                                     <tr>
                                         <td>Cobros</td>
-                                        <td><span class="badge text-bg-secondary">Después</span></td>
+                                        <td><span class="badge text-bg-success">Activo</span></td>
                                         <td>Media</td>
                                     </tr>
                                     </tbody>

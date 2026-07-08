@@ -1358,3 +1358,101 @@ a.nav-link,
         grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     }
 }
+
+/* ==========================================================
+   Fase 1.6 - Cobros
+   ========================================================== */
+.payments-table th:last-child,
+.payments-table td:last-child {
+    width: var(--list-action-column) !important;
+    min-width: var(--list-action-column) !important;
+    max-width: var(--list-action-column) !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    overflow: visible !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.payment-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    white-space: nowrap !important;
+}
+
+.payment-actions form {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+}
+
+.payment-actions .btn,
+.payment-actions form .btn {
+    width: var(--list-action-button-width) !important;
+    min-width: var(--list-action-button-width) !important;
+    max-width: var(--list-action-button-width) !important;
+    height: var(--list-action-button-height) !important;
+    min-height: var(--list-action-button-height) !important;
+    max-height: var(--list-action-button-height) !important;
+    padding: 0.35rem 0.55rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    font-size: 0.84rem;
+    white-space: nowrap !important;
+    flex: 0 0 auto !important;
+}
+
+.payment-method {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 92px;
+    min-height: 30px;
+    padding: 0.32rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    line-height: 1;
+    font-weight: 700;
+    color: #075985;
+    background: #e0f2fe;
+    border: 1px solid #bae6fd;
+    white-space: nowrap;
+}
+
+.payment-summary-card {
+    height: 100%;
+    padding: 1rem;
+    border: 1px solid var(--app-border);
+    border-radius: 1rem;
+    background: #ffffff;
+}
+
+.payment-summary-card--paid {
+    border-left: 5px solid #22c55e;
+    background: #f0fdf4;
+}
+
+.payment-summary-card--pending {
+    border-left: 5px solid #f59e0b;
+    background: #fffbeb;
+}
+
+.invoice-payments-table {
+    font-size: 0.94rem;
+}
+
+.invoice-payments-table th,
+.invoice-payments-table td {
+    padding: 0.85rem 1rem !important;
+}

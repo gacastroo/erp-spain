@@ -4,6 +4,7 @@ import com.ivan.erp.invoice.Invoice;
 import com.ivan.erp.invoice.InvoiceStatus;
 import com.ivan.erp.invoice.service.InvoiceService;
 import com.ivan.erp.quote.QuoteRepository;
+import com.ivan.erp.payment.service.PaymentService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,10 +19,16 @@ public class InvoiceController {
 
     private final InvoiceService invoiceService;
     private final QuoteRepository quoteRepository;
+    private final PaymentService paymentService;
 
-    public InvoiceController(InvoiceService invoiceService, QuoteRepository quoteRepository) {
+    public InvoiceController(
+            InvoiceService invoiceService,
+            QuoteRepository quoteRepository,
+            PaymentService paymentService
+    ) {
         this.invoiceService = invoiceService;
         this.quoteRepository = quoteRepository;
+        this.paymentService = paymentService;
     }
 
     @GetMapping
@@ -72,10 +79,15 @@ public class InvoiceController {
             Invoice invoice = invoiceService.getById(id);
             model.addAttribute("invoice", invoice);
             model.addAttribute("statuses", InvoiceStatus.values());
+            model.addAttribute("payments", paymentService.findByInvoice(id));
+            model.addAttribute("paymentSummary", paymentService.getSummaryForInvoice(invoice));
             return "invoices/detail";
         } catch (EntityNotFoundException ex) {
             redirectAttributes.addFlashAttribute("errorMessage", "Factura no encontrada");
             return "redirect:/invoices";
+        } catch (IllegalStateException ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+            return "redirect:/invoices/" + id;
         }
     }
 
@@ -93,6 +105,9 @@ public class InvoiceController {
         } catch (EntityNotFoundException ex) {
             redirectAttributes.addFlashAttribute("errorMessage", "Factura no encontrada");
             return "redirect:/invoices";
+        } catch (IllegalStateException ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+            return "redirect:/invoices/" + id;
         }
     }
 

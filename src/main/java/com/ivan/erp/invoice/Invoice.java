@@ -93,17 +93,38 @@ public class Invoice extends BaseEntity {
     public void changeStatus(InvoiceStatus status) {
         this.status = status;
 
-        if (status == InvoiceStatus.PAID && paidAt == null) {
-            this.paidAt = LocalDate.now();
-        }
-
         if (status != InvoiceStatus.PAID) {
             this.paidAt = null;
         }
     }
 
+    public void markPaid(LocalDate paymentDate) {
+        this.status = InvoiceStatus.PAID;
+        this.paidAt = paymentDate != null ? paymentDate : LocalDate.now();
+    }
+
+    public void markPendingAfterPaymentChange(LocalDate today) {
+        this.paidAt = null;
+
+        if (this.status == InvoiceStatus.CANCELLED || this.status == InvoiceStatus.DRAFT) {
+            return;
+        }
+
+        if (this.dueDate != null && this.dueDate.isBefore(today)) {
+            this.status = InvoiceStatus.OVERDUE;
+        } else {
+            this.status = InvoiceStatus.SENT;
+        }
+    }
+
     public boolean isDeletable() {
         return status == InvoiceStatus.DRAFT;
+    }
+
+    public boolean canRegisterPayment() {
+        return status == InvoiceStatus.ISSUED
+                || status == InvoiceStatus.SENT
+                || status == InvoiceStatus.OVERDUE;
     }
 
     public void recalculateTotals() {
