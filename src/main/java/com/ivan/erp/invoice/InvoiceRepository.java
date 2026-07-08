@@ -91,4 +91,53 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
             @Param("start") LocalDate start,
             @Param("end") LocalDate end
     );
+
+    @EntityGraph(attributePaths = {"client"})
+    List<Invoice> findByIssueDateBetweenAndStatusNotInOrderByIssueDateDescIdDesc(
+            LocalDate start,
+            LocalDate end,
+            Collection<InvoiceStatus> excludedStatuses
+    );
+
+    @Query("""
+            SELECT COALESCE(SUM(i.total), 0)
+            FROM Invoice i
+            WHERE i.issueDate BETWEEN :start AND :end
+              AND i.status NOT IN :excludedStatuses
+            """)
+    BigDecimal sumTotalByIssueDateBetweenAndStatusNotIn(
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end,
+            @Param("excludedStatuses") Collection<InvoiceStatus> excludedStatuses
+    );
+
+    @Query("""
+            SELECT c.legalName, COUNT(i), COALESCE(SUM(i.total), 0)
+            FROM Invoice i
+            JOIN i.client c
+            WHERE i.issueDate BETWEEN :start AND :end
+              AND i.status NOT IN :excludedStatuses
+            GROUP BY c.id, c.legalName
+            ORDER BY COALESCE(SUM(i.total), 0) DESC
+            """)
+    List<Object[]> salesByClient(
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end,
+            @Param("excludedStatuses") Collection<InvoiceStatus> excludedStatuses
+    );
+
+    @Query("""
+            SELECT l.description, COALESCE(SUM(l.quantity), 0), COALESCE(SUM(l.lineTotal), 0)
+            FROM Invoice i
+            JOIN i.lines l
+            WHERE i.issueDate BETWEEN :start AND :end
+              AND i.status NOT IN :excludedStatuses
+            GROUP BY l.description
+            ORDER BY COALESCE(SUM(l.lineTotal), 0) DESC
+            """)
+    List<Object[]> salesByProduct(
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end,
+            @Param("excludedStatuses") Collection<InvoiceStatus> excludedStatuses
+    );
 }

@@ -1456,3 +1456,61 @@ a.nav-link,
 .invoice-payments-table td {
     padding: 0.85rem 1rem !important;
 }
+
+/* Reportes */
+.report-export-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.report-export-actions .btn {
+    min-width: 150px;
+}
+
+.report-table-wrapper {
+    max-height: 440px;
+    overflow: auto;
+}
+
+.report-table {
+    table-layout: fixed;
+    margin-bottom: 0;
+}
+
+.report-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: #ffffff;
+    padding: 0.85rem 1rem;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6b7280;
+    border-bottom: 1px solid var(--app-border);
+    white-space: nowrap;
+}
+
+.report-table tbody td {
+    padding: 0.85rem 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #eef0f4;
+}
+
+@media (max-width: 767.98px) {
+    .report-export-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .report-export-actions .btn {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .report-table-wrapper {
+        max-height: none;
+    }
+}
