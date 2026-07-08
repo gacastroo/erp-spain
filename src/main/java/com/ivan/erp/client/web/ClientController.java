@@ -66,9 +66,9 @@ public class ClientController {
         }
 
         try {
-            Client client = clientService.create(clientForm);
+            clientService.create(clientForm);
             redirectAttributes.addFlashAttribute("successMessage", "Cliente creado correctamente");
-            return "redirect:/clients/" + client.getId() + "/edit";
+            return "redirect:/clients";
         } catch (DataIntegrityViolationException ex) {
             bindingResult.rejectValue("taxId", "duplicate", ex.getMessage());
             prepareForm(model, "Nuevo cliente", "/clients", false);
@@ -114,7 +114,7 @@ public class ClientController {
         try {
             clientService.update(id, clientForm);
             redirectAttributes.addFlashAttribute("successMessage", "Cliente actualizado correctamente");
-            return "redirect:/clients/" + id + "/edit";
+            return "redirect:/clients";
         } catch (DataIntegrityViolationException ex) {
             bindingResult.rejectValue("taxId", "duplicate", ex.getMessage());
             model.addAttribute("client", clientService.getById(id));

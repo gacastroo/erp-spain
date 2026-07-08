@@ -1118,3 +1118,243 @@ a.nav-link,
         max-width: 100% !important;
     }
 }
+
+/* ==========================================================
+   Fase 1.5 - Facturas
+   Listados y estados alineados con Clientes/Productos/Presupuestos.
+   ========================================================== */
+.invoices-table th:last-child,
+.invoices-table td:last-child {
+    width: var(--list-action-column) !important;
+    min-width: var(--list-action-column) !important;
+    max-width: var(--list-action-column) !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    overflow: visible !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.invoice-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    white-space: nowrap !important;
+}
+
+.invoice-actions form {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+}
+
+.invoice-actions .btn,
+.invoice-actions form .btn {
+    width: var(--list-action-button-width) !important;
+    min-width: var(--list-action-button-width) !important;
+    max-width: var(--list-action-button-width) !important;
+    height: var(--list-action-button-height) !important;
+    min-height: var(--list-action-button-height) !important;
+    max-height: var(--list-action-button-height) !important;
+    padding: 0.35rem 0.55rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    font-size: 0.84rem;
+    white-space: nowrap !important;
+    flex: 0 0 auto !important;
+}
+
+.invoice-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 98px;
+    height: 30px;
+    min-height: 30px;
+    padding: 0.32rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.invoice-status-lg {
+    min-width: 120px;
+    height: 36px;
+    font-size: 0.82rem;
+}
+
+.invoice-status--draft {
+    color: #92400e;
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+}
+
+.invoice-status--issued {
+    color: #1d4ed8;
+    background: #dbeafe;
+    border: 1px solid #bfdbfe;
+}
+
+.invoice-status--sent {
+    color: #3730a3;
+    background: #e0e7ff;
+    border: 1px solid #c7d2fe;
+}
+
+.invoice-status--paid {
+    color: #166534;
+    background: #dcfce7;
+    border: 1px solid #bbf7d0;
+}
+
+.invoice-status--overdue {
+    color: #991b1b;
+    background: #fee2e2;
+    border: 1px solid #fecaca;
+}
+
+.invoice-status--cancelled {
+    color: #374151;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+}
+
+.invoice-status-card,
+.invoice-status-section {
+    border-left-width: 5px;
+}
+
+.invoice-status-card--draft,
+.invoice-status-section--draft {
+    border-left-color: #f59e0b;
+}
+
+.invoice-status-card--issued,
+.invoice-status-section--issued {
+    border-left-color: #3b82f6;
+}
+
+.invoice-status-card--sent,
+.invoice-status-section--sent {
+    border-left-color: #6366f1;
+}
+
+.invoice-status-card--paid,
+.invoice-status-section--paid {
+    border-left-color: #22c55e;
+}
+
+.invoice-status-card--overdue,
+.invoice-status-section--overdue {
+    border-left-color: #ef4444;
+}
+
+.invoice-status-card--cancelled,
+.invoice-status-section--cancelled {
+    border-left-color: #6b7280;
+}
+
+/* ==========================================================
+   Fase 1.5 - Corrección vínculo presupuesto/factura
+   Estados más sencillos y acciones protegidas.
+   ========================================================== */
+.detail-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.detail-actions .btn {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.linked-document-notice {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid #dbeafe;
+    border-left: 5px solid #3b82f6;
+    border-radius: 0.85rem;
+    background: #eff6ff;
+}
+
+.status-button-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+}
+
+.status-button-grid form {
+    min-width: 0;
+}
+
+.status-action-btn {
+    width: 100%;
+    min-height: 44px;
+    border-radius: 999px;
+    font-weight: 700;
+    line-height: 1;
+    opacity: 0.82;
+}
+
+.status-action-btn:hover,
+.status-action-btn:focus {
+    opacity: 1;
+}
+
+.status-action-btn--active,
+.status-action-btn:disabled {
+    opacity: 1;
+    box-shadow: inset 0 0 0 2px rgba(17, 24, 39, 0.18);
+    cursor: default;
+}
+
+.quote-actions .btn.disabled,
+.mobile-actions .btn.disabled,
+.detail-actions .btn.disabled {
+    pointer-events: none;
+    opacity: 0.78;
+}
+
+@media (min-width: 576px) {
+    .status-button-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 992px) {
+    .detail-actions {
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        width: auto;
+    }
+
+    .linked-document-notice {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .status-button-grid {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    }
+}

@@ -2,6 +2,7 @@ package com.ivan.erp.quote.service;
 
 import com.ivan.erp.client.Client;
 import com.ivan.erp.client.ClientRepository;
+import com.ivan.erp.invoice.InvoiceRepository;
 import com.ivan.erp.product.Product;
 import com.ivan.erp.product.ProductRepository;
 import com.ivan.erp.quote.*;
@@ -26,15 +27,18 @@ public class QuoteService {
     private final QuoteRepository quoteRepository;
     private final ClientRepository clientRepository;
     private final ProductRepository productRepository;
+    private final InvoiceRepository invoiceRepository;
 
     public QuoteService(
             QuoteRepository quoteRepository,
             ClientRepository clientRepository,
-            ProductRepository productRepository
+            ProductRepository productRepository,
+            InvoiceRepository invoiceRepository
     ) {
         this.quoteRepository = quoteRepository;
         this.clientRepository = clientRepository;
         this.productRepository = productRepository;
+        this.invoiceRepository = invoiceRepository;
     }
 
     @Transactional(readOnly = true)
@@ -75,6 +79,10 @@ public class QuoteService {
 
     @Transactional
     public Quote update(Long id, QuoteForm form) {
+        if (invoiceRepository.existsByQuote_Id(id)) {
+            throw new IllegalStateException("No se puede editar un presupuesto que ya está vinculado a una factura.");
+        }
+
         Quote quote = getById(id);
         Client client = getClient(form.getClientId());
 
@@ -86,12 +94,26 @@ public class QuoteService {
 
     @Transactional
     public void changeStatus(Long id, QuoteStatus status) {
+        if (invoiceRepository.existsByQuote_Id(id)) {
+            throw new IllegalStateException("El estado del presupuesto lo gestiona la factura asociada.");
+        }
+
         Quote quote = getById(id);
         quote.changeStatus(status);
     }
 
     @Transactional
+    public void markAsAccepted(Long id) {
+        Quote quote = getById(id);
+        quote.changeStatus(QuoteStatus.ACCEPTED);
+    }
+
+    @Transactional
     public void delete(Long id) {
+        if (invoiceRepository.existsByQuote_Id(id)) {
+            throw new IllegalStateException("No se puede eliminar este presupuesto porque ya tiene una factura asociada.");
+        }
+
         Quote quote = getById(id);
         quoteRepository.delete(quote);
     }

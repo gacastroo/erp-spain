@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface QuoteRepository extends JpaRepository<Quote, Long> {
@@ -53,4 +54,18 @@ public interface QuoteRepository extends JpaRepository<Quote, Long> {
     Page<Quote> search(@Param("query") String query, Pageable pageable);
 
     Optional<Quote> findTopByQuoteNumberStartingWithOrderByQuoteNumberDesc(String prefix);
+
+    @Query("""
+            SELECT q
+            FROM Quote q
+            JOIN FETCH q.client
+            WHERE NOT EXISTS (
+                SELECT i.id
+                FROM Invoice i
+                WHERE i.quote = q
+            )
+            ORDER BY q.issueDate DESC, q.id DESC
+            """)
+    List<Quote> findInvoiceableQuotes();
+
 }

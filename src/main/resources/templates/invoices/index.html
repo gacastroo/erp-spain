@@ -4,7 +4,7 @@
       xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Presupuestos | ERP Spain</title>
+    <title>Facturas | ERP Spain</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/app.css}">
@@ -40,8 +40,8 @@
                 <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/clients}">Clientes</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/products}">Productos</a></li>
-                <li class="nav-item"><a class="nav-link active" th:href="@{/quotes}">Presupuestos</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
+                <li class="nav-item"><a class="nav-link active" th:href="@{/invoices}">Facturas</a></li>
             </ul>
         </nav>
         <hr>
@@ -60,8 +60,8 @@
                     <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/clients}">Clientes</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/products}">Productos</a></li>
-                    <li class="nav-item"><a class="nav-link active" th:href="@{/quotes}">Presupuestos</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
+                    <li class="nav-item"><a class="nav-link active" th:href="@{/invoices}">Facturas</a></li>
                     <li class="nav-item"><a class="nav-link disabled" href="#" aria-disabled="true">Cobros</a></li>
                 </ul>
             </nav>
@@ -72,19 +72,19 @@
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
                     <div>
                         <p class="text-uppercase text-primary fw-semibold mb-1">Ventas</p>
-                        <h1 class="h3 fw-bold mb-1">Presupuestos</h1>
-                        <p class="text-muted mb-0">Crea, revisa y controla presupuestos antes de convertirlos en facturas.</p>
+                        <h1 class="h3 fw-bold mb-1">Facturas</h1>
+                        <p class="text-muted mb-0">Controla facturas, vencimientos y estados de cobro desde el módulo de facturación.</p>
                     </div>
-                    <a sec:authorize="hasAnyRole('ADMIN','MANAGER')" th:href="@{/quotes/new}" class="btn btn-primary">Nuevo presupuesto</a>
+                    <a sec:authorize="hasAnyRole('ADMIN','MANAGER')" th:href="@{/invoices/new}" class="btn btn-primary">Nueva factura</a>
                 </div>
 
                 <div th:if="${successMessage}" class="alert alert-success" role="alert" th:text="${successMessage}">Guardado.</div>
                 <div th:if="${errorMessage}" class="alert alert-danger" role="alert" th:text="${errorMessage}">Error.</div>
 
-                <section class="card mb-4" aria-labelledby="quoteSearchTitle">
+                <section class="card mb-4" aria-labelledby="invoiceSearchTitle">
                     <div class="card-body p-3 p-md-4">
-                        <h2 id="quoteSearchTitle" class="visually-hidden">Buscar presupuestos</h2>
-                        <form th:action="@{/quotes}" method="get" class="row g-3 align-items-end">
+                        <h2 id="invoiceSearchTitle" class="visually-hidden">Buscar facturas</h2>
+                        <form th:action="@{/invoices}" method="get" class="row g-3 align-items-end">
                             <div class="col-12 col-md-8 col-xl-9">
                                 <label for="query" class="form-label">Buscar</label>
                                 <input id="query" type="search" name="query" class="form-control"
@@ -97,21 +97,22 @@
                     </div>
                 </section>
 
-                <section class="card" aria-labelledby="quotesTableTitle">
+                <section class="card" aria-labelledby="invoicesTableTitle">
                     <div class="card-body p-3 p-md-4">
-                        <h2 id="quotesTableTitle" class="h5 fw-bold mb-3">Listado de presupuestos</h2>
+                        <h2 id="invoicesTableTitle" class="h5 fw-bold mb-3">Listado de facturas</h2>
 
-                        <div th:if="${quotes.totalElements == 0}" class="text-center py-5">
-                            <p class="h5 fw-semibold mb-2">No hay presupuestos todavía</p>
-                            <p class="text-muted mb-0">Crea el primer presupuesto seleccionando un cliente y añadiendo líneas.</p>
+                        <div th:if="${invoices.totalElements == 0}" class="text-center py-5">
+                            <p class="h5 fw-semibold mb-2">No hay facturas todavía</p>
+                            <p class="text-muted mb-0">Crea tu primera factura desde el botón Nueva factura.</p>
                         </div>
 
-                        <div th:if="${quotes.totalElements > 0}" class="desktop-table-wrapper">
-                            <table class="table align-middle erp-table quotes-table">
-                                <caption class="visually-hidden">Listado de presupuestos registrados</caption>
+                        <div th:if="${invoices.totalElements > 0}" class="desktop-table-wrapper">
+                            <table class="table align-middle erp-table invoices-table">
+                                <caption class="visually-hidden">Listado de facturas registradas</caption>
                                 <colgroup>
                                     <col style="width: 16%;">
-                                    <col style="width: 24%;">
+                                    <col style="width: 23%;">
+                                    <col style="width: 11%;">
                                     <col style="width: 11%;">
                                     <col style="width: 11%;">
                                     <col style="width: 10%;">
@@ -122,41 +123,35 @@
                                     <th scope="col">Número</th>
                                     <th scope="col">Cliente</th>
                                     <th scope="col">Fecha</th>
+                                    <th scope="col">Vencimiento</th>
                                     <th scope="col">Estado</th>
                                     <th scope="col">Total</th>
                                     <th scope="col" class="text-center actions-column-title">Acciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="quote : ${quotes.content}">
-                                    <td><span class="fw-semibold cell-ellipsis" th:title="${quote.quoteNumber}" th:text="${quote.quoteNumber}">PRE-2026-000001</span></td>
-                                    <td><span class="cell-ellipsis" th:title="${quote.client.legalName}" th:text="${quote.client.legalName}">Cliente</span></td>
-                                    <td th:text="${#temporals.format(quote.issueDate, 'dd/MM/yyyy')}">08/07/2026</td>
+                                <tr th:each="invoice : ${invoices.content}">
+                                    <td><span class="fw-semibold cell-ellipsis" th:title="${invoice.invoiceNumber}" th:text="${invoice.invoiceNumber}">FAC-2026-000001</span></td>
+                                    <td><span class="cell-ellipsis" th:title="${invoice.client.legalName}" th:text="${invoice.client.legalName}">Cliente</span></td>
+                                    <td th:text="${#temporals.format(invoice.issueDate, 'dd/MM/yyyy')}">08/07/2026</td>
+                                    <td th:text="${invoice.dueDate != null ? #temporals.format(invoice.dueDate, 'dd/MM/yyyy') : '-'}">-</td>
                                     <td>
-                                        <span class="quote-status"
-                                              th:classappend="${' quote-status--' + #strings.toLowerCase(quote.status.name())}"
-                                              th:text="${quote.status.label}">
-                                            Borrador
-                                        </span>
+                                        <span class="invoice-status"
+                                              th:classappend="${' invoice-status--' + #strings.toLowerCase(invoice.status.name())}"
+                                              th:text="${invoice.status.label}">Borrador</span>
                                     </td>
-                                    <td><span th:text="${#numbers.formatDecimal(quote.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</td>
+                                    <td><span th:text="${#numbers.formatDecimal(invoice.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</td>
                                     <td class="text-center actions-column-cell">
-                                        <div class="quote-actions">
-                                            <a class="btn btn-outline-secondary btn-sm" th:href="@{/quotes/{id}(id=${quote.id})}">Ver</a>
-                                            <a sec:authorize="hasAnyRole('ADMIN','MANAGER')"
-                                               th:if="${!invoicedQuoteIds.contains(quote.id)}"
-                                               class="btn btn-outline-primary btn-sm"
-                                               th:href="@{/quotes/{id}/edit(id=${quote.id})}">Editar</a>
+                                        <div class="invoice-actions">
+                                            <a class="btn btn-outline-secondary btn-sm" th:href="@{/invoices/{id}(id=${invoice.id})}">Ver</a>
                                             <button sec:authorize="hasAnyRole('ADMIN','MANAGER')"
-                                                    th:if="${!invoicedQuoteIds.contains(quote.id)}"
+                                                    th:if="${invoice.deletable}"
                                                     type="button"
                                                     class="btn btn-outline-danger btn-sm"
                                                     data-bs-toggle="modal"
-                                                    th:attr="data-bs-target='#deleteQuoteModal' + ${quote.id}">Eliminar</button>
-                                            <span sec:authorize="hasAnyRole('ADMIN','MANAGER')"
-                                                  th:if="${invoicedQuoteIds.contains(quote.id)}"
-                                                  class="btn btn-outline-success btn-sm disabled"
-                                                  aria-disabled="true">Facturado</span>
+                                                    th:attr="data-bs-target='#deleteInvoiceModal' + ${invoice.id}">
+                                                Eliminar
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -164,62 +159,54 @@
                             </table>
                         </div>
 
-                        <div th:if="${quotes.totalElements > 0}" class="mobile-card-list">
-                            <article class="mobile-list-card" th:each="quote : ${quotes.content}">
+                        <div th:if="${invoices.totalElements > 0}" class="mobile-card-list">
+                            <article class="mobile-list-card" th:each="invoice : ${invoices.content}">
                                 <div class="d-flex justify-content-between gap-3 mb-2">
                                     <div class="min-w-0">
-                                        <h3 class="h6 mobile-list-title mb-1" th:title="${quote.quoteNumber}" th:text="${quote.quoteNumber}">PRE-2026-000001</h3>
-                                        <p class="mobile-list-description mb-0" th:title="${quote.client.legalName}" th:text="${quote.client.legalName}">Cliente</p>
+                                        <h3 class="h6 mobile-list-title mb-1" th:title="${invoice.invoiceNumber}" th:text="${invoice.invoiceNumber}">FAC-2026-000001</h3>
+                                        <p class="mobile-list-description mb-0" th:title="${invoice.client.legalName}" th:text="${invoice.client.legalName}">Cliente</p>
                                     </div>
-                                    <span class="quote-status align-self-start"
-                                          th:classappend="${' quote-status--' + #strings.toLowerCase(quote.status.name())}"
-                                          th:text="${quote.status.label}">
-                                        Borrador
-                                    </span>
+                                    <span class="invoice-status align-self-start"
+                                          th:classappend="${' invoice-status--' + #strings.toLowerCase(invoice.status.name())}"
+                                          th:text="${invoice.status.label}">Borrador</span>
                                 </div>
                                 <dl class="row small mb-3">
                                     <dt class="col-5 text-muted">Fecha</dt>
-                                    <dd class="col-7 text-end" th:text="${#temporals.format(quote.issueDate, 'dd/MM/yyyy')}">08/07/2026</dd>
+                                    <dd class="col-7 text-end" th:text="${#temporals.format(invoice.issueDate, 'dd/MM/yyyy')}">08/07/2026</dd>
+                                    <dt class="col-5 text-muted">Vence</dt>
+                                    <dd class="col-7 text-end" th:text="${invoice.dueDate != null ? #temporals.format(invoice.dueDate, 'dd/MM/yyyy') : '-'}">-</dd>
                                     <dt class="col-5 text-muted">Total</dt>
-                                    <dd class="col-7 text-end"><span th:text="${#numbers.formatDecimal(quote.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</dd>
+                                    <dd class="col-7 text-end"><span th:text="${#numbers.formatDecimal(invoice.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</dd>
                                 </dl>
                                 <div class="mobile-actions">
-                                    <a class="btn btn-outline-secondary btn-sm" th:href="@{/quotes/{id}(id=${quote.id})}">Ver</a>
-                                    <a sec:authorize="hasAnyRole('ADMIN','MANAGER')"
-                                       th:if="${!invoicedQuoteIds.contains(quote.id)}"
-                                       class="btn btn-outline-primary btn-sm"
-                                       th:href="@{/quotes/{id}/edit(id=${quote.id})}">Editar</a>
+                                    <a class="btn btn-outline-secondary btn-sm" th:href="@{/invoices/{id}(id=${invoice.id})}">Ver</a>
                                     <button sec:authorize="hasAnyRole('ADMIN','MANAGER')"
-                                            th:if="${!invoicedQuoteIds.contains(quote.id)}"
+                                            th:if="${invoice.deletable}"
                                             type="button"
                                             class="btn btn-outline-danger btn-sm"
                                             data-bs-toggle="modal"
-                                            th:attr="data-bs-target='#deleteQuoteModal' + ${quote.id}">Eliminar</button>
-                                    <span sec:authorize="hasAnyRole('ADMIN','MANAGER')"
-                                          th:if="${invoicedQuoteIds.contains(quote.id)}"
-                                          class="btn btn-outline-success btn-sm disabled"
-                                          aria-disabled="true">Facturado</span>
+                                            th:attr="data-bs-target='#deleteInvoiceModal' + ${invoice.id}">Eliminar</button>
                                 </div>
                             </article>
                         </div>
 
-                        <div th:if="${quotes.totalElements > 0}" th:each="quote : ${quotes.content}" class="modal fade"
-                             th:id="'deleteQuoteModal' + ${quote.id}" tabindex="-1"
-                             th:attr="aria-labelledby='deleteQuoteModalTitle' + ${quote.id}" aria-hidden="true">
+                        <div th:if="${invoices.totalElements > 0}" th:each="invoice : ${invoices.content}" class="modal fade"
+                             th:id="'deleteInvoiceModal' + ${invoice.id}" tabindex="-1"
+                             th:attr="aria-labelledby='deleteInvoiceModalTitle' + ${invoice.id}" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h2 class="modal-title h5" th:id="'deleteQuoteModalTitle' + ${quote.id}">Confirmar eliminación</h2>
+                                        <h2 class="modal-title h5" th:id="'deleteInvoiceModalTitle' + ${invoice.id}">Confirmar eliminación</h2>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                                     </div>
                                     <div class="modal-body text-start">
-                                        <p class="mb-2">¿Seguro que quieres eliminar este presupuesto?</p>
-                                        <p class="fw-semibold mb-2" th:text="${quote.quoteNumber}">PRE-2026-000001</p>
-                                        <p class="text-muted small mb-0">Esta acción eliminará el presupuesto y todas sus líneas solo si no tiene una factura asociada.</p>
+                                        <p class="mb-2">¿Seguro que quieres eliminar esta factura?</p>
+                                        <p class="fw-semibold mb-2" th:text="${invoice.invoiceNumber}">FAC-2026-000001</p>
+                                        <p class="text-muted small mb-0">Solo se pueden eliminar facturas en borrador.</p>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <form th:action="@{/quotes/{id}/delete(id=${quote.id})}" method="post" class="m-0">
+                                        <form th:action="@{/invoices/{id}/delete(id=${invoice.id})}" method="post" class="m-0">
                                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                                             <button type="submit" class="btn btn-danger">Sí, eliminar</button>
                                         </form>
@@ -228,16 +215,16 @@
                             </div>
                         </div>
 
-                        <nav th:if="${quotes.totalPages > 1}" class="mt-4" aria-label="Paginación de presupuestos">
+                        <nav th:if="${invoices.totalPages > 1}" class="mt-4" aria-label="Paginación de facturas">
                             <ul class="pagination justify-content-center flex-wrap gap-1">
-                                <li class="page-item" th:classappend="${quotes.first} ? 'disabled'">
-                                    <a class="page-link" th:href="@{/quotes(query=${query}, page=${currentPage - 1})}">Anterior</a>
+                                <li class="page-item" th:classappend="${invoices.first} ? 'disabled'">
+                                    <a class="page-link" th:href="@{/invoices(query=${query}, page=${currentPage - 1})}">Anterior</a>
                                 </li>
-                                <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, quotes.totalPages - 1)}" th:classappend="${pageNumber == currentPage} ? 'active'">
-                                    <a class="page-link" th:href="@{/quotes(query=${query}, page=${pageNumber})}" th:text="${pageNumber + 1}">1</a>
+                                <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, invoices.totalPages - 1)}" th:classappend="${pageNumber == currentPage} ? 'active'">
+                                    <a class="page-link" th:href="@{/invoices(query=${query}, page=${pageNumber})}" th:text="${pageNumber + 1}">1</a>
                                 </li>
-                                <li class="page-item" th:classappend="${quotes.last} ? 'disabled'">
-                                    <a class="page-link" th:href="@{/quotes(query=${query}, page=${currentPage + 1})}">Siguiente</a>
+                                <li class="page-item" th:classappend="${invoices.last} ? 'disabled'">
+                                    <a class="page-link" th:href="@{/invoices(query=${query}, page=${currentPage + 1})}">Siguiente</a>
                                 </li>
                             </ul>
                         </nav>

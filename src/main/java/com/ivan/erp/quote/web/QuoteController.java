@@ -2,6 +2,7 @@ package com.ivan.erp.quote.web;
 
 import com.ivan.erp.client.ClientRepository;
 import com.ivan.erp.product.ProductRepository;
+import com.ivan.erp.invoice.InvoiceRepository;
 import com.ivan.erp.quote.Quote;
 import com.ivan.erp.quote.QuoteStatus;
 import com.ivan.erp.quote.service.QuoteService;
@@ -15,6 +16,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+import java.util.Set;
+
 @Controller
 @RequestMapping("/quotes")
 public class QuoteController {
@@ -22,15 +26,18 @@ public class QuoteController {
     private final QuoteService quoteService;
     private final ClientRepository clientRepository;
     private final ProductRepository productRepository;
+    private final InvoiceRepository invoiceRepository;
 
     public QuoteController(
             QuoteService quoteService,
             ClientRepository clientRepository,
-            ProductRepository productRepository
+            ProductRepository productRepository,
+            InvoiceRepository invoiceRepository
     ) {
         this.quoteService = quoteService;
         this.clientRepository = clientRepository;
         this.productRepository = productRepository;
+        this.invoiceRepository = invoiceRepository;
     }
 
     @GetMapping
@@ -40,8 +47,13 @@ public class QuoteController {
             Model model
     ) {
         Page<Quote> quotes = quoteService.search(query, page);
+        List<Long> quoteIds = quotes.getContent().stream().map(Quote::getId).toList();
+        Set<Long> invoicedQuoteIds = quoteIds.isEmpty()
+                ? Set.of()
+                : invoiceRepository.findInvoicedQuoteIds(quoteIds);
 
         model.addAttribute("quotes", quotes);
+        model.addAttribute("invoicedQuoteIds", invoicedQuoteIds);
         model.addAttribute("query", query);
         model.addAttribute("currentPage", page);
 
@@ -72,9 +84,9 @@ public class QuoteController {
         }
 
         try {
-            Quote quote = quoteService.create(quoteForm);
+            quoteService.create(quoteForm);
             redirectAttributes.addFlashAttribute("successMessage", "Presupuesto creado correctamente");
-            return "redirect:/quotes/" + quote.getId();
+            return "redirect:/quotes";
         } catch (EntityNotFoundException ex) {
             bindingResult.reject("quote.error", ex.getMessage());
             prepareFormModel(model, quoteForm, "Nuevo presupuesto", "/quotes");
@@ -91,6 +103,7 @@ public class QuoteController {
         try {
             Quote quote = quoteService.getById(id);
             model.addAttribute("quote", quote);
+            model.addAttribute("invoice", invoiceRepository.findByQuote_Id(id).orElse(null));
             model.addAttribute("statuses", QuoteStatus.values());
             return "quotes/detail";
         } catch (EntityNotFoundException ex) {
@@ -107,6 +120,14 @@ public class QuoteController {
             RedirectAttributes redirectAttributes
     ) {
         try {
+            if (invoiceRepository.existsByQuote_Id(id)) {
+                redirectAttributes.addFlashAttribute(
+                        "errorMessage",
+                        "No se puede editar este presupuesto porque ya tiene una factura asociada."
+                );
+                return "redirect:/quotes/" + id;
+            }
+
             Quote quote = quoteService.getById(id);
             prepareFormModel(model, QuoteForm.fromQuote(quote), "Editar presupuesto", "/quotes/" + id);
             model.addAttribute("quoteId", id);
@@ -138,10 +159,13 @@ public class QuoteController {
         try {
             quoteService.update(id, quoteForm);
             redirectAttributes.addFlashAttribute("successMessage", "Presupuesto actualizado correctamente");
-            return "redirect:/quotes/" + id;
+            return "redirect:/quotes";
         } catch (EntityNotFoundException ex) {
             redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
             return "redirect:/quotes";
+        } catch (IllegalStateException ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+            return "redirect:/quotes/" + id;
         }
     }
 
@@ -159,6 +183,9 @@ public class QuoteController {
         } catch (EntityNotFoundException ex) {
             redirectAttributes.addFlashAttribute("errorMessage", "Presupuesto no encontrado");
             return "redirect:/quotes";
+        } catch (IllegalStateException ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+            return "redirect:/quotes/" + id;
         }
     }
 
@@ -173,6 +200,8 @@ public class QuoteController {
             redirectAttributes.addFlashAttribute("successMessage", "Presupuesto eliminado correctamente");
         } catch (EntityNotFoundException ex) {
             redirectAttributes.addFlashAttribute("errorMessage", "Presupuesto no encontrado");
+        } catch (IllegalStateException ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
         }
 
         return "redirect:/quotes";
