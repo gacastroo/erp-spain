@@ -216,13 +216,15 @@ a.nav-link,
     }
 }
 
-/* Clientes - listado con más aire visual */
-.clients-table {
+/* Tablas de gestión - clientes, productos y servicios */
+.clients-table,
+.products-table {
     border-collapse: separate;
-    border-spacing: 0 0rem;
+    border-spacing: 0;
 }
 
-.clients-table thead th {
+.clients-table thead th,
+.products-table thead th {
     padding: 1rem 1.25rem;
     font-size: 0.8rem;
     text-transform: uppercase;
@@ -232,58 +234,262 @@ a.nav-link,
     white-space: nowrap;
 }
 
-.clients-table tbody tr {
-    background: #ffffff;
-}
-
-.clients-table tbody td {
-    padding: 1.15rem 1.25rem;
+.clients-table tbody td,
+.products-table tbody td {
+    padding: 1rem 1.25rem;
     vertical-align: middle;
     border-top: 1px solid #eef0f4;
     border-bottom: 1px solid #eef0f4;
 }
 
-.clients-table tbody td:first-child {
+.clients-table tbody td:first-child,
+.products-table tbody td:first-child {
     border-left: 1px solid #eef0f4;
+    border-top-left-radius: 0.85rem;
     border-bottom-left-radius: 0.85rem;
 }
 
-.clients-table tbody td:last-child {
+.clients-table tbody td:last-child,
+.products-table tbody td:last-child {
     border-right: 1px solid #eef0f4;
+    border-top-right-radius: 0.85rem;
     border-bottom-right-radius: 0.85rem;
 }
 
-.client-actions {
-    gap: 0.65rem;
+.product-actions {
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: stretch;
+    gap: 0.5rem;
+    white-space: nowrap;
 }
 
-.client-actions .btn,
-.client-actions form,
-.client-actions form .btn {
-    min-width: 96px;
+.product-actions form {
+    display: flex;
+    margin: 0;
+}
+
+.product-actions .btn {
+    min-width: 6.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @media (max-width: 767.98px) {
-    .clients-table {
-        border-spacing: 0 0.75rem;
-    }
-
-    .clients-table thead th {
+    .clients-table thead th,
+    .products-table thead th {
         padding: 0.85rem 1rem;
     }
 
-    .clients-table tbody td {
+    .clients-table tbody td,
+    .products-table tbody td {
         padding: 1rem;
     }
 
-    .client-actions {
-        gap: 0.5rem;
+    .product-actions {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
     }
 
-    .client-actions .btn,
-    .client-actions form,
-    .client-actions form .btn {
+    .product-actions .btn,
+    .product-actions form {
         width: 100%;
-        min-width: 100%;
+    }
+}
+
+
+/* Responsive profesional para listados ERP: sin scroll horizontal en móvil */
+.erp-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.erp-table th,
+.erp-table td {
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.cell-ellipsis {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.cell-clamp-2 {
+    display: -webkit-box;
+    max-width: 100%;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.35;
+}
+
+.min-w-0 {
+    min-width: 0;
+}
+
+/* Quitar esquinas redondeadas superiores en clientes y productos */
+.clients-table tbody td:first-child,
+.products-table tbody td:first-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0.85rem;
+}
+
+.clients-table tbody td:last-child,
+.products-table tbody td:last-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0.85rem;
+}
+
+.client-actions,
+.product-actions {
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: stretch;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.client-actions form,
+.product-actions form {
+    display: flex;
+    margin: 0;
+}
+
+.client-actions .btn,
+.product-actions .btn {
+    min-width: 6.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-list-card {
+    border: 1px solid var(--app-border);
+    border-radius: 1rem;
+    background: #ffffff;
+    padding: 1rem;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+}
+
+.mobile-list-card + .mobile-list-card {
+    margin-top: 1rem;
+}
+
+.mobile-list-title {
+    font-weight: 700;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.mobile-list-description {
+    color: #6b7280;
+    font-size: 0.9rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.mobile-actions {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.mobile-actions .btn,
+.mobile-actions form,
+.mobile-actions form .btn {
+    width: 100%;
+}
+
+.mobile-card-list dd {
+    min-width: 0;
+    margin-bottom: 0.35rem;
+}
+
+.mobile-card-list dt {
+    margin-bottom: 0.35rem;
+}
+
+@media (max-width: 767.98px) {
+    .desktop-table-wrapper {
+        display: none;
+    }
+}
+
+@media (min-width: 768px) {
+    .mobile-card-list {
+        display: none;
+    }
+}
+
+
+/* Corrección desktop: acciones visibles y tabla solo cuando hay espacio real */
+.clients-table th:last-child,
+.clients-table td:last-child,
+.products-table th:last-child,
+.products-table td:last-child {
+    overflow: visible;
+    width: 300px;
+    min-width: 300px;
+}
+
+.clients-table td:last-child,
+.products-table td:last-child {
+    position: relative;
+    z-index: 2;
+}
+
+.client-actions,
+.product-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.client-actions form,
+.product-actions form {
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+.client-actions .btn,
+.client-actions form .btn,
+.product-actions .btn,
+.product-actions form .btn {
+    min-width: 92px;
+    white-space: nowrap;
+}
+
+/* Mantener cards en móvil y tablet; tabla solo en escritorio amplio */
+@media (max-width: 1199.98px) {
+    .desktop-table-wrapper {
+        display: none !important;
+    }
+
+    .mobile-card-list {
+        display: block !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .desktop-table-wrapper {
+        display: block !important;
+    }
+
+    .mobile-card-list {
+        display: none !important;
     }
 }

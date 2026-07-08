@@ -1,40 +1,33 @@
-# ERP Spain — Fase 1.1
+# ERP Spain - Fase 1.3
 
-Base inicial profesional para un ERP ligero orientado a pymes españolas.
+Proyecto base de un ERP ligero para pymes españolas.
 
-## Incluye
+Esta versión incluye:
 
-- Java 21 + Spring Boot.
-- Spring Security con login propio.
-- Contraseñas con BCrypt.
-- CSRF activo.
-- Roles iniciales: `ADMIN`, `MANAGER`, `USER`.
-- Usuario administrador inicial.
-- Entidad `Company`.
-- Dashboard responsive con Bootstrap 5.
-- Menú móvil tipo offcanvas.
-- HTML semántico y detalles de accesibilidad: `label`, `aria-label`, `caption`, `skip-link` y foco visible.
-- Flyway para migraciones.
-- JPA con `open-in-view: false`.
-- Índices básicos.
-- Docker Compose opcional para MySQL.
+- Login seguro con Spring Security.
+- Roles iniciales.
+- Dashboard responsive.
+- Módulo de clientes.
+- Activar/desactivar clientes.
+- Eliminar clientes con modal de confirmación.
+- Módulo de productos y servicios.
+- Activar/desactivar productos.
+- Eliminar productos con modal de confirmación.
+- Buscador y paginación.
+- Validaciones backend.
+- Migraciones Flyway.
+- MySQL.
+- Diseño responsive y accesible.
 
-## Requisitos
+## Arranque
 
-- Java 21.
-- Maven 3.9+.
-- MySQL 8+ o Docker.
+Desde la carpeta del proyecto:
 
-## Arranque rápido con Docker
-
-```bash
-docker compose up -d
-```
-
-Después ejecuta:
-
-```bash
-mvn spring-boot:run
+```powershell
+cd C:\Users\manana\Downloads\erp-spain-phase-1-3-products\erp-spain-phase-1-3-products
+$env:DB_USERNAME="root"
+$env:DB_PASSWORD="root"
+C:\tools\apache-maven-3.9.16\bin\mvn.cmd spring-boot:run
 ```
 
 Abre:
@@ -46,64 +39,49 @@ http://localhost:8080
 Usuario inicial:
 
 ```text
-Email: admin@erp.local
-Password: Admin123!
+admin@erp.local
+Admin123!
 ```
 
-## Arranque con MySQL local
+## URLs principales
 
-Crea la base de datos:
-
-```sql
-CREATE DATABASE erp_spain CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```text
+/dashboard
+/clients
+/products
 ```
 
-Configura usuario/contraseña en `src/main/resources/application.yml` o usando variables de entorno:
+## Migraciones incluidas
 
-```bash
-set DB_USERNAME=root
-set DB_PASSWORD=tu_password
-mvn spring-boot:run
+```text
+V1__init_schema.sql
+V2__create_clients.sql
+V3__create_products.sql
 ```
 
-En PowerShell:
+## Commit recomendado
 
 ```powershell
-$env:DB_USERNAME="root"
-$env:DB_PASSWORD="tu_password"
-mvn spring-boot:run
+git add .
+git commit -m "feat: añadir módulo de productos y servicios"
 ```
 
-## Próxima fase
 
-Fase 1.2 — Módulo de clientes:
+## Ajuste responsive de listados
 
-- Entidad `Client`.
-- Formulario con validaciones.
-- Listado paginado y buscador.
-- Crear/editar cliente.
-- Activar/desactivar sin borrado físico.
-- Mensajes flash.
-- Pantallas responsive y accesibles.
+Esta versión añade un patrón de interfaz más profesional para clientes y productos:
 
-## Fase 1.2 - Clientes
+- En escritorio se muestran tablas sin scroll horizontal, con texto largo recortado mediante puntos suspensivos (`...`).
+- En móvil se ocultan las tablas y se muestran tarjetas verticales para evitar barras horizontales.
+- Los modales de eliminación funcionan tanto desde tabla como desde tarjeta móvil.
+- Se eliminan las esquinas redondeadas superiores de las filas en clientes y productos.
 
-Incluye módulo de clientes con:
 
-- Listado paginado.
-- Buscador por nombre, NIF/CIF/NIE, email o nombre comercial.
-- Crear cliente.
-- Editar cliente.
-- Activar/desactivar cliente sin borrado físico.
-- Validaciones backend.
-- Seguridad por roles.
-- Diseño responsive y accesible.
+## Fase 1.3 responsive fix
 
-Arranque recomendado en Windows:
+Esta versión corrige la visibilidad de la columna de acciones en escritorio:
 
-```powershell
-cd C:\Users\manana\Downloads\erp-spain-phase-1-2\erp-spain-phase-1
-$env:DB_USERNAME="root"
-$env:DB_PASSWORD="root"
-C:\tools\apache-maven-3.9.16\bin\mvn.cmd spring-boot:run
-```
+- La columna de acciones tiene ancho fijo de 300px.
+- Los botones no se recortan por `overflow: hidden`.
+- En móvil y tablet se usan cards para evitar scroll horizontal.
+- En escritorio amplio se muestra la tabla con textos largos en `...`.
