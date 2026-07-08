@@ -7,4 +7,7 @@ import java.util.Optional;
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     Optional<Company> findByTaxIdIgnoreCase(String taxId);
+
+    Optional<Company> findFirstByEnabledTrueOrderByIdAsc();
 }
+

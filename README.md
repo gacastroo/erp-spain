@@ -1,21 +1,22 @@
-# ERP Spain — Fase 1.9.1 Dashboard simplificado e IVA trimestral
+# ERP Spain — Fase 1.10 Configuración de empresa, series y PDF
 
-Esta versión mantiene el módulo de fiscalidad e incorpora un dashboard más simple, menos saturado y con actualización automática de datos.
+Esta versión añade la configuración básica de empresa y mejora la generación de documentos para que presupuestos y facturas empiecen a comportarse como documentos reales de negocio.
 
 ## Incluye
 
-- Nuevo módulo de impuestos en `/taxes`.
-- Resumen trimestral de IVA por año y trimestre.
-- Cálculo de IVA repercutido desde facturas emitidas no canceladas.
-- Cálculo de IVA soportado desde gastos registrados.
-- Resultado estimado: IVA a ingresar o IVA a compensar.
-- Desglose de IVA por tipo: 0%, 4%, 10%, 21% u otros tipos usados en facturas/gastos.
-- Detalle de facturas y gastos incluidos en el trimestre.
-- Exportación del resumen de IVA a Excel y PDF.
-- Enlace a Impuestos desde el menú principal.
-- Dashboard simplificado sin botones de acción masivos en la cabecera.
-- Actualización automática del dashboard cada pocos segundos mientras la pantalla está abierta.
-- Cálculo de IVA del trimestre en dashboard mediante consultas agregadas para evitar cargar datos innecesarios.
+- Nueva pantalla de configuración en `/settings/company`, accesible desde el menú principal.
+- Datos fiscales de empresa: nombre fiscal, NIF/CIF, dirección, email y teléfono.
+- Configuración de series de numeración para presupuestos y facturas.
+- Vencimiento automático de facturas según los días configurados.
+- Datos bancarios para mostrar en PDF de factura.
+- Texto legal o pie de documento configurable.
+- Texto de logo sencillo para documentos PDF.
+- Botón de descarga PDF en detalle de presupuesto.
+- Botón de descarga PDF en detalle de factura.
+- PDFs profesionales de presupuestos y facturas con datos de empresa, cliente, líneas, base imponible, IVA, total, notas y pie legal.
+- Exportaciones PDF y Excel de reportes con datos de empresa en el encabezado.
+- Exportaciones PDF y Excel de impuestos/IVA con datos de empresa en el encabezado.
+- Migración `V8__company_document_settings.sql`.
 
 ## Arranque
 
@@ -30,13 +31,13 @@ $env:DB_PASSWORD="root"
 C:\tools\apache-maven-3.9.16\bin\mvn.cmd clean spring-boot:run
 ```
 
-## URLs
+## URLs principales
 
 ```text
 http://localhost:8080/dashboard
-http://localhost:8080/taxes
-http://localhost:8080/reports
-http://localhost:8080/expenses
+http://localhost:8080/settings/company
+http://localhost:8080/quotes
+http://localhost:8080/invoices
 ```
 
 ## Usuario inicial
@@ -48,4 +49,4 @@ Admin123!
 
 ## Nota fiscal
 
-El cálculo de IVA es orientativo y sirve para control interno. Antes de presentar impuestos reales conviene revisar facturas, gastos deducibles, fechas fiscales y criterios aplicables con una asesoría.
+La generación de PDF y el cálculo de impuestos son funcionales para gestión interna. Antes de usar documentos reales con validez fiscal conviene revisar textos legales, numeración, criterios de emisión, facturas rectificativas y obligaciones VeriFactu/factura electrónica con una asesoría.

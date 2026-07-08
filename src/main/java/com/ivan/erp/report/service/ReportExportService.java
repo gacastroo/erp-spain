@@ -1,5 +1,7 @@
 package com.ivan.erp.report.service;
 
+import com.ivan.erp.company.Company;
+import com.ivan.erp.company.service.CompanySettingsService;
 import com.ivan.erp.expense.Expense;
 import com.ivan.erp.invoice.Invoice;
 import com.ivan.erp.payment.Payment;
@@ -35,14 +37,21 @@ public class ReportExportService {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final Locale ES_LOCALE = Locale.of("es", "ES");
 
+    private final CompanySettingsService companySettingsService;
+
+    public ReportExportService(CompanySettingsService companySettingsService) {
+        this.companySettingsService = companySettingsService;
+    }
+
     public byte[] toExcel(ReportData reportData) {
+        Company company = companySettingsService.getActiveCompany();
         try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             CellStyle moneyStyle = workbook.createCellStyle();
             DataFormat dataFormat = workbook.createDataFormat();
             moneyStyle.setDataFormat(dataFormat.getFormat("#,##0.00 €"));
 
             Sheet summary = workbook.createSheet("Resumen");
-            writeSummary(summary, reportData, moneyStyle);
+            writeSummary(summary, reportData, company, moneyStyle);
 
             Sheet invoices = workbook.createSheet("Facturas");
             writeInvoices(invoices, reportData, moneyStyle);
@@ -74,10 +83,13 @@ public class ReportExportService {
     }
 
     public byte[] toPdf(ReportData reportData) {
+        Company company = companySettingsService.getActiveCompany();
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             PdfWriter writer = new PdfWriter(outputStream);
             PdfDocument pdfDocument = new PdfDocument(writer);
             Document document = new Document(pdfDocument);
+
+            addCompanyPdfHeader(document, company);
 
             Paragraph title = new Paragraph("Reporte de ventas, cobros y gastos")
                     .setBold()
@@ -141,8 +153,10 @@ public class ReportExportService {
         }
     }
 
-    private void writeSummary(Sheet sheet, ReportData reportData, CellStyle moneyStyle) {
+    private void writeSummary(Sheet sheet, ReportData reportData, Company company, CellStyle moneyStyle) {
         int rowIndex = 0;
+        rowIndex = writeCompanyExcelHeader(sheet, company, rowIndex);
+        rowIndex++;
         Row title = sheet.createRow(rowIndex++);
         title.createCell(0).setCellValue("Reporte de ventas, cobros y gastos");
         Row period = sheet.createRow(rowIndex++);
@@ -308,6 +322,91 @@ public class ReportExportService {
                     .setPadding(6);
             table.addCell(cell);
         }
+    }
+
+
+    private int writeCompanyExcelHeader(Sheet sheet, Company company, int rowIndex) {
+        Row companyRow = sheet.createRow(rowIndex++);
+        companyRow.createCell(0).setCellValue("Empresa");
+        companyRow.createCell(1).setCellValue(companyName(company));
+
+        Row taxRow = sheet.createRow(rowIndex++);
+        taxRow.createCell(0).setCellValue("NIF/CIF");
+        taxRow.createCell(1).setCellValue(safe(company.getTaxId()));
+
+        Row addressRow = sheet.createRow(rowIndex++);
+        addressRow.createCell(0).setCellValue("Dirección");
+        addressRow.createCell(1).setCellValue(companyAddress(company));
+
+        Row contactRow = sheet.createRow(rowIndex++);
+        contactRow.createCell(0).setCellValue("Contacto");
+        contactRow.createCell(1).setCellValue(contactLine(company.getEmail(), company.getPhone()));
+
+        return rowIndex;
+    }
+
+    private void addCompanyPdfHeader(Document document, Company company) {
+        Table companyTable = createPdfTable(2);
+        addPdfRow(companyTable, "Empresa", companyName(company));
+        addPdfRow(companyTable, "NIF/CIF", safe(company.getTaxId()));
+        addPdfRow(companyTable, "Dirección", companyAddress(company));
+        addPdfRow(companyTable, "Contacto", contactLine(company.getEmail(), company.getPhone()));
+        companyTable.setMarginBottom(16);
+        document.add(companyTable);
+    }
+
+    private String companyName(Company company) {
+        if (hasText(company.getCommercialName())) {
+            return company.getCommercialName() + " · " + safe(company.getLegalName());
+        }
+        return safe(company.getLegalName());
+    }
+
+    private String companyAddress(Company company) {
+        StringBuilder builder = new StringBuilder();
+        append(builder, company.getAddressLine());
+        append(builder, joinPostalCity(company.getPostalCode(), company.getCity()));
+        append(builder, company.getProvince());
+        append(builder, company.getCountry());
+        return builder.isEmpty() ? "-" : builder.toString();
+    }
+
+    private String joinPostalCity(String postalCode, String city) {
+        if (!hasText(postalCode) && !hasText(city)) {
+            return null;
+        }
+        if (!hasText(postalCode)) {
+            return city.trim();
+        }
+        if (!hasText(city)) {
+            return postalCode.trim();
+        }
+        return postalCode.trim() + " " + city.trim();
+    }
+
+    private String contactLine(String email, String phone) {
+        StringBuilder builder = new StringBuilder();
+        append(builder, email);
+        append(builder, phone);
+        return builder.isEmpty() ? "-" : builder.toString();
+    }
+
+    private void append(StringBuilder builder, String value) {
+        if (!hasText(value)) {
+            return;
+        }
+        if (!builder.isEmpty()) {
+            builder.append(" · ");
+        }
+        builder.append(value.trim());
+    }
+
+    private String safe(String value) {
+        return hasText(value) ? value.trim() : "-";
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.trim().isBlank();
     }
 
     private String formatDate(java.time.LocalDate date) {

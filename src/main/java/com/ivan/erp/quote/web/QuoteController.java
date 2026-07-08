@@ -3,12 +3,16 @@ package com.ivan.erp.quote.web;
 import com.ivan.erp.client.ClientRepository;
 import com.ivan.erp.product.ProductRepository;
 import com.ivan.erp.invoice.InvoiceRepository;
+import com.ivan.erp.document.service.DocumentPdfService;
 import com.ivan.erp.quote.Quote;
 import com.ivan.erp.quote.QuoteStatus;
 import com.ivan.erp.quote.service.QuoteService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,17 +31,20 @@ public class QuoteController {
     private final ClientRepository clientRepository;
     private final ProductRepository productRepository;
     private final InvoiceRepository invoiceRepository;
+    private final DocumentPdfService documentPdfService;
 
     public QuoteController(
             QuoteService quoteService,
             ClientRepository clientRepository,
             ProductRepository productRepository,
-            InvoiceRepository invoiceRepository
+            InvoiceRepository invoiceRepository,
+            DocumentPdfService documentPdfService
     ) {
         this.quoteService = quoteService;
         this.clientRepository = clientRepository;
         this.productRepository = productRepository;
         this.invoiceRepository = invoiceRepository;
+        this.documentPdfService = documentPdfService;
     }
 
     @GetMapping
@@ -110,6 +117,19 @@ public class QuoteController {
             redirectAttributes.addFlashAttribute("errorMessage", "Presupuesto no encontrado");
             return "redirect:/quotes";
         }
+    }
+
+
+    @GetMapping("/{id}/pdf")
+    public ResponseEntity<byte[]> downloadPdf(@PathVariable Long id) {
+        Quote quote = quoteService.getById(id);
+        byte[] pdf = documentPdfService.quotePdf(quote);
+        String filename = quote.getQuoteNumber().replace("/", "-") + ".pdf";
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
     }
 
     @GetMapping("/{id}/edit")

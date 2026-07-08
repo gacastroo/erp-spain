@@ -3,10 +3,14 @@ package com.ivan.erp.invoice.web;
 import com.ivan.erp.invoice.Invoice;
 import com.ivan.erp.invoice.InvoiceStatus;
 import com.ivan.erp.invoice.service.InvoiceService;
+import com.ivan.erp.document.service.DocumentPdfService;
 import com.ivan.erp.quote.QuoteRepository;
 import com.ivan.erp.payment.service.PaymentService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,15 +24,18 @@ public class InvoiceController {
     private final InvoiceService invoiceService;
     private final QuoteRepository quoteRepository;
     private final PaymentService paymentService;
+    private final DocumentPdfService documentPdfService;
 
     public InvoiceController(
             InvoiceService invoiceService,
             QuoteRepository quoteRepository,
-            PaymentService paymentService
+            PaymentService paymentService,
+            DocumentPdfService documentPdfService
     ) {
         this.invoiceService = invoiceService;
         this.quoteRepository = quoteRepository;
         this.paymentService = paymentService;
+        this.documentPdfService = documentPdfService;
     }
 
     @GetMapping
@@ -89,6 +96,19 @@ public class InvoiceController {
             redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
             return "redirect:/invoices/" + id;
         }
+    }
+
+
+    @GetMapping("/{id}/pdf")
+    public ResponseEntity<byte[]> downloadPdf(@PathVariable Long id) {
+        Invoice invoice = invoiceService.getById(id);
+        byte[] pdf = documentPdfService.invoicePdf(invoice);
+        String filename = invoice.getInvoiceNumber().replace("/", "-") + ".pdf";
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
     }
 
     @PostMapping("/{id}/status")

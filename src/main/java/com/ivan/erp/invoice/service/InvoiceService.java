@@ -2,6 +2,7 @@ package com.ivan.erp.invoice.service;
 
 import com.ivan.erp.invoice.*;
 import com.ivan.erp.payment.PaymentRepository;
+import com.ivan.erp.document.service.DocumentNumberService;
 import com.ivan.erp.quote.Quote;
 import com.ivan.erp.quote.QuoteLine;
 import com.ivan.erp.quote.QuoteRepository;
@@ -22,15 +23,18 @@ public class InvoiceService {
     private final InvoiceRepository invoiceRepository;
     private final QuoteRepository quoteRepository;
     private final PaymentRepository paymentRepository;
+    private final DocumentNumberService documentNumberService;
 
     public InvoiceService(
             InvoiceRepository invoiceRepository,
             QuoteRepository quoteRepository,
-            PaymentRepository paymentRepository
+            PaymentRepository paymentRepository,
+            DocumentNumberService documentNumberService
     ) {
         this.invoiceRepository = invoiceRepository;
         this.quoteRepository = quoteRepository;
         this.paymentRepository = paymentRepository;
+        this.documentNumberService = documentNumberService;
     }
 
     @Transactional(readOnly = true)
@@ -109,11 +113,11 @@ public class InvoiceService {
         quote.changeStatus(QuoteStatus.ACCEPTED);
 
         Invoice invoice = new Invoice(
-                generateInvoiceNumber(issueDate),
+                documentNumberService.nextInvoiceNumber(issueDate),
                 quote,
                 quote.getClient(),
                 issueDate,
-                issueDate.plusDays(30),
+                documentNumberService.defaultInvoiceDueDate(issueDate),
                 quote.getNotes()
         );
 
@@ -135,19 +139,6 @@ public class InvoiceService {
                 line.getUnitPrice(),
                 line.getVatRate()
         );
-    }
-
-    private String generateInvoiceNumber(LocalDate issueDate) {
-        int year = issueDate != null ? issueDate.getYear() : LocalDate.now().getYear();
-        String prefix = "FAC-" + year + "-";
-
-        return invoiceRepository.findTopByInvoiceNumberStartingWithOrderByInvoiceNumberDesc(prefix)
-                .map(lastInvoice -> {
-                    String lastNumber = lastInvoice.getInvoiceNumber().substring(prefix.length());
-                    int nextNumber = Integer.parseInt(lastNumber) + 1;
-                    return prefix + String.format("%06d", nextNumber);
-                })
-                .orElse(prefix + "000001");
     }
 
     private String normalizeQuery(String query) {

@@ -37,16 +37,17 @@
     <div class="offcanvas-body">
         <nav aria-label="Menú móvil">
             <ul class="nav flex-column gap-1">
-                <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/clients}">Clientes</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/products}">Productos</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
-                <li class="nav-item"><a class="nav-link active" th:href="@{/payments}">Cobros</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/expenses}">Gastos</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/reports}">Reportes</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/taxes}">Impuestos</a></li>
-            </ul>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/clients}">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/products}">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
+                    <li class="nav-item"><a class="nav-link active" th:href="@{/payments}">Cobros</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/expenses}">Gastos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/reports}">Reportes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/taxes}">Impuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/settings/company}">Configuración</a></li>
+                </ul>
         </nav>
         <hr>
         <form th:action="@{/logout}" method="post">
@@ -69,7 +70,8 @@
                     <li class="nav-item"><a class="nav-link active" th:href="@{/payments}">Cobros</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/expenses}">Gastos</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/reports}">Reportes</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/taxes}">Impuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/taxes}">Impuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/settings/company}">Configuración</a></li>
                 </ul>
             </nav>
         </aside>

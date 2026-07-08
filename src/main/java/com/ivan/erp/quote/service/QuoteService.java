@@ -3,6 +3,7 @@ package com.ivan.erp.quote.service;
 import com.ivan.erp.client.Client;
 import com.ivan.erp.client.ClientRepository;
 import com.ivan.erp.invoice.InvoiceRepository;
+import com.ivan.erp.document.service.DocumentNumberService;
 import com.ivan.erp.product.Product;
 import com.ivan.erp.product.ProductRepository;
 import com.ivan.erp.quote.*;
@@ -16,7 +17,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -28,17 +28,20 @@ public class QuoteService {
     private final ClientRepository clientRepository;
     private final ProductRepository productRepository;
     private final InvoiceRepository invoiceRepository;
+    private final DocumentNumberService documentNumberService;
 
     public QuoteService(
             QuoteRepository quoteRepository,
             ClientRepository clientRepository,
             ProductRepository productRepository,
-            InvoiceRepository invoiceRepository
+            InvoiceRepository invoiceRepository,
+            DocumentNumberService documentNumberService
     ) {
         this.quoteRepository = quoteRepository;
         this.clientRepository = clientRepository;
         this.productRepository = productRepository;
         this.invoiceRepository = invoiceRepository;
+        this.documentNumberService = documentNumberService;
     }
 
     @Transactional(readOnly = true)
@@ -65,7 +68,7 @@ public class QuoteService {
         Client client = getClient(form.getClientId());
 
         Quote quote = new Quote(
-                generateQuoteNumber(form.getIssueDate()),
+                documentNumberService.nextQuoteNumber(form.getIssueDate()),
                 client,
                 form.getIssueDate(),
                 form.getValidUntil(),
@@ -146,19 +149,6 @@ public class QuoteService {
     private Client getClient(Long clientId) {
         return clientRepository.findById(clientId)
                 .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado"));
-    }
-
-    private String generateQuoteNumber(LocalDate issueDate) {
-        int year = issueDate != null ? issueDate.getYear() : LocalDate.now().getYear();
-        String prefix = "PRE-" + year + "-";
-
-        return quoteRepository.findTopByQuoteNumberStartingWithOrderByQuoteNumberDesc(prefix)
-                .map(lastQuote -> {
-                    String lastNumber = lastQuote.getQuoteNumber().substring(prefix.length());
-                    int nextNumber = Integer.parseInt(lastNumber) + 1;
-                    return prefix + String.format("%06d", nextNumber);
-                })
-                .orElse(prefix + "000001");
     }
 
     private String normalizeQuery(String query) {

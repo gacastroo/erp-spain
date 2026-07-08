@@ -40,6 +40,9 @@
                 </div>
 
                 <div class="d-flex flex-column flex-md-row gap-2">
+                    <a class="btn btn-primary" th:href="@{/invoices/{id}/pdf(id=${invoice.id})}">
+                        Descargar PDF
+                    </a>
                     <a th:if="${invoice.quote != null}" class="btn btn-outline-secondary" th:href="@{/quotes/{id}(id=${invoice.quote.id})}">
                         Ver presupuesto
                     </a>
