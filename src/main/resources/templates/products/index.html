@@ -48,7 +48,7 @@
                 <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/clients}">Clientes</a></li>
                 <li class="nav-item"><a class="nav-link active" th:href="@{/products}">Productos</a></li>
-                <li class="nav-item"><a class="nav-link disabled" href="#" aria-disabled="true">Presupuestos</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
                 <li class="nav-item"><a class="nav-link disabled" href="#" aria-disabled="true">Facturas</a></li>
                 <li class="nav-item"><a class="nav-link disabled" href="#" aria-disabled="true">Cobros</a></li>
             </ul>
@@ -71,7 +71,7 @@
                     <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/clients}">Clientes</a></li>
                     <li class="nav-item"><a class="nav-link active" th:href="@{/products}">Productos</a></li>
-                    <li class="nav-item"><a class="nav-link disabled" href="#" aria-disabled="true">Presupuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
                     <li class="nav-item"><a class="nav-link disabled" href="#" aria-disabled="true">Facturas</a></li>
                     <li class="nav-item"><a class="nav-link disabled" href="#" aria-disabled="true">Cobros</a></li>
                 </ul>
@@ -154,7 +154,7 @@
                                     <col style="width: 11%;">
                                     <col style="width: 8%;">
                                     <col style="width: 8%;">
-                                    <col style="width: 300px;">
+                                    <col style="width: 340px;">
                                 </colgroup>
 
                                 <thead>
@@ -165,7 +165,7 @@
                                     <th scope="col">Precio</th>
                                     <th scope="col">IVA</th>
                                     <th scope="col">Estado</th>
-                                    <th scope="col" class="text-end">Acciones</th>
+                                    <th scope="col" class="text-center actions-column-title">Acciones</th>
                                 </tr>
                                 </thead>
 
@@ -211,7 +211,7 @@
                                         <span th:unless="${product.enabled}" class="badge text-bg-secondary">Inactivo</span>
                                     </td>
 
-                                    <td class="text-end">
+                                    <td class="text-center actions-column-cell">
                                         <div class="product-actions">
                                             <a sec:authorize="hasAnyRole('ADMIN','MANAGER')"
                                                class="btn btn-outline-primary btn-sm"

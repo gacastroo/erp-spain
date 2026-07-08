@@ -493,3 +493,628 @@ a.nav-link,
         display: none !important;
     }
 }
+
+/* Presupuestos */
+.quotes-table,
+.quote-lines-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.quotes-table thead th,
+.quote-lines-table thead th {
+    padding: 1rem 1.25rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6b7280;
+    border-bottom: 1px solid var(--app-border);
+    white-space: nowrap;
+}
+
+.quotes-table tbody td,
+.quote-lines-table tbody td {
+    padding: 1rem 1.25rem;
+    vertical-align: middle;
+    border-top: 1px solid #eef0f4;
+    border-bottom: 1px solid #eef0f4;
+    overflow: hidden;
+}
+
+.quotes-table tbody td:first-child,
+.quote-lines-table tbody td:first-child {
+    border-left: 1px solid #eef0f4;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0.85rem;
+}
+
+.quotes-table tbody td:last-child,
+.quote-lines-table tbody td:last-child {
+    border-right: 1px solid #eef0f4;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0.85rem;
+}
+
+.quotes-table td:last-child {
+    overflow: visible;
+}
+
+.quote-actions {
+    gap: 0.5rem;
+}
+
+.quote-actions .btn,
+.quote-actions form,
+.quote-actions form .btn {
+    min-width: 82px;
+    white-space: nowrap;
+}
+
+.quote-line-card {
+    border: 1px solid var(--app-border);
+    border-radius: 1rem;
+    background: #ffffff;
+    padding: 1rem;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+}
+
+.quote-line-card + .quote-line-card {
+    margin-top: 1rem;
+}
+
+.summary-box {
+    border: 1px solid var(--app-border);
+    border-radius: 1rem;
+    background: #f9fafb;
+    padding: 1rem;
+}
+
+.quote-totals {
+    max-width: 420px;
+}
+
+@media (max-width: 991.98px) {
+    .quote-actions .btn,
+    .quote-actions form,
+    .quote-actions form .btn {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .quote-totals {
+        max-width: 100%;
+    }
+}
+
+
+/* Correcciones de alineación de acciones en tablas */
+.actions-column-title,
+.actions-column-cell,
+.clients-table th:last-child,
+.clients-table td:last-child,
+.products-table th:last-child,
+.products-table td:last-child,
+.quotes-table th:last-child,
+.quotes-table td:last-child {
+    text-align: center !important;
+}
+
+.client-actions,
+.product-actions,
+.quote-actions {
+    justify-content: center !important;
+}
+
+.clients-table th:last-child,
+.products-table th:last-child,
+.quotes-table th:last-child {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+/* Validación visual de fechas en presupuestos */
+#validUntil.is-invalid {
+    padding-right: calc(1.5em + 0.75rem);
+}
+
+
+/* Fix definitivo: acciones de presupuestos visibles y alineadas en escritorio */
+.quotes-table th:last-child,
+.quotes-table td:last-child {
+    width: 300px;
+    min-width: 300px;
+    max-width: 300px;
+    overflow: visible !important;
+    text-align: center !important;
+}
+
+.quote-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0.5rem;
+    min-width: 276px;
+}
+
+.quote-actions .btn,
+.quote-actions form .btn {
+    min-width: 82px;
+    white-space: nowrap;
+    flex: 0 0 auto;
+}
+
+@media (max-width: 991.98px) {
+    .quote-actions {
+        min-width: 0;
+    }
+}
+
+
+/* Estados de presupuestos: más notorios y legibles */
+.quote-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-width: 92px;
+    padding: 0.38rem 0.75rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.quote-status::before {
+    content: "";
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: currentColor;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.75);
+}
+
+.quote-status-lg {
+    min-width: 122px;
+    padding: 0.55rem 0.9rem;
+    font-size: 0.88rem;
+}
+
+.quote-status--draft {
+    color: #92400e;
+    background: #fffbeb;
+    border-color: #f59e0b;
+}
+
+.quote-status--sent {
+    color: #1d4ed8;
+    background: #eff6ff;
+    border-color: #60a5fa;
+}
+
+.quote-status--accepted {
+    color: #166534;
+    background: #ecfdf5;
+    border-color: #22c55e;
+}
+
+.quote-status--rejected {
+    color: #991b1b;
+    background: #fef2f2;
+    border-color: #ef4444;
+}
+
+.status-summary-card {
+    border-width: 2px;
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
+}
+
+.status-summary-card--draft {
+    border-color: #f59e0b;
+    background: linear-gradient(135deg, #fffbeb, #ffffff 62%);
+}
+
+.status-summary-card--sent {
+    border-color: #60a5fa;
+    background: linear-gradient(135deg, #eff6ff, #ffffff 62%);
+}
+
+.status-summary-card--accepted {
+    border-color: #22c55e;
+    background: linear-gradient(135deg, #ecfdf5, #ffffff 62%);
+}
+
+.status-summary-card--rejected {
+    border-color: #ef4444;
+    background: linear-gradient(135deg, #fef2f2, #ffffff 62%);
+}
+
+.status-change-section {
+    border-left-width: 0.45rem;
+}
+
+.status-change-section--draft {
+    border-left-color: #f59e0b;
+}
+
+.status-change-section--sent {
+    border-left-color: #60a5fa;
+}
+
+.status-change-section--accepted {
+    border-left-color: #22c55e;
+}
+
+.status-change-section--rejected {
+    border-left-color: #ef4444;
+}
+
+@media (max-width: 575.98px) {
+    .quote-status {
+        min-width: auto;
+        max-width: 100%;
+        padding: 0.34rem 0.65rem;
+        font-size: 0.72rem;
+    }
+}
+
+
+/* Corrección final: acciones de presupuestos alineadas y estado sin punto */
+.quotes-table th:last-child,
+.quotes-table td:last-child {
+    width: 320px !important;
+    min-width: 320px !important;
+    max-width: 320px !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    overflow: visible !important;
+    text-align: center !important;
+}
+
+.quote-actions {
+    display: grid !important;
+    grid-template-columns: 78px 84px 92px;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0.45rem !important;
+    min-width: 0 !important;
+    width: 100%;
+}
+
+.quote-actions .btn,
+.quote-actions form .btn {
+    width: 100%;
+    min-width: 0 !important;
+    white-space: nowrap;
+}
+
+.quote-status {
+    gap: 0;
+}
+
+.quote-status::before {
+    content: none !important;
+    display: none !important;
+}
+
+@media (max-width: 1199.98px) {
+    .quote-actions {
+        display: grid !important;
+        grid-template-columns: 1fr;
+        gap: 0.5rem !important;
+    }
+
+    .quote-actions .btn,
+    .quote-actions form,
+    .quote-actions form .btn {
+        width: 100%;
+    }
+}
+
+/* Corrección definitiva: Ver / Editar / Eliminar misma altura y misma línea en escritorio */
+@media (min-width: 992px) {
+    .quotes-table th:last-child,
+    .quotes-table td:last-child {
+        width: 340px !important;
+        min-width: 340px !important;
+        max-width: 340px !important;
+        text-align: center !important;
+        overflow: visible !important;
+        vertical-align: middle !important;
+    }
+
+    .quotes-table .quote-actions {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        justify-content: center !important;
+        align-items: stretch !important;
+        gap: 0.5rem !important;
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .quotes-table .quote-actions > .btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        height: 36px !important;
+        min-height: 36px !important;
+        max-height: 36px !important;
+        padding: 0.375rem 0.7rem !important;
+        line-height: 1 !important;
+        margin: 0 !important;
+        white-space: nowrap !important;
+        flex: 0 0 auto !important;
+    }
+
+    .quotes-table .quote-actions > .btn:nth-child(1) {
+        width: 72px !important;
+        min-width: 72px !important;
+    }
+
+    .quotes-table .quote-actions > .btn:nth-child(2) {
+        width: 84px !important;
+        min-width: 84px !important;
+    }
+
+    .quotes-table .quote-actions > .btn:nth-child(3) {
+        width: 96px !important;
+        min-width: 96px !important;
+    }
+}
+
+/* En móvil/tablet siguen mandando las cards, no la tabla */
+@media (max-width: 991.98px) {
+    .desktop-table-wrapper {
+        display: none !important;
+    }
+
+    .mobile-card-list {
+        display: block !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .desktop-table-wrapper {
+        display: block !important;
+    }
+
+    .mobile-card-list {
+        display: none !important;
+    }
+}
+
+
+/* ==========================================================
+   Normalización visual de listados ERP
+   Clientes / Productos / Presupuestos deben tener el mismo peso visual.
+   ========================================================== */
+:root {
+    --list-cell-padding-y: 0.9rem;
+    --list-cell-padding-x: 1rem;
+    --list-action-column: 340px;
+    --list-action-button-width: 104px;
+    --list-action-button-height: 38px;
+}
+
+.desktop-table-wrapper .erp-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.94rem;
+}
+
+.desktop-table-wrapper .erp-table thead th {
+    height: 52px;
+    padding: 0.85rem var(--list-cell-padding-x) !important;
+    vertical-align: middle;
+    font-size: 0.78rem;
+    line-height: 1.2;
+}
+
+.desktop-table-wrapper .erp-table tbody tr {
+    min-height: 72px;
+}
+
+.desktop-table-wrapper .erp-table tbody td {
+    padding: var(--list-cell-padding-y) var(--list-cell-padding-x) !important;
+    vertical-align: middle !important;
+    line-height: 1.35;
+}
+
+/* En escritorio, las descripciones no deben agrandar unas tablas más que otras. */
+.desktop-table-wrapper .cell-clamp-2 {
+    -webkit-line-clamp: 1;
+}
+
+.desktop-table-wrapper .small {
+    font-size: 0.82rem;
+    line-height: 1.35;
+}
+
+/* Misma anchura y comportamiento para la columna Acciones en todos los listados. */
+.clients-table th:last-child,
+.clients-table td:last-child,
+.products-table th:last-child,
+.products-table td:last-child,
+.quotes-table th:last-child,
+.quotes-table td:last-child {
+    width: var(--list-action-column) !important;
+    min-width: var(--list-action-column) !important;
+    max-width: var(--list-action-column) !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    overflow: visible !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.client-actions,
+.product-actions,
+.quote-actions,
+.quotes-table .quote-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    white-space: nowrap !important;
+}
+
+.client-actions form,
+.product-actions form,
+.quote-actions form {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+}
+
+.client-actions .btn,
+.client-actions form .btn,
+.product-actions .btn,
+.product-actions form .btn,
+.quote-actions .btn,
+.quote-actions form .btn,
+.quotes-table .quote-actions > .btn {
+    width: var(--list-action-button-width) !important;
+    min-width: var(--list-action-button-width) !important;
+    max-width: var(--list-action-button-width) !important;
+    height: var(--list-action-button-height) !important;
+    min-height: var(--list-action-button-height) !important;
+    max-height: var(--list-action-button-height) !important;
+    padding: 0.35rem 0.55rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    font-size: 0.84rem;
+    white-space: nowrap !important;
+    flex: 0 0 auto !important;
+}
+
+/* Estado de presupuestos con presencia, pero sin agrandar la fila. */
+.quote-status {
+    min-width: 98px;
+    height: 30px;
+    min-height: 30px;
+    padding: 0.32rem 0.65rem;
+    font-size: 0.72rem;
+    line-height: 1;
+}
+
+/* Misma escala para tarjetas móviles de todos los listados. */
+.mobile-card-list {
+    padding: 1rem !important;
+}
+
+.mobile-list-card {
+    padding: 1rem !important;
+}
+
+.mobile-list-title {
+    font-size: 0.98rem;
+    line-height: 1.3;
+}
+
+.mobile-actions .btn,
+.mobile-actions form,
+.mobile-actions form .btn {
+    min-height: 42px;
+}
+
+/* Patrón único: cards hasta tablet, tabla solo en escritorio amplio. */
+@media (max-width: 1199.98px) {
+    .desktop-table-wrapper {
+        display: none !important;
+    }
+
+    .mobile-card-list {
+        display: block !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .desktop-table-wrapper {
+        display: block !important;
+    }
+
+    .mobile-card-list {
+        display: none !important;
+    }
+}
+
+/* ==========================================================
+   Fix final responsive: acciones alineadas en cards móviles
+   Aplica a Clientes, Productos y Presupuestos.
+   ========================================================== */
+.mobile-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+    align-items: stretch !important;
+}
+
+.mobile-actions > a.btn,
+.mobile-actions > button.btn,
+.mobile-actions > form,
+.mobile-actions > form > button.btn {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    margin: 0 !important;
+}
+
+.mobile-actions > a.btn,
+.mobile-actions > button.btn,
+.mobile-actions > form > button.btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.5rem 0.75rem !important;
+    line-height: 1 !important;
+    font-size: 0.875rem !important;
+    white-space: nowrap !important;
+    border-radius: 0.75rem !important;
+}
+
+.mobile-actions > form {
+    display: block !important;
+    padding: 0 !important;
+}
+
+.mobile-actions > form > input[type="hidden"] {
+    display: none !important;
+}
+
+@media (min-width: 576px) and (max-width: 1199.98px) {
+    .mobile-actions {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+
+    .mobile-actions > a.btn,
+    .mobile-actions > button.btn,
+    .mobile-actions > form,
+    .mobile-actions > form > button.btn {
+        min-width: 0 !important;
+        max-width: 100% !important;
+    }
+}
