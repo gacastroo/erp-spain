@@ -17,6 +17,7 @@ Esta versión añade la configuración básica de empresa y mejora la generació
 - Exportaciones PDF y Excel de reportes con datos de empresa en el encabezado.
 - Exportaciones PDF y Excel de impuestos/IVA con datos de empresa en el encabezado.
 - Migración `V8__company_document_settings.sql`.
+- Migración `V9__seed_demo_data.sql` con datos de ejemplo para probar dashboard, reportes, impuestos, PDFs y Excel.
 
 ## Arranque
 
@@ -39,6 +40,21 @@ http://localhost:8080/settings/company
 http://localhost:8080/quotes
 http://localhost:8080/invoices
 ```
+
+
+## Datos de ejemplo
+
+Esta versión incluye datos demo automáticos mediante Flyway:
+
+- Empresa demo configurada.
+- Clientes ficticios.
+- Productos y servicios ficticios.
+- Presupuestos en distintos estados.
+- Facturas cobradas, pendientes, vencidas, canceladas y en borrador.
+- Cobros completos y parciales.
+- Gastos pagados y pendientes.
+
+Los datos usan prefijos `DEMO-` para poder distinguirlos rápidamente. También se incluye un script opcional en `src/main/resources/db/demo/clean_demo_data.sql` para limpiar esos datos manualmente desde MySQL.
 
 ## Usuario inicial
 
