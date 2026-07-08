@@ -61,5 +61,8 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
             """)
     BigDecimal sumAmountByPaymentDateBetween(@Param("start") LocalDate start, @Param("end") LocalDate end);
 
+    @EntityGraph(attributePaths = {"invoice", "invoice.client"})
+    List<Payment> findByPaymentDateBetweenOrderByPaymentDateDescIdDesc(LocalDate start, LocalDate end);
+
     long countByInvoice_Id(Long invoiceId);
 }
