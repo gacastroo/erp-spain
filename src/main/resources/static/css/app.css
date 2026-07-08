@@ -24,11 +24,19 @@ a {
 }
 
 button,
-input,
-select,
+.form-control,
+.form-select,
 textarea,
-a {
+a.nav-link,
+.btn {
     min-height: 44px;
+}
+
+.form-check-input {
+    min-height: auto;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.25rem;
 }
 
 .form-control,
@@ -164,5 +172,118 @@ a {
     *::after {
         transition: none !important;
         animation: none !important;
+    }
+}
+
+.empty-state {
+    background: #ffffff;
+}
+
+.text-uppercase {
+    letter-spacing: 0.04em;
+}
+
+.client-actions {
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: stretch;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.client-actions form {
+    display: flex;
+    margin: 0;
+}
+
+.client-actions .btn {
+    min-width: 6.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 767.98px) {
+    .client-actions {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .client-actions .btn,
+    .client-actions form {
+        width: 100%;
+    }
+}
+
+/* Clientes - listado con más aire visual */
+.clients-table {
+    border-collapse: separate;
+    border-spacing: 0 0rem;
+}
+
+.clients-table thead th {
+    padding: 1rem 1.25rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6b7280;
+    border-bottom: 1px solid var(--app-border);
+    white-space: nowrap;
+}
+
+.clients-table tbody tr {
+    background: #ffffff;
+}
+
+.clients-table tbody td {
+    padding: 1.15rem 1.25rem;
+    vertical-align: middle;
+    border-top: 1px solid #eef0f4;
+    border-bottom: 1px solid #eef0f4;
+}
+
+.clients-table tbody td:first-child {
+    border-left: 1px solid #eef0f4;
+    border-bottom-left-radius: 0.85rem;
+}
+
+.clients-table tbody td:last-child {
+    border-right: 1px solid #eef0f4;
+    border-bottom-right-radius: 0.85rem;
+}
+
+.client-actions {
+    gap: 0.65rem;
+}
+
+.client-actions .btn,
+.client-actions form,
+.client-actions form .btn {
+    min-width: 96px;
+}
+
+@media (max-width: 767.98px) {
+    .clients-table {
+        border-spacing: 0 0.75rem;
+    }
+
+    .clients-table thead th {
+        padding: 0.85rem 1rem;
+    }
+
+    .clients-table tbody td {
+        padding: 1rem;
+    }
+
+    .client-actions {
+        gap: 0.5rem;
+    }
+
+    .client-actions .btn,
+    .client-actions form,
+    .client-actions form .btn {
+        width: 100%;
+        min-width: 100%;
     }
 }

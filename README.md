@@ -85,3 +85,25 @@ Fase 1.2 — Módulo de clientes:
 - Activar/desactivar sin borrado físico.
 - Mensajes flash.
 - Pantallas responsive y accesibles.
+
+## Fase 1.2 - Clientes
+
+Incluye módulo de clientes con:
+
+- Listado paginado.
+- Buscador por nombre, NIF/CIF/NIE, email o nombre comercial.
+- Crear cliente.
+- Editar cliente.
+- Activar/desactivar cliente sin borrado físico.
+- Validaciones backend.
+- Seguridad por roles.
+- Diseño responsive y accesible.
+
+Arranque recomendado en Windows:
+
+```powershell
+cd C:\Users\manana\Downloads\erp-spain-phase-1-2\erp-spain-phase-1
+$env:DB_USERNAME="root"
+$env:DB_PASSWORD="root"
+C:\tools\apache-maven-3.9.16\bin\mvn.cmd spring-boot:run
+```
