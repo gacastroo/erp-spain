@@ -59,13 +59,6 @@ V2__create_clients.sql
 V3__create_products.sql
 ```
 
-## Commit recomendado
-
-```powershell
-git add .
-git commit -m "feat: añadir módulo de productos y servicios"
-```
-
 
 ## Ajuste responsive de listados
 
