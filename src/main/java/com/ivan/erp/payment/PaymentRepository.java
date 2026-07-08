@@ -65,4 +65,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     List<Payment> findByPaymentDateBetweenOrderByPaymentDateDescIdDesc(LocalDate start, LocalDate end);
 
     long countByInvoice_Id(Long invoiceId);
+
+    @EntityGraph(attributePaths = {"invoice", "invoice.client"})
+    List<Payment> findTop5ByOrderByPaymentDateDescIdDesc();
 }

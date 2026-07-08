@@ -1514,3 +1514,154 @@ a.nav-link,
         max-height: none;
     }
 }
+
+/* ==========================================================
+   Fase 1.8 - Gastos y dashboard operativo
+   ========================================================== */
+.expenses-table th:last-child,
+.expenses-table td:last-child {
+    width: var(--list-action-column) !important;
+    min-width: var(--list-action-column) !important;
+    max-width: var(--list-action-column) !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    overflow: visible !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.expense-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    white-space: nowrap !important;
+}
+
+.expense-actions .btn,
+.expense-actions form .btn {
+    width: var(--list-action-button-width) !important;
+    min-width: var(--list-action-button-width) !important;
+    max-width: var(--list-action-button-width) !important;
+    height: var(--list-action-button-height) !important;
+    min-height: var(--list-action-button-height) !important;
+    max-height: var(--list-action-button-height) !important;
+    padding: 0.35rem 0.55rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    font-size: 0.84rem;
+    white-space: nowrap !important;
+    flex: 0 0 auto !important;
+}
+
+.expense-status,
+.expense-category {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 92px;
+    min-height: 30px;
+    padding: 0.32rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    line-height: 1;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.expense-status--paid {
+    color: #166534;
+    background: #dcfce7;
+    border: 1px solid #bbf7d0;
+}
+
+.expense-status--pending {
+    color: #92400e;
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+}
+
+.expense-category {
+    color: #374151;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+}
+
+.dashboard-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.dashboard-actions .btn {
+    min-width: 145px;
+}
+
+.dashboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.dashboard-list-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid #eef0f4;
+}
+
+.dashboard-list-row:last-child {
+    border-bottom: 0;
+}
+
+.dashboard-list-row:hover,
+.dashboard-list-row:focus {
+    background: #f9fafb;
+    border-radius: 0.75rem;
+    padding-left: 0.65rem;
+    padding-right: 0.65rem;
+}
+
+.dashboard-alert-card {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dashboard-alert-card:hover,
+.dashboard-alert-card:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
+}
+
+.dashboard-result-positive {
+    border-left: 5px solid #22c55e;
+}
+
+.dashboard-result-negative {
+    border-left: 5px solid #ef4444;
+}
+
+@media (max-width: 767.98px) {
+    .dashboard-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100%;
+    }
+
+    .dashboard-actions .btn {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .dashboard-list-row {
+        align-items: flex-start;
+    }
+}

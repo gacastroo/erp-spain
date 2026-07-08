@@ -1,5 +1,6 @@
 package com.ivan.erp.report.service;
 
+import com.ivan.erp.expense.Expense;
 import com.ivan.erp.invoice.Invoice;
 import com.ivan.erp.payment.Payment;
 import com.ivan.erp.report.ReportData;
@@ -15,7 +16,6 @@ import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
-import org.apache.poi.ss.usermodel.FontCharset;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -50,6 +50,9 @@ public class ReportExportService {
             Sheet payments = workbook.createSheet("Cobros");
             writePayments(payments, reportData, moneyStyle);
 
+            Sheet expenses = workbook.createSheet("Gastos");
+            writeExpenses(expenses, reportData, moneyStyle);
+
             Sheet clients = workbook.createSheet("Clientes");
             writeClients(clients, reportData, moneyStyle);
 
@@ -76,7 +79,7 @@ public class ReportExportService {
             PdfDocument pdfDocument = new PdfDocument(writer);
             Document document = new Document(pdfDocument);
 
-            Paragraph title = new Paragraph("Reporte de ventas y cobros")
+            Paragraph title = new Paragraph("Reporte de ventas, cobros y gastos")
                     .setBold()
                     .setFontSize(18)
                     .setMarginBottom(8);
@@ -90,9 +93,12 @@ public class ReportExportService {
             Table summaryTable = createPdfTable(2);
             addPdfRow(summaryTable, "Facturado", formatMoney(reportData.invoicedTotal()));
             addPdfRow(summaryTable, "Cobrado", formatMoney(reportData.collectedTotal()));
+            addPdfRow(summaryTable, "Gastos", formatMoney(reportData.expensesTotal()));
+            addPdfRow(summaryTable, "Resultado de caja", formatMoney(reportData.cashResult()));
             addPdfRow(summaryTable, "Pendiente estimado", formatMoney(reportData.pendingEstimated()));
             addPdfRow(summaryTable, "Facturas", String.valueOf(reportData.invoiceCount()));
             addPdfRow(summaryTable, "Cobros", String.valueOf(reportData.paymentCount()));
+            addPdfRow(summaryTable, "Gastos registrados", String.valueOf(reportData.expenseCount()));
             summaryTable.setMarginBottom(20);
             document.add(summaryTable);
 
@@ -111,7 +117,22 @@ public class ReportExportService {
             for (SalesProductRow row : reportData.salesByProduct()) {
                 addPdfRow(productTable, row.description(), row.quantity().toPlainString(), formatMoney(row.total()));
             }
+            productTable.setMarginBottom(18);
             document.add(productTable);
+
+            addSectionTitle(document, "Gastos del periodo");
+            Table expenseTable = createPdfTable(4);
+            addPdfHeader(expenseTable, "Fecha", "Proveedor", "Categoría", "Total");
+            for (Expense expense : reportData.expenses()) {
+                addPdfRow(
+                        expenseTable,
+                        formatDate(expense.getExpenseDate()),
+                        expense.getSupplierName(),
+                        expense.getCategory().getLabel(),
+                        formatMoney(expense.getTotal())
+                );
+            }
+            document.add(expenseTable);
 
             document.close();
             return outputStream.toByteArray();
@@ -123,20 +144,25 @@ public class ReportExportService {
     private void writeSummary(Sheet sheet, ReportData reportData, CellStyle moneyStyle) {
         int rowIndex = 0;
         Row title = sheet.createRow(rowIndex++);
-        title.createCell(0).setCellValue("Reporte de ventas y cobros");
+        title.createCell(0).setCellValue("Reporte de ventas, cobros y gastos");
         Row period = sheet.createRow(rowIndex++);
         period.createCell(0).setCellValue("Periodo");
         period.createCell(1).setCellValue(formatDate(reportData.startDate()) + " - " + formatDate(reportData.endDate()));
         rowIndex++;
         writeMetric(sheet, rowIndex++, "Facturado", reportData.invoicedTotal(), moneyStyle);
         writeMetric(sheet, rowIndex++, "Cobrado", reportData.collectedTotal(), moneyStyle);
+        writeMetric(sheet, rowIndex++, "Gastos", reportData.expensesTotal(), moneyStyle);
+        writeMetric(sheet, rowIndex++, "Resultado de caja", reportData.cashResult(), moneyStyle);
         writeMetric(sheet, rowIndex++, "Pendiente estimado", reportData.pendingEstimated(), moneyStyle);
         Row invoices = sheet.createRow(rowIndex++);
         invoices.createCell(0).setCellValue("Facturas");
         invoices.createCell(1).setCellValue(reportData.invoiceCount());
-        Row payments = sheet.createRow(rowIndex);
+        Row payments = sheet.createRow(rowIndex++);
         payments.createCell(0).setCellValue("Cobros");
         payments.createCell(1).setCellValue(reportData.paymentCount());
+        Row expenses = sheet.createRow(rowIndex);
+        expenses.createCell(0).setCellValue("Gastos registrados");
+        expenses.createCell(1).setCellValue(reportData.expenseCount());
     }
 
     private void writeInvoices(Sheet sheet, ReportData reportData, CellStyle moneyStyle) {
@@ -180,6 +206,34 @@ public class ReportExportService {
             row.createCell(4).setCellValue(payment.getReference() != null ? payment.getReference() : "-");
             row.createCell(5).setCellValue(payment.getAmount().doubleValue());
             row.getCell(5).setCellStyle(moneyStyle);
+        }
+    }
+
+    private void writeExpenses(Sheet sheet, ReportData reportData, CellStyle moneyStyle) {
+        int rowIndex = 0;
+        Row header = sheet.createRow(rowIndex++);
+        header.createCell(0).setCellValue("Fecha");
+        header.createCell(1).setCellValue("Proveedor");
+        header.createCell(2).setCellValue("Categoría");
+        header.createCell(3).setCellValue("Nº factura");
+        header.createCell(4).setCellValue("Base");
+        header.createCell(5).setCellValue("IVA");
+        header.createCell(6).setCellValue("Total");
+        header.createCell(7).setCellValue("Estado");
+
+        for (Expense expense : reportData.expenses()) {
+            Row row = sheet.createRow(rowIndex++);
+            row.createCell(0).setCellValue(formatDate(expense.getExpenseDate()));
+            row.createCell(1).setCellValue(expense.getSupplierName());
+            row.createCell(2).setCellValue(expense.getCategory().getLabel());
+            row.createCell(3).setCellValue(expense.getInvoiceNumber() != null ? expense.getInvoiceNumber() : "-");
+            row.createCell(4).setCellValue(expense.getBaseAmount().doubleValue());
+            row.getCell(4).setCellStyle(moneyStyle);
+            row.createCell(5).setCellValue(expense.getVatAmount().doubleValue());
+            row.getCell(5).setCellStyle(moneyStyle);
+            row.createCell(6).setCellValue(expense.getTotal().doubleValue());
+            row.getCell(6).setCellStyle(moneyStyle);
+            row.createCell(7).setCellValue(expense.isPaid() ? "Pagado" : "Pendiente");
         }
     }
 

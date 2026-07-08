@@ -43,6 +43,7 @@
                 <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/payments}">Cobros</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/expenses}">Gastos</a></li>
                 <li class="nav-item"><a class="nav-link active" th:href="@{/reports}">Reportes</a></li>
             </ul>
         </nav>
@@ -65,6 +66,7 @@
                     <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/payments}">Cobros</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/expenses}">Gastos</a></li>
                     <li class="nav-item"><a class="nav-link active" th:href="@{/reports}">Reportes</a></li>
                 </ul>
             </nav>
@@ -76,7 +78,7 @@
                     <div>
                         <p class="text-uppercase text-primary fw-semibold mb-1">Análisis</p>
                         <h1 class="h3 fw-bold mb-1">Reportes</h1>
-                        <p class="text-muted mb-0">Consulta ventas, cobros, clientes y productos en un periodo concreto.</p>
+                        <p class="text-muted mb-0">Consulta ventas, cobros, gastos, clientes y productos en un periodo concreto.</p>
                     </div>
                     <div class="report-export-actions">
                         <a class="btn btn-outline-primary"
@@ -119,10 +121,16 @@
                             <article class="card metric-card h-100"><div class="card-body"><p class="text-muted mb-1">Cobrado</p><p class="h4 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(report.collectedTotal, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p></div></article>
                         </div>
                         <div class="col-12 col-sm-6 col-xl-3">
+                            <article class="card metric-card h-100"><div class="card-body"><p class="text-muted mb-1">Gastos</p><p class="h4 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(report.expensesTotal, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p></div></article>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <article class="card metric-card h-100"><div class="card-body"><p class="text-muted mb-1">Resultado caja</p><p class="h4 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(report.cashResult, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p><p class="small text-muted mb-0">Cobrado - gastos</p></div></article>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xl-3">
                             <article class="card metric-card h-100"><div class="card-body"><p class="text-muted mb-1">Pendiente estimado</p><p class="h4 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(report.pendingEstimated, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p></div></article>
                         </div>
                         <div class="col-12 col-sm-6 col-xl-3">
-                            <article class="card metric-card h-100"><div class="card-body"><p class="text-muted mb-1">Actividad</p><p class="h4 fw-bold mb-0"><span th:text="${report.invoiceCount}">0</span> facturas</p><p class="small text-muted mb-0"><span th:text="${report.paymentCount}">0</span> cobros</p></div></article>
+                            <article class="card metric-card h-100"><div class="card-body"><p class="text-muted mb-1">Actividad</p><p class="h4 fw-bold mb-0"><span th:text="${report.invoiceCount}">0</span> facturas</p><p class="small text-muted mb-0"><span th:text="${report.paymentCount}">0</span> cobros · <span th:text="${report.expenseCount}">0</span> gastos</p></div></article>
                         </div>
                     </div>
                 </section>
@@ -172,6 +180,28 @@
                         </section>
                     </div>
                 </div>
+
+                <section class="card mt-4" aria-labelledby="expensesReportTitle">
+                    <div class="card-body p-3 p-md-4">
+                        <h2 id="expensesReportTitle" class="h5 fw-bold mb-3">Gastos del periodo</h2>
+                        <div th:if="${report.expenses.isEmpty()}" class="text-center py-4 text-muted">No hay gastos en este periodo.</div>
+                        <div th:if="${!report.expenses.isEmpty()}" class="table-responsive report-table-wrapper">
+                            <table class="table align-middle report-table">
+                                <caption class="visually-hidden">Gastos incluidos en el reporte</caption>
+                                <thead><tr><th>Fecha</th><th>Proveedor</th><th>Categoría</th><th>Factura</th><th class="text-end">Total</th></tr></thead>
+                                <tbody>
+                                <tr th:each="expense : ${report.expenses}">
+                                    <td th:text="${#temporals.format(expense.expenseDate, 'dd/MM/yyyy')}">08/07/2026</td>
+                                    <td><span class="cell-ellipsis" th:title="${expense.supplierName}" th:text="${expense.supplierName}">Proveedor</span></td>
+                                    <td><span class="expense-category" th:text="${expense.category.label}">Otros</span></td>
+                                    <td><span class="cell-ellipsis" th:title="${expense.invoiceNumber}" th:text="${expense.invoiceNumber != null ? expense.invoiceNumber : '-'}">-</span></td>
+                                    <td class="text-end"><span th:text="${#numbers.formatDecimal(expense.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
 
                 <section class="card mt-4" aria-labelledby="invoicesReportTitle">
                     <div class="card-body p-3 p-md-4">

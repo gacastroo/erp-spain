@@ -1,5 +1,7 @@
 package com.ivan.erp.report.service;
 
+import com.ivan.erp.expense.Expense;
+import com.ivan.erp.expense.ExpenseRepository;
 import com.ivan.erp.invoice.Invoice;
 import com.ivan.erp.invoice.InvoiceRepository;
 import com.ivan.erp.invoice.InvoiceStatus;
@@ -21,10 +23,16 @@ public class ReportService {
 
     private final InvoiceRepository invoiceRepository;
     private final PaymentRepository paymentRepository;
+    private final ExpenseRepository expenseRepository;
 
-    public ReportService(InvoiceRepository invoiceRepository, PaymentRepository paymentRepository) {
+    public ReportService(
+            InvoiceRepository invoiceRepository,
+            PaymentRepository paymentRepository,
+            ExpenseRepository expenseRepository
+    ) {
         this.invoiceRepository = invoiceRepository;
         this.paymentRepository = paymentRepository;
+        this.expenseRepository = expenseRepository;
     }
 
     @Transactional(readOnly = true)
@@ -42,13 +50,19 @@ public class ReportService {
                 normalizedStart,
                 normalizedEnd
         );
+        List<Expense> expenses = expenseRepository.findByExpenseDateBetweenOrderByExpenseDateDescIdDesc(
+                normalizedStart,
+                normalizedEnd
+        );
 
-        BigDecimal invoicedTotal = invoiceRepository.sumTotalByIssueDateBetweenAndStatusNotIn(
+        BigDecimal invoicedTotal = safe(invoiceRepository.sumTotalByIssueDateBetweenAndStatusNotIn(
                 normalizedStart,
                 normalizedEnd,
                 excludedStatuses
-        );
-        BigDecimal collectedTotal = paymentRepository.sumAmountByPaymentDateBetween(normalizedStart, normalizedEnd);
+        ));
+        BigDecimal collectedTotal = safe(paymentRepository.sumAmountByPaymentDateBetween(normalizedStart, normalizedEnd));
+        BigDecimal expensesTotal = safe(expenseRepository.sumTotalByExpenseDateBetween(normalizedStart, normalizedEnd));
+        BigDecimal cashResult = collectedTotal.subtract(expensesTotal);
         BigDecimal pendingEstimated = invoicedTotal.subtract(collectedTotal);
         if (pendingEstimated.signum() < 0) {
             pendingEstimated = BigDecimal.ZERO;
@@ -85,11 +99,15 @@ public class ReportService {
                 normalizedEnd,
                 invoicedTotal,
                 collectedTotal,
+                expensesTotal,
+                cashResult,
                 pendingEstimated,
                 invoices.size(),
                 payments.size(),
+                expenses.size(),
                 invoices,
                 payments,
+                expenses,
                 salesByClient,
                 salesByProduct
         );
@@ -109,5 +127,9 @@ public class ReportService {
         }
 
         return YearMonth.from(startDate).atEndOfMonth();
+    }
+
+    private BigDecimal safe(BigDecimal value) {
+        return value != null ? value : BigDecimal.ZERO;
     }
 }
