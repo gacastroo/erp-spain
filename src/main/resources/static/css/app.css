@@ -1665,3 +1665,40 @@ a.nav-link,
         align-items: flex-start;
     }
 }
+
+.tax-rate-list,
+.tax-detail-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.tax-rate-row,
+.tax-detail-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid #eef0f4;
+}
+
+.tax-rate-row:last-child,
+.tax-detail-row:last-child {
+    border-bottom: 0;
+}
+
+.tax-rate-row:hover,
+.tax-detail-row:hover {
+    background: #f9fafb;
+    border-radius: 0.75rem;
+    padding-left: 0.65rem;
+    padding-right: 0.65rem;
+}
+
+@media (max-width: 575.98px) {
+    .tax-rate-row,
+    .tax-detail-row {
+        align-items: flex-start;
+    }
+}

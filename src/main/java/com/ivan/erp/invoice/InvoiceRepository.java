@@ -105,6 +105,21 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     );
 
     @Query("""
+            SELECT DISTINCT i
+            FROM Invoice i
+            JOIN FETCH i.client
+            LEFT JOIN FETCH i.lines l
+            WHERE i.issueDate BETWEEN :start AND :end
+              AND i.status NOT IN :excludedStatuses
+            ORDER BY i.issueDate DESC, i.id DESC
+            """)
+    List<Invoice> findFiscalInvoicesWithLines(
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end,
+            @Param("excludedStatuses") Collection<InvoiceStatus> excludedStatuses
+    );
+
+    @Query("""
             SELECT COALESCE(SUM(i.total), 0)
             FROM Invoice i
             WHERE i.issueDate BETWEEN :start AND :end

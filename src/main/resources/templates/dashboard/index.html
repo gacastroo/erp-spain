@@ -56,6 +56,7 @@
                 <li class="nav-item"><a class="nav-link" th:href="@{/payments}">Cobros</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/expenses}">Gastos</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/reports}">Reportes</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/taxes}">Impuestos</a></li>
             </ul>
         </nav>
 
@@ -81,6 +82,7 @@
                     <li class="nav-item"><a class="nav-link" th:href="@{/payments}">Cobros</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/expenses}">Gastos</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/reports}">Reportes</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/taxes}">Impuestos</a></li>
                 </ul>
             </nav>
         </aside>
@@ -101,6 +103,7 @@
                         <a sec:authorize="hasAnyRole('ADMIN','MANAGER')" th:href="@{/expenses/new}" class="btn btn-outline-primary">Nuevo gasto</a>
                         <a sec:authorize="hasAnyRole('ADMIN','MANAGER')" th:href="@{/payments/new}" class="btn btn-outline-success">Registrar cobro</a>
                         <a th:href="@{/reports}" class="btn btn-outline-secondary">Ver reportes</a>
+                        <a th:href="@{/taxes}" class="btn btn-outline-secondary">Ver impuestos</a>
                     </div>
                 </div>
 
@@ -152,7 +155,7 @@
                 <section class="mt-4" aria-labelledby="alertsTitle">
                     <h2 id="alertsTitle" class="visually-hidden">Alertas de gestión</h2>
                     <div class="row g-3 g-md-4">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-6 col-xl-3">
                             <a th:href="@{/invoices}" class="dashboard-alert-card card h-100 text-decoration-none text-reset">
                                 <div class="card-body">
                                     <p class="text-muted mb-1">Facturas pendientes</p>
@@ -160,7 +163,7 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-6 col-xl-3">
                             <a th:href="@{/invoices}" class="dashboard-alert-card card h-100 text-decoration-none text-reset">
                                 <div class="card-body">
                                     <p class="text-muted mb-1">Facturas vencidas</p>
@@ -168,11 +171,20 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-6 col-xl-3">
                             <a th:href="@{/expenses}" class="dashboard-alert-card card h-100 text-decoration-none text-reset">
                                 <div class="card-body">
                                     <p class="text-muted mb-1">Gastos pendientes de pago</p>
                                     <p class="h4 fw-bold mb-0" th:text="${unpaidExpenses}">0</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-12 col-md-6 col-xl-3">
+                            <a th:href="@{/taxes}" class="dashboard-alert-card card h-100 text-decoration-none text-reset">
+                                <div class="card-body">
+                                    <p class="text-muted mb-1">IVA T<span th:text="${currentQuarter}">1</span></p>
+                                    <p class="h4 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(currentQuarterVatAbs, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p>
+                                    <p class="small text-muted mb-0" th:text="${currentQuarterVatToPay ? 'Estimado a ingresar' : 'Estimado a compensar'}">Estimado</p>
                                 </div>
                             </a>
                         </div>
