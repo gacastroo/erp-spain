@@ -8,6 +8,7 @@ import com.ivan.erp.payment.PaymentRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -45,6 +46,7 @@ public class DashboardController {
         return "redirect:/dashboard";
     }
 
+    @Transactional(readOnly = true)
     @GetMapping("/dashboard")
     public String dashboard(Authentication authentication, Model model, HttpServletResponse response) {
         preventBrowserCache(response);
@@ -53,6 +55,7 @@ public class DashboardController {
         return "dashboard/index";
     }
 
+    @Transactional(readOnly = true)
     @GetMapping("/dashboard/live")
     public String dashboardLive(Model model, HttpServletResponse response) {
         preventBrowserCache(response);

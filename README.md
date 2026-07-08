@@ -1,25 +1,24 @@
-# ERP Spain — Fase 1.10 Configuración de empresa, series y PDF
+# ERP Spain — Fase 1.11 Rendimiento, seguridad y PageSpeed
 
-Esta versión añade la configuración básica de empresa y mejora la generación de documentos para que presupuestos y facturas empiecen a comportarse como documentos reales de negocio.
+Esta versión optimiza el proyecto para mejorar rendimiento percibido, seguridad HTTP, estabilidad del dashboard y preparación para producción.
 
 ## Incluye
 
-- Nueva pantalla de configuración en `/settings/company`, accesible desde el menú principal.
-- Datos fiscales de empresa: nombre fiscal, NIF/CIF, dirección, email y teléfono.
-- Configuración de series de numeración para presupuestos y facturas.
-- Vencimiento automático de facturas según los días configurados.
-- Datos bancarios para mostrar en PDF de factura.
-- Texto legal o pie de documento configurable.
-- Texto de logo sencillo para documentos PDF.
-- Botón de descarga PDF en detalle de presupuesto.
-- Botón de descarga PDF en detalle de factura.
-- PDFs profesionales de presupuestos y facturas con datos de empresa, cliente, líneas, base imponible, IVA, total, notas y pie legal.
-- Exportaciones PDF y Excel de reportes con datos de empresa en el encabezado.
-- Exportaciones PDF y Excel de impuestos/IVA con datos de empresa en el encabezado.
-- Migración `V8__company_document_settings.sql`.
-- Migración `V9__seed_demo_data.sql` con datos de ejemplo para probar dashboard, reportes, impuestos, PDFs y Excel.
+- Recursos estáticos servidos en local mediante WebJars, sin depender de CDN externos para Bootstrap.
+- Caché de recursos estáticos y cadena de recursos preparada para versionado por contenido.
+- Compresión HTTP para HTML, CSS, JavaScript, JSON y SVG.
+- Perfil `prod` con caché de Thymeleaf activada, cookies seguras y caché larga para estáticos.
+- Cabeceras de seguridad reforzadas: CSP, HSTS, Referrer-Policy y Permissions-Policy.
+- Clave de remember-me configurable mediante variable de entorno.
+- Protección básica contra fuerza bruta en login por IP.
+- Configuración de errores para no exponer stacktraces ni detalles internos.
+- Ajustes HikariCP para conexiones MySQL más estables.
+- Ajustes Hibernate para batching e inserciones/actualizaciones ordenadas.
+- Dashboard live menos agresivo: evita petición inmediata extra en carga y refresca de forma más eficiente.
+- Nuevos índices de base de datos para dashboard, reportes, IVA, facturas, cobros y gastos.
+- Metadescripciones básicas en pantallas para mejorar auditorías generales.
 
-## Arranque
+## Arranque en desarrollo
 
 ```powershell
 cd C:\Users\guill\Desktop\ERP-SPAIN\erp-spain
@@ -32,29 +31,57 @@ $env:DB_PASSWORD="root"
 C:\tools\apache-maven-3.9.16\bin\mvn.cmd clean spring-boot:run
 ```
 
+## Arranque recomendado para probar rendimiento
+
+Para medir rendimiento de forma más realista, arranca con perfil de producción:
+
+```powershell
+cd C:\Users\guill\Desktop\ERP-SPAIN\erp-spain
+
+Remove-Item -Recurse -Force .\target -ErrorAction SilentlyContinue
+
+$env:DB_USERNAME="root"
+$env:DB_PASSWORD="root"
+$env:SPRING_PROFILES_ACTIVE="prod"
+$env:THYMELEAF_CACHE="true"
+$env:STATIC_CACHE_MAX_AGE="365d"
+$env:REMEMBER_ME_KEY="cambia-esta-clave-larga-en-produccion"
+
+C:\tools\apache-maven-3.9.16\bin\mvn.cmd clean spring-boot:run
+```
+
+## Variables útiles
+
+```text
+DB_URL
+DB_USERNAME
+DB_PASSWORD
+SPRING_PROFILES_ACTIVE
+THYMELEAF_CACHE
+STATIC_CACHE_MAX_AGE
+SESSION_COOKIE_SECURE
+REMEMBER_ME_KEY
+LOGIN_RATE_LIMIT_ENABLED
+LOGIN_RATE_LIMIT_MAX_ATTEMPTS
+LOGIN_RATE_LIMIT_WINDOW_MINUTES
+DB_POOL_MAX_SIZE
+DB_POOL_MIN_IDLE
+```
+
 ## URLs principales
 
 ```text
 http://localhost:8080/dashboard
-http://localhost:8080/settings/company
+http://localhost:8080/clients
+http://localhost:8080/products
 http://localhost:8080/quotes
 http://localhost:8080/invoices
+http://localhost:8080/payments
+http://localhost:8080/expenses
+http://localhost:8080/reports
+http://localhost:8080/taxes
+http://localhost:8080/settings/company
 ```
-
-
-## Datos de ejemplo
-
-Esta versión incluye datos demo automáticos mediante Flyway:
-
-- Empresa demo configurada.
-- Clientes ficticios.
-- Productos y servicios ficticios.
-- Presupuestos en distintos estados.
-- Facturas cobradas, pendientes, vencidas, canceladas y en borrador.
-- Cobros completos y parciales.
-- Gastos pagados y pendientes.
-
-Los datos usan prefijos `DEMO-` para poder distinguirlos rápidamente. También se incluye un script opcional en `src/main/resources/db/demo/clean_demo_data.sql` para limpiar esos datos manualmente desde MySQL.
 
 ## Usuario inicial
 
@@ -62,7 +89,3 @@ Los datos usan prefijos `DEMO-` para poder distinguirlos rápidamente. También 
 admin@erp.local
 Admin123!
 ```
-
-## Nota fiscal
-
-La generación de PDF y el cálculo de impuestos son funcionales para gestión interna. Antes de usar documentos reales con validez fiscal conviene revisar textos legales, numeración, criterios de emisión, facturas rectificativas y obligaciones VeriFactu/factura electrónica con una asesoría.

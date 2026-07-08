@@ -1,8 +1,10 @@
 (() => {
-    const REFRESH_INTERVAL_MS = 15000;
+    const REFRESH_INTERVAL_MS = 30000;
+    const STALE_AFTER_MS = 10000;
 
     let timerId = null;
     let loading = false;
+    let lastRefreshAt = Date.now();
 
     function currentRegion() {
         return document.getElementById('dashboard-live-region');
@@ -46,6 +48,7 @@
             if (newRegion) {
                 newRegion.setAttribute('aria-busy', 'false');
             }
+            lastRefreshAt = Date.now();
             loading = false;
         }
     }
@@ -68,14 +71,12 @@
             return;
         }
 
-        refreshDashboard();
+        if ((Date.now() - lastRefreshAt) > STALE_AFTER_MS) {
+            refreshDashboard();
+        }
         startTimer();
     });
 
-    window.addEventListener('pageshow', () => {
-        refreshDashboard();
-        startTimer();
-    });
-
+    window.addEventListener('pageshow', startTimer);
     startTimer();
 })();
