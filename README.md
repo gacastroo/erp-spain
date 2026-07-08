@@ -36,10 +36,3 @@ C:\tools\apache-maven-3.9.16\bin\mvn.cmd spring-boot:run
 
 - Email: `admin@erp.local`
 - Contraseña: `Admin123!`
-
-## Commit recomendado
-
-```powershell
-git add .
-git commit -m "feat: añadir módulo de cobros"
-```
