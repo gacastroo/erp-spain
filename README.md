@@ -32,9 +32,3 @@ admin@erp.local
 Admin123!
 ```
 
-## Commit recomendado
-
-```powershell
-git add .
-git commit -m "fix: proteger presupuestos facturados y simplificar estados"
-```
