@@ -1,6 +1,6 @@
-# ERP Spain — Fase 1.9 Fiscalidad e IVA trimestral
+# ERP Spain — Fase 1.9.1 Dashboard simplificado e IVA trimestral
 
-Esta versión añade una pantalla de control fiscal para revisar el IVA trimestral de forma sencilla a partir de los datos reales del ERP.
+Esta versión mantiene el módulo de fiscalidad e incorpora un dashboard más simple, menos saturado y con actualización automática de datos.
 
 ## Incluye
 
@@ -12,8 +12,10 @@ Esta versión añade una pantalla de control fiscal para revisar el IVA trimestr
 - Desglose de IVA por tipo: 0%, 4%, 10%, 21% u otros tipos usados en facturas/gastos.
 - Detalle de facturas y gastos incluidos en el trimestre.
 - Exportación del resumen de IVA a Excel y PDF.
-- Enlace a Impuestos desde el menú principal y desde el dashboard.
-- Dashboard actualizado con acceso rápido a reportes e impuestos.
+- Enlace a Impuestos desde el menú principal.
+- Dashboard simplificado sin botones de acción masivos en la cabecera.
+- Actualización automática del dashboard cada pocos segundos mientras la pantalla está abierta.
+- Cálculo de IVA del trimestre en dashboard mediante consultas agregadas para evitar cargar datos innecesarios.
 
 ## Arranque
 

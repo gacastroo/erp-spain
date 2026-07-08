@@ -132,6 +132,18 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     );
 
     @Query("""
+            SELECT COALESCE(SUM(i.vatTotal), 0)
+            FROM Invoice i
+            WHERE i.issueDate BETWEEN :start AND :end
+              AND i.status NOT IN :excludedStatuses
+            """)
+    BigDecimal sumVatTotalByIssueDateBetweenAndStatusNotIn(
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end,
+            @Param("excludedStatuses") Collection<InvoiceStatus> excludedStatuses
+    );
+
+    @Query("""
             SELECT c.legalName, COUNT(i), COALESCE(SUM(i.total), 0)
             FROM Invoice i
             JOIN i.client c
