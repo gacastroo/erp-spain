@@ -50,7 +50,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     long countByPaidFalse();
 
-    List<Expense> findTop5ByOrderByExpenseDateDescIdDesc();
+    List<Expense> findTop3ByOrderByExpenseDateDescIdDesc();
 
     List<Expense> findByExpenseDateBetweenOrderByExpenseDateDescIdDesc(LocalDate start, LocalDate end);
 }

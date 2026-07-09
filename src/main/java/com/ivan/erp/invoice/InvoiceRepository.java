@@ -75,7 +75,7 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     long countByStatusIn(Collection<InvoiceStatus> statuses);
 
     @EntityGraph(attributePaths = {"client"})
-    List<Invoice> findTop5ByOrderByIssueDateDescIdDesc();
+    List<Invoice> findTop3ByOrderByIssueDateDescIdDesc();
 
     @Query("""
             SELECT COUNT(i)

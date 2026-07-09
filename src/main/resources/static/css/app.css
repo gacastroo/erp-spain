@@ -1623,6 +1623,19 @@ a.nav-link,
     border-bottom: 0;
 }
 
+.dashboard-list-row .text-end {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.45rem;
+}
+
+.dashboard-list-row .invoice-status,
+.dashboard-list-row .payment-method,
+.dashboard-list-row .expense-status {
+    margin-top: 0 !important;
+}
+
 .dashboard-list-row:hover,
 .dashboard-list-row:focus {
     background: #f9fafb;

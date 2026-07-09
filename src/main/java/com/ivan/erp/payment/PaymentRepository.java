@@ -67,5 +67,5 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     long countByInvoice_Id(Long invoiceId);
 
     @EntityGraph(attributePaths = {"invoice", "invoice.client"})
-    List<Payment> findTop5ByOrderByPaymentDateDescIdDesc();
+    List<Payment> findTop3ByOrderByPaymentDateDescIdDesc();
 }

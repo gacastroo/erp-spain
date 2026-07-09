@@ -74,7 +74,10 @@ public class DashboardController {
         LocalDate endOfQuarter = startOfQuarter.plusMonths(3).minusDays(1);
 
         List<InvoiceStatus> excludedInvoiceStatuses = List.of(InvoiceStatus.DRAFT, InvoiceStatus.CANCELLED);
-        List<InvoiceStatus> pendingInvoiceStatuses = List.of(InvoiceStatus.ISSUED, InvoiceStatus.SENT, InvoiceStatus.OVERDUE);
+        // Pendientes y vencidas son categorías separadas en el dashboard.
+        // Pendiente = factura activa todavía no cobrada y todavía no vencida.
+        // Vencida = factura marcada explícitamente como vencida.
+        List<InvoiceStatus> pendingInvoiceStatuses = List.of(InvoiceStatus.ISSUED, InvoiceStatus.SENT);
 
         BigDecimal invoicedThisMonth = safe(invoiceRepository.sumTotalByIssueDateBetweenAndStatusNotIn(
                 startOfMonth,
@@ -100,16 +103,16 @@ public class DashboardController {
         model.addAttribute("expensesThisMonth", expensesThisMonth);
         model.addAttribute("cashResultThisMonth", cashResultThisMonth);
         model.addAttribute("pendingInvoices", invoiceRepository.countByStatusIn(pendingInvoiceStatuses));
-        model.addAttribute("overdueInvoices", invoiceRepository.countOverdue(today, List.of(InvoiceStatus.PAID, InvoiceStatus.CANCELLED, InvoiceStatus.DRAFT)));
+        model.addAttribute("overdueInvoices", invoiceRepository.countByStatus(InvoiceStatus.OVERDUE));
         model.addAttribute("unpaidExpenses", expenseRepository.countByPaidFalse());
         model.addAttribute("activeClients", clientRepository.countByEnabledTrue());
         model.addAttribute("currentQuarter", currentQuarter);
         model.addAttribute("currentQuarterVat", currentQuarterVat);
         model.addAttribute("currentQuarterVatAbs", currentQuarterVat.abs());
         model.addAttribute("currentQuarterVatToPay", currentQuarterVat.signum() >= 0);
-        model.addAttribute("recentInvoices", invoiceRepository.findTop5ByOrderByIssueDateDescIdDesc());
-        model.addAttribute("recentPayments", paymentRepository.findTop5ByOrderByPaymentDateDescIdDesc());
-        model.addAttribute("recentExpenses", expenseRepository.findTop5ByOrderByExpenseDateDescIdDesc());
+        model.addAttribute("recentInvoices", invoiceRepository.findTop3ByOrderByIssueDateDescIdDesc());
+        model.addAttribute("recentPayments", paymentRepository.findTop3ByOrderByPaymentDateDescIdDesc());
+        model.addAttribute("recentExpenses", expenseRepository.findTop3ByOrderByExpenseDateDescIdDesc());
         model.addAttribute("dashboardUpdatedAt", LocalTime.now().format(TIME_FORMATTER));
     }
 

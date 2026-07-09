@@ -97,14 +97,10 @@
                         <p class="text-uppercase text-primary fw-semibold mb-1">Panel principal</p>
                         <h1 class="h3 fw-bold mb-1">Dashboard</h1>
                         <p class="text-muted mb-0">
-                            Vista rápida de la salud del negocio. Los datos se refrescan solos mientras la pantalla está abierta.
+                            Vista rápida de la salud del negocio.
                         </p>
                     </div>
 
-                    <div class="dashboard-refresh-note" aria-live="polite">
-                        <span class="dashboard-refresh-dot" aria-hidden="true"></span>
-                        <span>Actualización automática</span>
-                    </div>
                 </div>
 
                 <div id="dashboard-live-region"
@@ -113,11 +109,6 @@
                      aria-live="polite"
                      aria-busy="false">
 
-                    <div class="d-flex justify-content-end mb-2">
-                        <p class="small text-muted mb-0">
-                            Última consulta: <span id="dashboard-updated-at" th:text="${dashboardUpdatedAt}">00:00:00</span>
-                        </p>
-                    </div>
 
                     <section aria-labelledby="summaryTitle">
                         <h2 id="summaryTitle" class="visually-hidden">Resumen de indicadores</h2>
