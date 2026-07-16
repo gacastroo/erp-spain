@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Impuestos e IVA | ERP Spain</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="ERP Spain: gestión ligera de clientes, presupuestos, facturas, cobros, gastos e impuestos.">
+<!-- ERP_V6_HEAD_START -->
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem("erp-spain-theme-v6");
+    var theme = saved === "dark" || saved === "light"
+      ? saved
+      : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-bs-theme", theme);
+    document.documentElement.style.colorScheme = theme;
+  } catch (error) {
+    document.documentElement.setAttribute("data-theme", "light");
+    document.documentElement.setAttribute("data-bs-theme", "light");
+  }
+})();
+</script>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.7/dist/css/bootstrap.min.css}" href="/webjars/bootstrap/5.3.7/dist/css/bootstrap.min.css">
+<link rel="stylesheet" th:href="@{/css/app.css(v=2)}" href="/css/app.css?v=2">
+<!-- ERP_V6_HEAD_END -->
+</head>
+<body class="app-page">
+<a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+<header class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+    <nav class="container-fluid px-3 px-md-4" aria-label="Navegación principal">
+        <a class="navbar-brand fw-bold" th:href="@{/dashboard}">ERP Spain</a>
+
+        <button class="navbar-toggler ms-auto" type="button"
+                data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
+                aria-controls="mobileMenu" aria-label="Abrir menú">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="d-none d-lg-flex align-items-center gap-2 ms-auto erp-navbar-session">
+            <span class="erp-v6-user-chip erp-navbar-user" aria-label="Usuario autenticado">
+                <span class="erp-navbar-user-label">Usuario:</span>
+                <strong sec:authentication="name">admin@erp.local</strong>
+            </span>
+
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <button type="submit" class="btn btn-outline-secondary btn-sm">Salir</button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuTitle">
+    <div class="offcanvas-header">
+        <h2 class="offcanvas-title h5" id="mobileMenuTitle">Menú</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar menú"></button>
+    </div>
+
+    <div class="offcanvas-body">
+        <nav aria-label="Menú móvil">
+            <ul class="nav flex-column gap-1">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/clients}">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/products}">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/payments}">Cobros</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/expenses}">Gastos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/reports}">Reportes</a></li>
+                    <li class="nav-item"><a class="nav-link active" th:href="@{/taxes}">Impuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/settings/company}">Configuración</a></li>
+            </ul>
+        </nav>
+
+        <hr>
+
+        <div class="erp-mobile-session mb-3">
+            <span>Usuario</span>
+            <strong sec:authentication="name">admin@erp.local</strong>
+        </div>
+
+        <form th:action="@{/logout}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button type="submit" class="btn btn-outline-secondary w-100">Salir</button>
+        </form>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <aside class="col-lg-2 d-none d-lg-block app-sidebar border-end">
+            <nav class="p-3" aria-label="Menú lateral">
+                <ul class="nav flex-column gap-1">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/clients}">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/products}">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/payments}">Cobros</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/expenses}">Gastos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/reports}">Reportes</a></li>
+                    <li class="nav-item"><a class="nav-link active" th:href="@{/taxes}">Impuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/settings/company}">Configuración</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main id="main-content" class="col-12 col-lg-10 app-main">
+            <div class="container-fluid py-4 py-md-5">
+                <div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3 mb-4">
+                    <div>
+                        <p class="text-uppercase text-primary fw-semibold mb-1">Fiscalidad</p>
+                        <h1 class="h3 fw-bold mb-1">Resumen trimestral de IVA</h1>
+                        <p class="text-muted mb-0">
+                            Calcula el IVA repercutido de facturas emitidas y el IVA soportado de gastos registrados.
+                        </p>
+                    </div>
+                    <div class="dashboard-actions">
+                        <a th:href="@{/taxes/export/excel(year=${summary.year},quarter=${summary.quarter})}" class="btn btn-outline-success">Exportar Excel</a>
+                        <a th:href="@{/taxes/export/pdf(year=${summary.year},quarter=${summary.quarter})}" class="btn btn-outline-danger">Exportar PDF</a>
+                    </div>
+                </div>
+
+                <section class="card mb-4" aria-labelledby="taxFilterTitle">
+                    <div class="card-body">
+                        <h2 id="taxFilterTitle" class="h6 fw-bold mb-3">Periodo fiscal</h2>
+                        <form th:action="@{/taxes}" method="get" class="row g-3 align-items-end">
+                            <div class="col-12 col-md-4 col-xl-3">
+                                <label for="year" class="form-label">Año</label>
+                                <select id="year" name="year" class="form-select">
+                                    <option th:each="yearOption : ${years}"
+                                            th:value="${yearOption}"
+                                            th:selected="${yearOption == summary.year}"
+                                            th:text="${yearOption}">2026</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-4 col-xl-3">
+                                <label for="quarter" class="form-label">Trimestre</label>
+                                <select id="quarter" name="quarter" class="form-select">
+                                    <option th:each="quarterOption : ${quarters}"
+                                            th:value="${quarterOption}"
+                                            th:selected="${quarterOption == summary.quarter}"
+                                            th:text="${'T' + quarterOption}">T1</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-4 col-xl-3">
+                                <button type="submit" class="btn btn-primary w-100">Actualizar</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <div class="alert" th:classappend="${summary.isVatToPay() ? ' alert-warning' : ' alert-success'}" role="status">
+                    <strong th:text="${summary.isVatToPay() ? 'IVA estimado a ingresar' : 'IVA estimado a compensar/devolver'}">IVA estimado</strong>:
+                    <span th:text="${#numbers.formatDecimal(summary.vatResultAbs(), 1, 'POINT', 2, 'COMMA')}">0,00</span> €
+                    <span class="d-block small mt-1">Dato orientativo para control interno. La presentación fiscal real debe revisarse antes de enviarla.</span>
+                </div>
+
+                <section aria-labelledby="taxMetricsTitle">
+                    <h2 id="taxMetricsTitle" class="visually-hidden">Resumen de IVA</h2>
+                    <div class="row g-3 g-md-4">
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <article class="card metric-card h-100">
+                                <div class="card-body">
+                                    <p class="text-muted mb-1">IVA repercutido</p>
+                                    <p class="h4 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(summary.issuedVat, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p>
+                                    <p class="small text-muted mb-0">Facturas emitidas no canceladas</p>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <article class="card metric-card h-100">
+                                <div class="card-body">
+                                    <p class="text-muted mb-1">IVA soportado</p>
+                                    <p class="h4 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(summary.deductibleVat, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p>
+                                    <p class="small text-muted mb-0">Gastos registrados</p>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <article class="card metric-card h-100">
+                                <div class="card-body">
+                                    <p class="text-muted mb-1">Base facturada</p>
+                                    <p class="h4 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(summary.issuedBase, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p>
+                                    <p class="small text-muted mb-0"><span th:text="${summary.issuedInvoiceCount}">0</span> facturas</p>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <article class="card metric-card h-100">
+                                <div class="card-body">
+                                    <p class="text-muted mb-1">Base de gastos</p>
+                                    <p class="h4 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(summary.deductibleBase, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p>
+                                    <p class="small text-muted mb-0"><span th:text="${summary.expenseCount}">0</span> gastos</p>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="mt-4" aria-labelledby="vatRatesTitle">
+                    <div class="row g-4">
+                        <div class="col-12 col-xl-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h2 id="vatRatesTitle" class="h5 fw-bold mb-3">IVA repercutido por tipo</h2>
+                                    <div th:if="${#lists.isEmpty(summary.outputVatByRate)}" class="text-muted">No hay facturas en este periodo.</div>
+                                    <div class="tax-rate-list" th:if="${!#lists.isEmpty(summary.outputVatByRate)}">
+                                        <article class="tax-rate-row" th:each="row : ${summary.outputVatByRate}">
+                                            <div>
+                                                <strong th:text="${#numbers.formatDecimal(row.vatRate, 1, 'POINT', 2, 'COMMA') + '%'}">21%</strong>
+                                                <p class="small text-muted mb-0">Base <span th:text="${#numbers.formatDecimal(row.taxableBase, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p>
+                                            </div>
+                                            <div class="text-end">
+                                                <strong><span th:text="${#numbers.formatDecimal(row.vatAmount, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</strong>
+                                                <p class="small text-muted mb-0">Total <span th:text="${#numbers.formatDecimal(row.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-xl-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h2 class="h5 fw-bold mb-3">IVA soportado por tipo</h2>
+                                    <div th:if="${#lists.isEmpty(summary.inputVatByRate)}" class="text-muted">No hay gastos en este periodo.</div>
+                                    <div class="tax-rate-list" th:if="${!#lists.isEmpty(summary.inputVatByRate)}">
+                                        <article class="tax-rate-row" th:each="row : ${summary.inputVatByRate}">
+                                            <div>
+                                                <strong th:text="${#numbers.formatDecimal(row.vatRate, 1, 'POINT', 2, 'COMMA') + '%'}">21%</strong>
+                                                <p class="small text-muted mb-0">Base <span th:text="${#numbers.formatDecimal(row.taxableBase, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p>
+                                            </div>
+                                            <div class="text-end">
+                                                <strong><span th:text="${#numbers.formatDecimal(row.vatAmount, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</strong>
+                                                <p class="small text-muted mb-0">Total <span th:text="${#numbers.formatDecimal(row.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="mt-4" aria-labelledby="taxDetailsTitle">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 id="taxDetailsTitle" class="h5 fw-bold mb-3">Detalle del periodo</h2>
+                            <ul class="nav nav-tabs" id="taxTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="invoices-tab" data-bs-toggle="tab" data-bs-target="#invoices-pane" type="button" role="tab" aria-controls="invoices-pane" aria-selected="true">Facturas</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="expenses-tab" data-bs-toggle="tab" data-bs-target="#expenses-pane" type="button" role="tab" aria-controls="expenses-pane" aria-selected="false">Gastos</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content pt-3">
+                                <div class="tab-pane fade show active" id="invoices-pane" role="tabpanel" aria-labelledby="invoices-tab" tabindex="0">
+                                    <div th:if="${#lists.isEmpty(summary.invoices)}" class="text-muted">No hay facturas emitidas en este trimestre.</div>
+                                    <div class="tax-detail-list" th:if="${!#lists.isEmpty(summary.invoices)}">
+                                        <article class="tax-detail-row" th:each="invoice : ${summary.invoices}">
+                                            <div>
+                                                <a th:href="@{/invoices/{id}(id=${invoice.id})}" class="fw-semibold text-decoration-none" th:text="${invoice.invoiceNumber}">FAC-2026-000001</a>
+                                                <p class="small text-muted mb-0" th:text="${invoice.client.legalName}">Cliente</p>
+                                            </div>
+                                            <div class="text-end">
+                                                <span class="small text-muted" th:text="${#temporals.format(invoice.issueDate, 'dd/MM/yyyy')}">01/01/2026</span>
+                                                <p class="mb-0"><strong th:text="${#numbers.formatDecimal(invoice.vatTotal, 1, 'POINT', 2, 'COMMA') + ' € IVA'}">0,00 € IVA</strong></p>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="expenses-pane" role="tabpanel" aria-labelledby="expenses-tab" tabindex="0">
+                                    <div th:if="${#lists.isEmpty(summary.expenses)}" class="text-muted">No hay gastos registrados en este trimestre.</div>
+                                    <div class="tax-detail-list" th:if="${!#lists.isEmpty(summary.expenses)}">
+                                        <article class="tax-detail-row" th:each="expense : ${summary.expenses}">
+                                            <div>
+                                                <a th:href="@{/expenses/{id}/edit(id=${expense.id})}" class="fw-semibold text-decoration-none" th:text="${expense.supplierName}">Proveedor</a>
+                                                <p class="small text-muted mb-0" th:text="${expense.category.label}">Categoría</p>
+                                            </div>
+                                            <div class="text-end">
+                                                <span class="small text-muted" th:text="${#temporals.format(expense.expenseDate, 'dd/MM/yyyy')}">01/01/2026</span>
+                                                <p class="mb-0"><strong th:text="${#numbers.formatDecimal(expense.vatAmount, 1, 'POINT', 2, 'COMMA') + ' € IVA'}">0,00 € IVA</strong></p>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.7/dist/js/bootstrap.bundle.min.js}" defer></script>
+<!-- ERP_V6_BODY_START -->
+<script th:src="@{/js/app.js(v=1)}" src="/js/app.js?v=1" defer></script>
+<!-- ERP_V6_BODY_END -->
+</body>
+</html>
