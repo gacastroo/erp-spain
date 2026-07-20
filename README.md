@@ -1,56 +1,51 @@
-# ERP Spain — Fase 1.11 Rendimiento, seguridad y PageSpeed
+# ERP Spain
 
-Esta versión optimiza el proyecto para mejorar rendimiento percibido, seguridad HTTP, estabilidad del dashboard y preparación para producción.
+ERP ligero para pymes españolas desarrollado con Spring Boot, Thymeleaf, Bootstrap 5, MySQL y Flyway.
 
-## Incluye
+## Requisitos
 
-- Recursos estáticos servidos en local mediante WebJars, sin depender de CDN externos para Bootstrap.
-- Caché de recursos estáticos y cadena de recursos preparada para versionado por contenido.
-- Compresión HTTP para HTML, CSS, JavaScript, JSON y SVG.
-- Perfil `prod` con caché de Thymeleaf activada, cookies seguras y caché larga para estáticos.
-- Cabeceras de seguridad reforzadas: CSP, HSTS, Referrer-Policy y Permissions-Policy.
-- Clave de remember-me configurable mediante variable de entorno.
-- Protección básica contra fuerza bruta en login por IP.
-- Configuración de errores para no exponer stacktraces ni detalles internos.
-- Ajustes HikariCP para conexiones MySQL más estables.
-- Ajustes Hibernate para batching e inserciones/actualizaciones ordenadas.
-- Dashboard live menos agresivo: evita petición inmediata extra en carga y refresca de forma más eficiente.
-- Nuevos índices de base de datos para dashboard, reportes, IVA, facturas, cobros y gastos.
-- Metadescripciones básicas en pantallas para mejorar auditorías generales.
+- Java 21
+- Maven 3.9 o superior
+- Docker Desktop, o una instalación local de MySQL 8
+
+## Estructura principal
+
+```text
+src/main/java/com/ivan/erp/       Código Java organizado por dominio
+src/main/resources/templates/     Vistas Thymeleaf
+src/main/resources/static/css/    Estilos globales
+src/main/resources/static/js/     JavaScript global
+src/main/resources/static/js/pages/ Scripts específicos de cada pantalla
+src/main/resources/db/migration/  Migraciones Flyway
+scripts/database/                 Utilidades SQL manuales
+```
 
 ## Arranque en desarrollo
 
 ```powershell
-cd C:\Users\guill\Desktop\ERP-SPAIN\erp-spain
+# Base de datos
+docker compose up -d
 
-Remove-Item -Recurse -Force .\target -ErrorAction SilentlyContinue
-
+# Aplicación
 $env:DB_USERNAME="root"
 $env:DB_PASSWORD="root"
-
-C:\tools\apache-maven-3.9.16\bin\mvn.cmd clean spring-boot:run
+mvn clean spring-boot:run
 ```
 
-## Arranque recomendado para probar rendimiento
+La aplicación queda disponible en `http://localhost:8080`.
 
-Para medir rendimiento de forma más realista, arranca con perfil de producción:
+## Perfil de producción
 
 ```powershell
-cd C:\Users\guill\Desktop\ERP-SPAIN\erp-spain
-
-Remove-Item -Recurse -Force .\target -ErrorAction SilentlyContinue
-
-$env:DB_USERNAME="root"
-$env:DB_PASSWORD="root"
 $env:SPRING_PROFILES_ACTIVE="prod"
-$env:THYMELEAF_CACHE="true"
-$env:STATIC_CACHE_MAX_AGE="365d"
+$env:DB_USERNAME="root"
+$env:DB_PASSWORD="cambia-esta-clave"
 $env:REMEMBER_ME_KEY="cambia-esta-clave-larga-en-produccion"
-
-C:\tools\apache-maven-3.9.16\bin\mvn.cmd clean spring-boot:run
+$env:SESSION_COOKIE_SECURE="true"
+mvn clean spring-boot:run
 ```
 
-## Variables útiles
+## Variables principales
 
 ```text
 DB_URL
@@ -68,24 +63,11 @@ DB_POOL_MAX_SIZE
 DB_POOL_MIN_IDLE
 ```
 
-## URLs principales
-
-```text
-http://localhost:8080/dashboard
-http://localhost:8080/clients
-http://localhost:8080/products
-http://localhost:8080/quotes
-http://localhost:8080/invoices
-http://localhost:8080/payments
-http://localhost:8080/expenses
-http://localhost:8080/reports
-http://localhost:8080/taxes
-http://localhost:8080/settings/company
-```
-
-## Usuario inicial
+## Usuario inicial de demostración
 
 ```text
 admin@erp.local
 Admin123!
 ```
+
+Cambia estas credenciales antes de utilizar el proyecto fuera de un entorno local.

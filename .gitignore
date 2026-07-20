@@ -1,29 +1,41 @@
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+# Build
+/target/
+*.class
+*.jar
 
-### IntelliJ IDEA ###
-.idea/
+# Automatic installers and local backups
+/.erp-v6-clean-backups/
+*.bak
+*.bak-*
+*.old
+*.orig
+*.rej
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*~
+
+# Local archives and exports
+*.zip
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# IDEs
+/.idea/
+/.vscode/
 *.iws
 *.iml
 *.ipr
-
-### Eclipse ###
-.apt_generated
 .classpath
-.factorypath
 .project
-.settings
-.springBeans
-.sts4-cache
+.settings/
+.sts4-cache/
 
-### VS Code ###
-.vscode/
-
-### OS ###
+# Operating system
 .DS_Store
 Thumbs.db
-
-### Env ###
-.env

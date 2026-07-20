@@ -54,6 +54,7 @@ spring:
 
 server:
   port: 8080
+  forward-headers-strategy: framework
   compression:
     enabled: true
     mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json,application/xml,image/svg+xml
@@ -63,7 +64,7 @@ server:
       timeout: 30m
       cookie:
         http-only: true
-        same-site: strict
+        same-site: lax
         secure: ${SESSION_COOKIE_SECURE:false}
   error:
     include-message: never

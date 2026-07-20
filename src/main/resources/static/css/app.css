@@ -1,1811 +1,3323 @@
+/* ERP Spain — estilos globales de la aplicación. */
 :root {
-    --app-bg: #f5f7fb;
-    --app-card-radius: 1rem;
-    --app-border: #e5e7eb;
-    --app-sidebar-width: 260px;
+  color-scheme: light;
+
+  --erp-bg: #f5f7fb;
+  --erp-surface: #ffffff;
+  --erp-surface-soft: #f8fafc;
+  --erp-surface-muted: #eef2f7;
+  --erp-surface-hover: #e9eef5;
+  --erp-surface-active: #e8e8ff;
+
+  --erp-text: #182033;
+  --erp-text-soft: #4f5d73;
+  --erp-text-muted: #77849a;
+  --erp-heading: #111827;
+
+  --erp-border: #dce3ed;
+  --erp-border-strong: #c7d1df;
+
+  --erp-primary: #5048df;
+  --erp-primary-hover: #4338ca;
+  --erp-primary-soft: #efefff;
+  --erp-primary-border: #c9c7ff;
+
+  --erp-success: #07865f;
+  --erp-success-hover: #066e4f;
+  --erp-success-soft: #e7f7f1;
+  --erp-success-border: #a8ddc9;
+
+  --erp-warning: #c66a09;
+  --erp-warning-hover: #a95305;
+  --erp-warning-soft: #fff3df;
+  --erp-warning-border: #f0c27e;
+
+  --erp-danger: #d43e58;
+  --erp-danger-hover: #b92743;
+  --erp-danger-soft: #feebef;
+  --erp-danger-border: #f3b1bd;
+
+  --erp-info: #2563d9;
+  --erp-info-hover: #1e4fb3;
+  --erp-info-soft: #eaf1ff;
+  --erp-info-border: #b8cdf8;
+
+  --erp-violet: #7448d8;
+  --erp-violet-soft: #f1ecff;
+  --erp-violet-border: #d3c4fb;
+
+  --erp-icon: #718199;
+  --erp-icon-hover: #52627a;
+  --erp-icon-active: #5048df;
+
+  --erp-shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.04);
+  --erp-shadow-sm: 0 4px 12px rgba(16, 24, 40, 0.06);
+  --erp-shadow-md: 0 12px 30px rgba(16, 24, 40, 0.08);
+
+  --erp-radius-xs: 6px;
+  --erp-radius-sm: 9px;
+  --erp-radius: 12px;
+  --erp-radius-lg: 16px;
+  --erp-sidebar-width: 268px;
+  --erp-header-height: 72px;
+  --erp-transition: 150ms ease;
+
+  /* Bootstrap se adapta a la paleta propia. */
+  --bs-body-bg: var(--erp-bg);
+  --bs-body-color: var(--erp-text);
+  --bs-emphasis-color: var(--erp-heading);
+  --bs-secondary-color: var(--erp-text-soft);
+  --bs-tertiary-color: var(--erp-text-muted);
+  --bs-secondary-bg: var(--erp-surface-muted);
+  --bs-tertiary-bg: var(--erp-surface-soft);
+  --bs-border-color: var(--erp-border);
+  --bs-primary: var(--erp-primary);
+  --bs-primary-rgb: 80, 72, 223;
+  --bs-success: var(--erp-success);
+  --bs-success-rgb: 7, 134, 95;
+  --bs-warning: var(--erp-warning);
+  --bs-warning-rgb: 198, 106, 9;
+  --bs-danger: var(--erp-danger);
+  --bs-danger-rgb: 212, 62, 88;
+  --bs-info: var(--erp-info);
+  --bs-info-rgb: 37, 99, 217;
+  --bs-link-color: var(--erp-primary);
+  --bs-link-hover-color: var(--erp-primary-hover);
+  --bs-focus-ring-color: rgba(80, 72, 223, 0.2);
 }
 
-* {
-    box-sizing: border-box;
+html[data-theme="dark"],
+html[data-bs-theme="dark"] {
+  color-scheme: dark;
+
+  --erp-bg: #0d1420;
+  --erp-surface: #121c2a;
+  --erp-surface-soft: #162131;
+  --erp-surface-muted: #1a2637;
+  --erp-surface-hover: #1c293a;
+  --erp-surface-active: #252649;
+
+  --erp-text: #edf2f8;
+  --erp-text-soft: #c3cedc;
+  --erp-text-muted: #93a1b5;
+  --erp-heading: #f7f9fc;
+
+  --erp-border: #29384c;
+  --erp-border-strong: #3b4b61;
+
+  --erp-primary: #817cf3;
+  --erp-primary-hover: #918cf5;
+  --erp-primary-soft: #262647;
+  --erp-primary-border: #4e4b80;
+
+  --erp-success: #39bb91;
+  --erp-success-hover: #4fc9a1;
+  --erp-success-soft: #17372f;
+  --erp-success-border: #2d6655;
+
+  --erp-warning: #e4a64c;
+  --erp-warning-hover: #edb661;
+  --erp-warning-soft: #3a2b17;
+  --erp-warning-border: #6c5126;
+
+  --erp-danger: #e16b80;
+  --erp-danger-hover: #ed7b8e;
+  --erp-danger-soft: #42202a;
+  --erp-danger-border: #743947;
+
+  --erp-info: #6f9cf2;
+  --erp-info-hover: #82aaf6;
+  --erp-info-soft: #1b2e4d;
+  --erp-info-border: #345584;
+
+  --erp-violet: #a78bfa;
+  --erp-violet-soft: #2c2448;
+  --erp-violet-border: #55447f;
+
+  --erp-icon: #9fb0c8;
+  --erp-icon-hover: #afbdd0;
+  --erp-icon-active: #bbb8ff;
+
+  --erp-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.22);
+  --erp-shadow-sm: 0 5px 16px rgba(0, 0, 0, 0.2);
+  --erp-shadow-md: 0 14px 34px rgba(0, 0, 0, 0.28);
+
+  --bs-body-bg: var(--erp-bg);
+  --bs-body-color: var(--erp-text);
+  --bs-emphasis-color: var(--erp-heading);
+  --bs-secondary-color: var(--erp-text-soft);
+  --bs-tertiary-color: var(--erp-text-muted);
+  --bs-secondary-bg: var(--erp-surface-muted);
+  --bs-tertiary-bg: var(--erp-surface-soft);
+  --bs-border-color: var(--erp-border);
+  --bs-link-color: #a9a5ff;
+  --bs-link-hover-color: #c0bdff;
+  --bs-focus-ring-color: rgba(129, 124, 243, 0.24);
+}
+
+/* ---------- Base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 html {
-    scroll-behavior: smooth;
+  min-width: 320px;
+  scroll-behavior: smooth;
+  background: var(--erp-bg);
 }
 
 body {
-    background: var(--app-bg);
-    color: #111827;
-    min-width: 320px;
+  min-width: 320px;
+  margin: 0;
+  color: var(--erp-text);
+  background: var(--erp-bg);
+  font-family: Inter, Aptos, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  color: #ffffff;
+  background: var(--erp-primary);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  color: var(--erp-heading);
+  font-weight: 720;
+  letter-spacing: -0.025em;
+}
+
+p,
+label,
+legend,
+dt,
+dd,
+li,
+th,
+td {
+  color: inherit;
 }
 
 a {
-    text-underline-offset: 0.18em;
+  color: var(--erp-primary);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
 }
 
-button,
-.form-control,
-.form-select,
-textarea,
-a.nav-link,
-.btn {
-    min-height: 44px;
+a:hover,
+a:focus-visible {
+  color: var(--erp-primary-hover);
 }
 
-.form-check-input {
-    min-height: auto;
-    width: 1rem;
-    height: 1rem;
-    margin-top: 0.25rem;
+.text-muted,
+.text-secondary,
+.form-text,
+small {
+  color: var(--erp-text-muted) !important;
 }
 
-.form-control,
-.btn {
-    border-radius: 0.75rem;
+.text-body,
+.text-body-emphasis,
+.text-dark,
+.text-black {
+  color: var(--erp-text) !important;
 }
 
-.form-control:focus,
-.btn:focus,
-.nav-link:focus {
-    outline: 3px solid rgba(13, 110, 253, 0.35);
-    outline-offset: 2px;
-    box-shadow: none;
+html[data-theme="dark"] .text-light,
+html[data-theme="dark"] .text-white {
+  color: var(--erp-text) !important;
 }
 
 .skip-link {
-    position: absolute;
-    top: -48px;
-    left: 1rem;
-    z-index: 9999;
-    background: #ffffff;
-    color: #0d6efd;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--app-border);
+  position: fixed;
+  left: 1rem;
+  top: -80px;
+  z-index: 3000;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--erp-border);
+  border-radius: var(--erp-radius-sm);
+  color: var(--erp-text);
+  background: var(--erp-surface);
+  box-shadow: var(--erp-shadow-md);
 }
 
 .skip-link:focus {
-    top: 1rem;
+  top: 1rem;
 }
 
-.auth-page {
-    background: #ffffff;
+/* ---------- Cabecera y marca ---------- */
+
+.app-page > header.navbar,
+.app-page .navbar.sticky-top,
+header.navbar {
+  min-height: var(--erp-header-height);
+  padding: 0.65rem 1rem;
+  border: 0 !important;
+  border-bottom: 1px solid var(--erp-border) !important;
+  color: var(--erp-text);
+  background: var(--erp-surface) !important;
+  box-shadow: var(--erp-shadow-xs);
 }
 
-.auth-card {
-    max-width: 460px;
-    background: #ffffff;
+.navbar-brand,
+.erp-v6-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.72rem;
+  min-width: 0;
+  color: var(--erp-heading) !important;
+  text-decoration: none !important;
 }
 
-.auth-side {
-    background:
-            linear-gradient(135deg, rgba(13, 110, 253, 0.92), rgba(33, 37, 41, 0.96)),
-            radial-gradient(circle at top left, rgba(255,255,255,0.2), transparent 30%);
+.erp-v6-mark {
+  display: inline-grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 1px solid var(--erp-primary-border);
+  border-radius: 11px;
+  color: var(--erp-primary);
+  background: var(--erp-primary-soft);
 }
 
-.app-page {
-    background: var(--app-bg);
+.erp-v6-mark svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
+
+.erp-v6-wordmark {
+  display: grid;
+  min-width: 0;
+  line-height: 1.04;
+}
+
+.erp-v6-wordmark strong {
+  overflow: hidden;
+  color: var(--erp-heading);
+  font-size: 1rem;
+  font-weight: 760;
+  letter-spacing: -0.03em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.erp-v6-wordmark small {
+  margin-top: 0.22rem;
+  color: var(--erp-text-muted) !important;
+  font-size: 0.625rem;
+  font-weight: 680;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.erp-v6-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.48rem;
+  min-height: 38px;
+  padding: 0.46rem 0.72rem;
+  border: 1px solid var(--erp-border);
+  border-radius: 999px;
+  color: var(--erp-text-soft);
+  background: var(--erp-surface-soft);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1;
+  box-shadow: none;
+  transition: color var(--erp-transition), border-color var(--erp-transition), background-color var(--erp-transition);
+}
+
+.erp-v6-theme-toggle:hover,
+.erp-v6-theme-toggle:focus-visible {
+  border-color: var(--erp-border-strong);
+  color: var(--erp-text);
+  background: var(--erp-surface-hover);
+}
+
+.erp-v6-theme-toggle:focus-visible {
+  outline: 3px solid var(--bs-focus-ring-color);
+  outline-offset: 2px;
+}
+
+.erp-v6-theme-toggle svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.erp-v6-user-chip,
+.erp-user-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 38px;
+  padding: 0.28rem 0.72rem 0.28rem 0.34rem;
+  border: 1px solid var(--erp-border);
+  border-radius: 999px;
+  color: var(--erp-text-soft);
+  background: var(--erp-surface);
+}
+
+.erp-user-avatar,
+.erp-v6-user-avatar {
+  display: grid;
+  width: 29px;
+  height: 29px;
+  place-items: center;
+  border-radius: 50%;
+  color: #ffffff;
+  background: var(--erp-primary);
+  font-size: 0.7rem;
+  font-weight: 750;
+}
+
+.navbar-toggler {
+  border: 1px solid var(--erp-border) !important;
+  color: var(--erp-text);
+  background: var(--erp-surface-soft) !important;
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 3px var(--bs-focus-ring-color) !important;
+}
+
+/* ---------- Sidebar ---------- */
 
 .app-sidebar {
-    min-height: calc(100vh - 57px);
-    background: #ffffff;
-    position: sticky;
-    top: 57px;
+  min-height: calc(100vh - var(--erp-header-height));
+  border: 0 !important;
+  border-right: 1px solid var(--erp-border) !important;
+  color: var(--erp-text);
+  background: var(--erp-surface);
+  box-shadow: none !important;
+}
+
+.app-sidebar > nav {
+  position: sticky;
+  top: var(--erp-header-height);
+  padding: 1.3rem 0.95rem 2.5rem !important;
+}
+
+.app-sidebar .nav,
+.offcanvas .nav {
+  display: flex;
+  gap: 0.18rem !important;
+}
+
+.erp-v6-nav-section {
+  display: block;
+  width: 100%;
+  margin: 1.38rem 0.78rem 0.48rem;
+  color: var(--erp-text-muted);
+  font-size: 0.59rem;
+  font-weight: 760;
+  letter-spacing: 0.145em;
+  line-height: 1.2;
+  list-style: none;
+  text-transform: uppercase;
+}
+
+.erp-v6-nav-section:first-child {
+  margin-top: 0.1rem;
+}
+
+.erp-v6-nav-item {
+  width: 100%;
+  margin: 0;
+  list-style: none;
+}
+
+.app-sidebar .nav-link,
+.offcanvas .nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.76rem;
+  min-height: 47px;
+  padding: 0.68rem 0.78rem;
+  border: 1px solid transparent;
+  border-radius: var(--erp-radius-sm);
+  color: var(--erp-text-soft);
+  background: transparent;
+  font-size: 0.855rem;
+  font-weight: 620;
+  text-decoration: none;
+  transition: color var(--erp-transition), border-color var(--erp-transition), background-color var(--erp-transition);
+}
+
+.app-sidebar .nav-link:hover,
+.app-sidebar .nav-link:focus-visible,
+.offcanvas .nav-link:hover,
+.offcanvas .nav-link:focus-visible {
+  border-color: var(--erp-border);
+  color: var(--erp-text);
+  background: var(--erp-surface-hover);
+}
+
+.app-sidebar .nav-link.active,
+.offcanvas .nav-link.active {
+  border-color: var(--erp-primary-border);
+  color: var(--erp-primary);
+  background: var(--erp-primary-soft);
+}
+
+.app-sidebar .nav-link.active::before,
+.offcanvas .nav-link.active::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--erp-primary);
+}
+
+.erp-v6-nav-icon,
+.erp-nav-icon {
+  display: inline-grid;
+  width: 23px;
+  height: 23px;
+  place-items: center;
+  flex: 0 0 auto;
+  color: var(--erp-icon);
+  transition: color var(--erp-transition);
+}
+
+.erp-v6-nav-icon svg,
+.erp-nav-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.app-sidebar .nav-link:hover .erp-v6-nav-icon,
+.app-sidebar .nav-link:hover .erp-nav-icon,
+.offcanvas .nav-link:hover .erp-v6-nav-icon,
+.offcanvas .nav-link:hover .erp-nav-icon {
+  color: var(--erp-icon-hover);
+}
+
+.app-sidebar .nav-link.active .erp-v6-nav-icon,
+.app-sidebar .nav-link.active .erp-nav-icon,
+.offcanvas .nav-link.active .erp-v6-nav-icon,
+.offcanvas .nav-link.active .erp-nav-icon {
+  color: var(--erp-icon-active);
+}
+
+.offcanvas {
+  color: var(--erp-text);
+  background: var(--erp-surface);
+}
+
+.offcanvas .offcanvas-header {
+  border-bottom: 1px solid var(--erp-border);
+}
+
+.offcanvas hr {
+  border-color: var(--erp-border);
+}
+
+html[data-theme="dark"] .offcanvas .btn-close {
+  filter: invert(1) grayscale(1);
+  opacity: 0.72;
+}
+
+/* ---------- Área principal ---------- */
+
+.app-page,
+.app-main {
+  color: var(--erp-text);
+  background: var(--erp-bg);
 }
 
 .app-main {
-    min-height: calc(100vh - 57px);
+  min-width: 0;
+  min-height: calc(100vh - var(--erp-header-height));
 }
 
-.nav-link {
-    border-radius: 0.75rem;
-    color: #374151;
-    font-weight: 500;
+.app-main > .container-fluid {
+  max-width: 1540px;
+  padding: 1.9rem 2rem 3rem !important;
 }
 
-.nav-link:hover {
-    background: #f3f4f6;
-    color: #0d6efd;
+.dashboard-header,
+.page-header {
+  margin-bottom: 1.45rem !important;
+  padding-bottom: 1.3rem;
+  border-bottom: 1px solid var(--erp-border);
 }
 
-.nav-link.active {
-    background: #e7f1ff;
-    color: #0d6efd;
+.app-main h1 {
+  color: var(--erp-heading);
+  font-size: clamp(1.7rem, 2.4vw, 2.35rem) !important;
+  font-weight: 760 !important;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
 }
 
-.nav-link.disabled {
-    color: #9ca3af;
+.app-main h2,
+.app-main h3,
+.app-main h4,
+.app-main h5,
+.app-main h6 {
+  color: var(--erp-heading);
+}
+
+/* ---------- Superficies, tarjetas y detalle ---------- */
+
+.card,
+.form-section,
+.summary-box,
+.quote-line-card,
+.mobile-list-card,
+.empty-state,
+.erp-panel,
+fieldset,
+.list-group,
+.accordion,
+.modal-content,
+.popover,
+.toast,
+.dropdown-menu,
+.table-responsive,
+.desktop-table-wrapper {
+  border-color: var(--erp-border) !important;
+  color: var(--erp-text);
+  background: var(--erp-surface) !important;
 }
 
 .card {
-    border: 1px solid var(--app-border);
-    border-radius: var(--app-card-radius);
-    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
+  border: 1px solid var(--erp-border) !important;
+  border-radius: var(--erp-radius) !important;
+  box-shadow: var(--erp-shadow-xs) !important;
+  transition: border-color var(--erp-transition), box-shadow var(--erp-transition);
 }
+
+.card:hover {
+  border-color: var(--erp-border-strong) !important;
+  box-shadow: var(--erp-shadow-sm) !important;
+}
+
+.card-header,
+.card-footer,
+.modal-header,
+.modal-footer,
+.accordion-header {
+  border-color: var(--erp-border) !important;
+  color: var(--erp-text);
+  background: var(--erp-surface-soft) !important;
+}
+
+.card-body,
+.modal-body,
+.accordion-body {
+  color: var(--erp-text);
+  background: transparent;
+}
+
+.bg-white,
+.bg-light,
+.bg-body,
+.bg-body-secondary,
+.bg-body-tertiary,
+.bg-transparent,
+.table-light,
+.table-light > * > *,
+.list-group-item-light {
+  color: var(--erp-text) !important;
+  background-color: var(--erp-surface-soft) !important;
+}
+
+html[data-theme="dark"] [style*="background: white" i],
+html[data-theme="dark"] [style*="background-color: white" i],
+html[data-theme="dark"] [style*="background:#fff" i],
+html[data-theme="dark"] [style*="background: #fff" i],
+html[data-theme="dark"] [style*="background-color:#fff" i],
+html[data-theme="dark"] [style*="background-color: #fff" i],
+html[data-theme="dark"] [style*="background:#ffffff" i],
+html[data-theme="dark"] [style*="background: #ffffff" i] {
+  color: var(--erp-text) !important;
+  background: var(--erp-surface) !important;
+}
+
+.border,
+.border-top,
+.border-bottom,
+.border-start,
+.border-end,
+hr {
+  border-color: var(--erp-border) !important;
+}
+
+.rounded,
+.rounded-3,
+.rounded-4 {
+  border-color: var(--erp-border);
+}
+
+.list-group-item {
+  border-color: var(--erp-border) !important;
+  color: var(--erp-text);
+  background: var(--erp-surface) !important;
+}
+
+.list-group-item:hover,
+.list-group-item:focus {
+  color: var(--erp-text);
+  background: var(--erp-surface-hover) !important;
+}
+
+.list-group-item.active {
+  border-color: var(--erp-primary-border) !important;
+  color: var(--erp-primary);
+  background: var(--erp-primary-soft) !important;
+}
+
+/* Fichas Ver cliente/producto/presupuesto/factura/gasto */
+.app-main dl,
+.app-main .row.g-0,
+.app-main .detail-grid,
+.app-main .detail-card,
+.app-main .invoice-detail,
+.app-main .quote-detail,
+.app-main .expense-detail {
+  color: var(--erp-text);
+}
+
+.app-main dt {
+  color: var(--erp-text-muted) !important;
+  font-size: 0.74rem;
+  font-weight: 720;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.app-main dd {
+  color: var(--erp-text) !important;
+}
+
+/* ---------- Dashboard y pendientes ---------- */
 
 .metric-card {
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+  min-height: 152px;
+  overflow: hidden;
 }
 
-.metric-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
+.metric-card .card-body {
+  padding: 1.18rem 1.25rem !important;
+}
+
+.metric-card .h4,
+.metric-card .h3,
+.metric-card strong {
+  color: var(--erp-heading);
+}
+
+.erp-metric-icon,
+.metric-icon {
+  display: inline-grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid var(--erp-primary-border);
+  border-radius: 9px;
+  color: var(--erp-primary);
+  background: var(--erp-primary-soft);
+}
+
+.erp-metric-icon svg,
+.metric-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.dashboard-pending-grid,
+.pending-grid,
+.erp-pending-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.dashboard-pending-item,
+.pending-item,
+.erp-pending-item {
+  position: relative;
+  display: flex;
+  min-height: 122px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 1.05rem 1rem 1.18rem;
+  border: 1px solid var(--erp-border) !important;
+  border-radius: var(--erp-radius-sm);
+  color: var(--erp-text);
+  background: var(--erp-surface-soft) !important;
+  box-shadow: none !important;
+}
+
+.dashboard-pending-item::before,
+.pending-item::before,
+.erp-pending-item::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 18px;
+  bottom: 18px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--erp-info);
+}
+
+.dashboard-pending-item:nth-child(2)::before,
+.pending-item:nth-child(2)::before,
+.erp-pending-item:nth-child(2)::before {
+  background: var(--erp-danger);
+}
+
+.dashboard-pending-item:nth-child(3)::before,
+.pending-item:nth-child(3)::before,
+.erp-pending-item:nth-child(3)::before {
+  background: var(--erp-warning);
+}
+
+.dashboard-pending-item:nth-child(4)::before,
+.pending-item:nth-child(4)::before,
+.erp-pending-item:nth-child(4)::before {
+  background: var(--erp-success);
+}
+
+.dashboard-pending-label,
+.pending-label,
+.erp-pending-label {
+  margin-bottom: 0.3rem;
+  color: var(--erp-text-muted) !important;
+  font-size: 0.69rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dashboard-pending-item strong,
+.pending-item strong,
+.erp-pending-item strong {
+  color: var(--erp-heading) !important;
+  font-size: 1.3rem;
+  font-weight: 760;
+  letter-spacing: -0.025em;
+}
+
+.dashboard-pending-subtitle,
+.pending-subtitle,
+.erp-pending-subtitle {
+  margin-top: 0.16rem;
+  color: var(--erp-text-muted) !important;
+  font-size: 0.73rem;
+}
+
+/* ---------- Botones ---------- */
+
+.btn {
+  min-height: 39px;
+  padding: 0.53rem 0.82rem;
+  border-radius: var(--erp-radius-sm) !important;
+  font-size: 0.81rem;
+  font-weight: 670 !important;
+  line-height: 1.15;
+  box-shadow: none !important;
+  transition: color var(--erp-transition), border-color var(--erp-transition), background-color var(--erp-transition);
+}
+
+.btn:hover,
+.btn:focus-visible {
+  transform: none !important;
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--bs-focus-ring-color);
+  outline-offset: 2px;
+}
+
+.btn svg,
+.btn i,
+.btn .erp-icon-inline {
+  color: inherit !important;
+  fill: none;
+  stroke: currentColor;
+}
+
+.btn:hover *,
+.btn:focus-visible * {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+.btn-primary,
+.bg-primary,
+.text-bg-primary {
+  border-color: var(--erp-primary) !important;
+  color: #ffffff !important;
+  background: var(--erp-primary) !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  border-color: var(--erp-primary-hover) !important;
+  color: #ffffff !important;
+  background: var(--erp-primary-hover) !important;
+}
+
+.btn-secondary {
+  border-color: var(--erp-border-strong) !important;
+  color: var(--erp-text-soft) !important;
+  background: var(--erp-surface-soft) !important;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+  border-color: var(--erp-border-strong) !important;
+  color: var(--erp-text) !important;
+  background: var(--erp-surface-hover) !important;
+}
+
+.btn-success {
+  border-color: var(--erp-success) !important;
+  color: #ffffff !important;
+  background: var(--erp-success) !important;
+}
+
+.btn-success:hover,
+.btn-success:focus-visible {
+  border-color: var(--erp-success-hover) !important;
+  color: #ffffff !important;
+  background: var(--erp-success-hover) !important;
+}
+
+.btn-warning {
+  border-color: var(--erp-warning) !important;
+  color: #ffffff !important;
+  background: var(--erp-warning) !important;
+}
+
+.btn-warning:hover,
+.btn-warning:focus-visible {
+  border-color: var(--erp-warning-hover) !important;
+  color: #ffffff !important;
+  background: var(--erp-warning-hover) !important;
+}
+
+.btn-danger {
+  border-color: var(--erp-danger) !important;
+  color: #ffffff !important;
+  background: var(--erp-danger) !important;
+}
+
+.btn-danger:hover,
+.btn-danger:focus-visible {
+  border-color: var(--erp-danger-hover) !important;
+  color: #ffffff !important;
+  background: var(--erp-danger-hover) !important;
+}
+
+.btn-info {
+  border-color: var(--erp-info) !important;
+  color: #ffffff !important;
+  background: var(--erp-info) !important;
+}
+
+.btn-info:hover,
+.btn-info:focus-visible {
+  border-color: var(--erp-info-hover) !important;
+  color: #ffffff !important;
+  background: var(--erp-info-hover) !important;
+}
+
+.btn-light,
+.btn-outline-secondary {
+  border-color: var(--erp-border) !important;
+  color: var(--erp-text-soft) !important;
+  background: var(--erp-surface) !important;
+}
+
+.btn-light:hover,
+.btn-light:focus-visible,
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus-visible {
+  border-color: var(--erp-border-strong) !important;
+  color: var(--erp-text) !important;
+  background: var(--erp-surface-hover) !important;
+}
+
+.btn-dark {
+  border-color: var(--erp-heading) !important;
+  color: var(--erp-surface) !important;
+  background: var(--erp-heading) !important;
+}
+
+.btn-outline-primary {
+  border-color: var(--erp-primary-border) !important;
+  color: var(--erp-primary) !important;
+  background: var(--erp-primary-soft) !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus-visible {
+  border-color: var(--erp-primary) !important;
+  color: var(--erp-primary-hover) !important;
+  background: var(--erp-surface-active) !important;
+}
+
+html[data-theme="dark"] .btn-outline-primary:hover,
+html[data-theme="dark"] .btn-outline-primary:focus-visible {
+  border-color: var(--erp-primary-border) !important;
+  color: #d7d5ff !important;
+  background: #2c2c50 !important;
+}
+
+.btn-outline-success {
+  border-color: var(--erp-success-border) !important;
+  color: var(--erp-success) !important;
+  background: var(--erp-success-soft) !important;
+}
+
+.btn-outline-success:hover,
+.btn-outline-success:focus-visible {
+  border-color: var(--erp-success) !important;
+  color: var(--erp-success-hover) !important;
+  background: var(--erp-success-soft) !important;
+}
+
+.btn-outline-warning {
+  border-color: var(--erp-warning-border) !important;
+  color: var(--erp-warning) !important;
+  background: var(--erp-warning-soft) !important;
+}
+
+.btn-outline-warning:hover,
+.btn-outline-warning:focus-visible {
+  border-color: var(--erp-warning) !important;
+  color: var(--erp-warning-hover) !important;
+  background: var(--erp-warning-soft) !important;
+}
+
+.btn-outline-danger {
+  border-color: var(--erp-danger-border) !important;
+  color: var(--erp-danger) !important;
+  background: var(--erp-danger-soft) !important;
+}
+
+.btn-outline-danger:hover,
+.btn-outline-danger:focus-visible {
+  border-color: var(--erp-danger) !important;
+  color: var(--erp-danger-hover) !important;
+  background: var(--erp-danger-soft) !important;
+}
+
+html[data-theme="dark"] .btn-outline-success:hover,
+html[data-theme="dark"] .btn-outline-warning:hover,
+html[data-theme="dark"] .btn-outline-danger:hover {
+  filter: brightness(1.05);
+}
+
+.btn-sm {
+  min-height: 34px;
+  padding: 0.4rem 0.66rem;
+  font-size: 0.75rem;
+}
+
+/* ---------- Formularios ---------- */
+
+.form-label,
+.col-form-label,
+fieldset legend {
+  margin-bottom: 0.4rem;
+  color: var(--erp-text-soft) !important;
+  font-size: 0.76rem;
+  font-weight: 680;
+}
+
+.form-control,
+.form-select,
+.input-group-text,
+textarea,
+input[type="date"],
+input[type="datetime-local"],
+input[type="time"],
+input[type="number"],
+input[type="search"] {
+  min-height: 42px;
+  border: 1px solid var(--erp-border-strong) !important;
+  border-radius: var(--erp-radius-sm) !important;
+  color: var(--erp-text) !important;
+  background-color: var(--erp-surface) !important;
+  font-size: 0.86rem;
+  box-shadow: none !important;
+}
+
+.input-group-text {
+  color: var(--erp-text-soft) !important;
+  background: var(--erp-surface-muted) !important;
+  font-weight: 620;
+}
+
+.form-control:hover,
+.form-select:hover,
+textarea:hover {
+  border-color: var(--erp-border-strong) !important;
+  color: var(--erp-text) !important;
+  background: var(--erp-surface-soft) !important;
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea:focus {
+  border-color: var(--erp-primary) !important;
+  color: var(--erp-text) !important;
+  background: var(--erp-surface) !important;
+  box-shadow: 0 0 0 3px var(--bs-focus-ring-color) !important;
+}
+
+.form-control::placeholder,
+textarea::placeholder {
+  color: var(--erp-text-muted) !important;
+  opacity: 0.78;
+}
+
+.form-control:disabled,
+.form-select:disabled,
+.form-control[readonly] {
+  color: var(--erp-text-muted) !important;
+  background: var(--erp-surface-muted) !important;
+  opacity: 1;
+}
+
+.form-select option,
+select option {
+  color: var(--erp-text) !important;
+  background: var(--erp-surface) !important;
+}
+
+.form-select option:checked,
+select option:checked {
+  color: #ffffff !important;
+  background: var(--erp-primary) !important;
+}
+
+html[data-theme="dark"] input[type="date"],
+html[data-theme="dark"] input[type="datetime-local"],
+html[data-theme="dark"] input[type="time"] {
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] input::-webkit-calendar-picker-indicator {
+  filter: invert(0.78);
+  opacity: 0.9;
+}
+
+.form-check-label {
+  color: var(--erp-text-soft) !important;
+}
+
+.form-check:hover .form-check-label,
+.form-check-label:hover {
+  color: var(--erp-text) !important;
+}
+
+.form-check-input {
+  border-color: var(--erp-border-strong) !important;
+  background-color: var(--erp-surface) !important;
+}
+
+.form-check-input:checked {
+  border-color: var(--erp-primary) !important;
+  background-color: var(--erp-primary) !important;
+}
+
+.form-check-input:focus {
+  border-color: var(--erp-primary) !important;
+  box-shadow: 0 0 0 3px var(--bs-focus-ring-color) !important;
+}
+
+.form-section,
+.summary-box,
+.tax-option,
+.selectable-option,
+.form-check-card {
+  padding: 1.15rem;
+  border: 1px solid var(--erp-border) !important;
+  border-radius: var(--erp-radius);
+  color: var(--erp-text) !important;
+  background: var(--erp-surface) !important;
+}
+
+.tax-option:hover,
+.selectable-option:hover,
+.form-check-card:hover {
+  border-color: var(--erp-primary-border) !important;
+  color: var(--erp-text) !important;
+  background: var(--erp-surface-hover) !important;
+}
+
+.was-validated .form-control:valid,
+.form-control.is-valid,
+.was-validated .form-select:valid,
+.form-select.is-valid {
+  border-color: var(--erp-success) !important;
+}
+
+.was-validated .form-control:invalid,
+.form-control.is-invalid,
+.was-validated .form-select:invalid,
+.form-select.is-invalid {
+  border-color: var(--erp-danger) !important;
+}
+
+.valid-feedback {
+  color: var(--erp-success) !important;
+}
+
+.invalid-feedback {
+  color: var(--erp-danger) !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--erp-text);
+  box-shadow: 0 0 0 1000px var(--erp-surface) inset !important;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* ---------- Tablas ---------- */
+
+.table-responsive,
+.desktop-table-wrapper {
+  overflow: hidden;
+  border: 1px solid var(--erp-border) !important;
+  border-radius: var(--erp-radius);
+  box-shadow: var(--erp-shadow-xs);
 }
 
 .table {
-    margin-bottom: 0;
+  --bs-table-color: var(--erp-text);
+  --bs-table-bg: transparent;
+  --bs-table-border-color: var(--erp-border);
+  --bs-table-striped-color: var(--erp-text);
+  --bs-table-striped-bg: var(--erp-surface-soft);
+  --bs-table-hover-color: var(--erp-text);
+  --bs-table-hover-bg: var(--erp-surface-hover);
+  width: 100%;
+  margin-bottom: 0;
+  color: var(--erp-text) !important;
+  background: var(--erp-surface) !important;
+  font-size: 0.82rem;
 }
 
-@media (max-width: 575.98px) {
-    .container-fluid {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-
-    .h3,
-    h1 {
-        font-size: 1.45rem;
-    }
-
-    .dashboard-actions {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .dashboard-actions .btn {
-        width: 100%;
-    }
-
-    .card-body {
-        padding: 1rem;
-    }
+.table > :not(caption) > * > * {
+  padding: 0.82rem 0.9rem;
+  border-bottom-color: var(--erp-border) !important;
+  color: var(--erp-text) !important;
+  background: transparent !important;
+  vertical-align: middle;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-        transition: none !important;
-        animation: none !important;
-    }
+.table thead th {
+  border-bottom: 1px solid var(--erp-border-strong) !important;
+  color: var(--erp-text-muted) !important;
+  background: var(--erp-surface-soft) !important;
+  font-size: 0.66rem;
+  font-weight: 760;
+  letter-spacing: 0.065em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.empty-state {
-    background: #ffffff;
+.table tbody tr:hover > * {
+  color: var(--erp-text) !important;
+  background: var(--erp-surface-hover) !important;
 }
 
-.text-uppercase {
-    letter-spacing: 0.04em;
+.table tbody tr:last-child > * {
+  border-bottom: 0 !important;
 }
 
-.client-actions {
-    display: inline-flex;
-    justify-content: flex-end;
-    align-items: stretch;
-    gap: 0.5rem;
-    white-space: nowrap;
-}
-
-.client-actions form {
-    display: flex;
-    margin: 0;
-}
-
-.client-actions .btn {
-    min-width: 6.75rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-@media (max-width: 767.98px) {
-    .client-actions {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .client-actions .btn,
-    .client-actions form {
-        width: 100%;
-    }
-}
-
-/* Tablas de gestión - clientes, productos y servicios */
 .clients-table,
-.products-table {
-    border-collapse: separate;
-    border-spacing: 0;
-}
-
-.clients-table thead th,
-.products-table thead th {
-    padding: 1rem 1.25rem;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: #6b7280;
-    border-bottom: 1px solid var(--app-border);
-    white-space: nowrap;
+.products-table,
+.quotes-table,
+.invoices-table,
+.payments-table,
+.expenses-table,
+.quote-lines-table,
+.invoice-lines-table {
+  width: 100%;
+  color: var(--erp-text);
+  background: var(--erp-surface);
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .clients-table tbody td,
-.products-table tbody td {
-    padding: 1rem 1.25rem;
-    vertical-align: middle;
-    border-top: 1px solid #eef0f4;
-    border-bottom: 1px solid #eef0f4;
+.products-table tbody td,
+.quotes-table tbody td,
+.invoices-table tbody td,
+.payments-table tbody td,
+.expenses-table tbody td,
+.quote-lines-table tbody td,
+.invoice-lines-table tbody td {
+  border-color: var(--erp-border) !important;
+  color: var(--erp-text) !important;
+  background: var(--erp-surface) !important;
 }
 
-.clients-table tbody td:first-child,
-.products-table tbody td:first-child {
-    border-left: 1px solid #eef0f4;
-    border-top-left-radius: 0.85rem;
-    border-bottom-left-radius: 0.85rem;
+.clients-table tbody tr:hover td,
+.products-table tbody tr:hover td,
+.quotes-table tbody tr:hover td,
+.invoices-table tbody tr:hover td,
+.payments-table tbody tr:hover td,
+.expenses-table tbody tr:hover td {
+  color: var(--erp-text) !important;
+  background: var(--erp-surface-hover) !important;
 }
 
-.clients-table tbody td:last-child,
-.products-table tbody td:last-child {
-    border-right: 1px solid #eef0f4;
-    border-top-right-radius: 0.85rem;
-    border-bottom-right-radius: 0.85rem;
+.mobile-list-card,
+.quote-line-card {
+  padding: 1rem;
+  border: 1px solid var(--erp-border) !important;
+  border-radius: var(--erp-radius);
+  background: var(--erp-surface) !important;
+  box-shadow: var(--erp-shadow-xs);
 }
 
-.product-actions {
-    display: inline-flex;
-    justify-content: flex-end;
-    align-items: stretch;
-    gap: 0.5rem;
-    white-space: nowrap;
-}
-
-.product-actions form {
-    display: flex;
-    margin: 0;
-}
-
-.product-actions .btn {
-    min-width: 6.75rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-@media (max-width: 767.98px) {
-    .clients-table thead th,
-    .products-table thead th {
-        padding: 0.85rem 1rem;
-    }
-
-    .clients-table tbody td,
-    .products-table tbody td {
-        padding: 1rem;
-    }
-
-    .product-actions {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .product-actions .btn,
-    .product-actions form {
-        width: 100%;
-    }
-}
-
-
-/* Responsive profesional para listados ERP: sin scroll horizontal en móvil */
-.erp-table {
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: separate;
-    border-spacing: 0;
-}
-
-.erp-table th,
-.erp-table td {
-    overflow: hidden;
-    vertical-align: middle;
-}
-
-.cell-ellipsis {
-    display: block;
-    max-width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.cell-clamp-2 {
-    display: -webkit-box;
-    max-width: 100%;
-    overflow: hidden;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    line-height: 1.35;
-}
-
-.min-w-0 {
-    min-width: 0;
-}
-
-/* Quitar esquinas redondeadas superiores en clientes y productos */
-.clients-table tbody td:first-child,
-.products-table tbody td:first-child {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0.85rem;
-}
-
-.clients-table tbody td:last-child,
-.products-table tbody td:last-child {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0.85rem;
-}
-
-.client-actions,
-.product-actions {
-    display: inline-flex;
-    justify-content: flex-end;
-    align-items: stretch;
-    gap: 0.5rem;
-    white-space: nowrap;
-}
-
-.client-actions form,
-.product-actions form {
-    display: flex;
-    margin: 0;
-}
-
-.client-actions .btn,
-.product-actions .btn {
-    min-width: 6.75rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.mobile-list-card {
-    border: 1px solid var(--app-border);
-    border-radius: 1rem;
-    background: #ffffff;
-    padding: 1rem;
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
-}
-
-.mobile-list-card + .mobile-list-card {
-    margin-top: 1rem;
+.mobile-list-card + .mobile-list-card,
+.quote-line-card + .quote-line-card {
+  margin-top: 0.85rem;
 }
 
 .mobile-list-title {
-    font-weight: 700;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+  color: var(--erp-heading) !important;
+  font-weight: 710;
 }
 
 .mobile-list-description {
-    color: #6b7280;
-    font-size: 0.9rem;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-
-.mobile-actions {
-    display: grid;
-    gap: 0.5rem;
-}
-
-.mobile-actions .btn,
-.mobile-actions form,
-.mobile-actions form .btn {
-    width: 100%;
-}
-
-.mobile-card-list dd {
-    min-width: 0;
-    margin-bottom: 0.35rem;
-}
-
-.mobile-card-list dt {
-    margin-bottom: 0.35rem;
-}
-
-@media (max-width: 767.98px) {
-    .desktop-table-wrapper {
-        display: none;
-    }
-}
-
-@media (min-width: 768px) {
-    .mobile-card-list {
-        display: none;
-    }
-}
-
-
-/* Corrección desktop: acciones visibles y tabla solo cuando hay espacio real */
-.clients-table th:last-child,
-.clients-table td:last-child,
-.products-table th:last-child,
-.products-table td:last-child {
-    overflow: visible;
-    width: 300px;
-    min-width: 300px;
-}
-
-.clients-table td:last-child,
-.products-table td:last-child {
-    position: relative;
-    z-index: 2;
-}
-
-.client-actions,
-.product-actions {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 0.5rem;
-    width: 100%;
-}
-
-.client-actions form,
-.product-actions form {
-    flex: 0 0 auto;
-    margin: 0;
-}
-
-.client-actions .btn,
-.client-actions form .btn,
-.product-actions .btn,
-.product-actions form .btn {
-    min-width: 92px;
-    white-space: nowrap;
-}
-
-/* Mantener cards en móvil y tablet; tabla solo en escritorio amplio */
-@media (max-width: 1199.98px) {
-    .desktop-table-wrapper {
-        display: none !important;
-    }
-
-    .mobile-card-list {
-        display: block !important;
-    }
-}
-
-@media (min-width: 1200px) {
-    .desktop-table-wrapper {
-        display: block !important;
-    }
-
-    .mobile-card-list {
-        display: none !important;
-    }
-}
-
-/* Presupuestos */
-.quotes-table,
-.quote-lines-table {
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: separate;
-    border-spacing: 0;
-}
-
-.quotes-table thead th,
-.quote-lines-table thead th {
-    padding: 1rem 1.25rem;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: #6b7280;
-    border-bottom: 1px solid var(--app-border);
-    white-space: nowrap;
-}
-
-.quotes-table tbody td,
-.quote-lines-table tbody td {
-    padding: 1rem 1.25rem;
-    vertical-align: middle;
-    border-top: 1px solid #eef0f4;
-    border-bottom: 1px solid #eef0f4;
-    overflow: hidden;
-}
-
-.quotes-table tbody td:first-child,
-.quote-lines-table tbody td:first-child {
-    border-left: 1px solid #eef0f4;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0.85rem;
-}
-
-.quotes-table tbody td:last-child,
-.quote-lines-table tbody td:last-child {
-    border-right: 1px solid #eef0f4;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0.85rem;
-}
-
-.quotes-table td:last-child {
-    overflow: visible;
-}
-
-.quote-actions {
-    gap: 0.5rem;
-}
-
-.quote-actions .btn,
-.quote-actions form,
-.quote-actions form .btn {
-    min-width: 82px;
-    white-space: nowrap;
-}
-
-.quote-line-card {
-    border: 1px solid var(--app-border);
-    border-radius: 1rem;
-    background: #ffffff;
-    padding: 1rem;
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
-}
-
-.quote-line-card + .quote-line-card {
-    margin-top: 1rem;
-}
-
-.summary-box {
-    border: 1px solid var(--app-border);
-    border-radius: 1rem;
-    background: #f9fafb;
-    padding: 1rem;
-}
-
-.quote-totals {
-    max-width: 420px;
-}
-
-@media (max-width: 991.98px) {
-    .quote-actions .btn,
-    .quote-actions form,
-    .quote-actions form .btn {
-        width: 100%;
-        min-width: 100%;
-    }
-
-    .quote-totals {
-        max-width: 100%;
-    }
-}
-
-
-/* Correcciones de alineación de acciones en tablas */
-.actions-column-title,
-.actions-column-cell,
-.clients-table th:last-child,
-.clients-table td:last-child,
-.products-table th:last-child,
-.products-table td:last-child,
-.quotes-table th:last-child,
-.quotes-table td:last-child {
-    text-align: center !important;
-}
-
-.client-actions,
-.product-actions,
-.quote-actions {
-    justify-content: center !important;
-}
-
-.clients-table th:last-child,
-.products-table th:last-child,
-.quotes-table th:last-child {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-}
-
-/* Validación visual de fechas en presupuestos */
-#validUntil.is-invalid {
-    padding-right: calc(1.5em + 0.75rem);
-}
-
-
-/* Fix definitivo: acciones de presupuestos visibles y alineadas en escritorio */
-.quotes-table th:last-child,
-.quotes-table td:last-child {
-    width: 300px;
-    min-width: 300px;
-    max-width: 300px;
-    overflow: visible !important;
-    text-align: center !important;
-}
-
-.quote-actions {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 0.5rem;
-    min-width: 276px;
-}
-
-.quote-actions .btn,
-.quote-actions form .btn {
-    min-width: 82px;
-    white-space: nowrap;
-    flex: 0 0 auto;
-}
-
-@media (max-width: 991.98px) {
-    .quote-actions {
-        min-width: 0;
-    }
-}
-
-
-/* Estados de presupuestos: más notorios y legibles */
-.quote-status {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    min-width: 92px;
-    padding: 0.38rem 0.75rem;
-    border: 1px solid transparent;
-    border-radius: 999px;
-    font-size: 0.78rem;
-    font-weight: 800;
-    letter-spacing: 0.02em;
-    line-height: 1;
-    text-transform: uppercase;
-    white-space: nowrap;
-}
-
-.quote-status::before {
-    content: "";
-    width: 0.55rem;
-    height: 0.55rem;
-    border-radius: 999px;
-    background: currentColor;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.75);
-}
-
-.quote-status-lg {
-    min-width: 122px;
-    padding: 0.55rem 0.9rem;
-    font-size: 0.88rem;
-}
-
-.quote-status--draft {
-    color: #92400e;
-    background: #fffbeb;
-    border-color: #f59e0b;
-}
-
-.quote-status--sent {
-    color: #1d4ed8;
-    background: #eff6ff;
-    border-color: #60a5fa;
-}
-
-.quote-status--accepted {
-    color: #166534;
-    background: #ecfdf5;
-    border-color: #22c55e;
-}
-
-.quote-status--rejected {
-    color: #991b1b;
-    background: #fef2f2;
-    border-color: #ef4444;
-}
-
-.status-summary-card {
-    border-width: 2px;
-    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
-}
-
-.status-summary-card--draft {
-    border-color: #f59e0b;
-    background: linear-gradient(135deg, #fffbeb, #ffffff 62%);
-}
-
-.status-summary-card--sent {
-    border-color: #60a5fa;
-    background: linear-gradient(135deg, #eff6ff, #ffffff 62%);
-}
-
-.status-summary-card--accepted {
-    border-color: #22c55e;
-    background: linear-gradient(135deg, #ecfdf5, #ffffff 62%);
-}
-
-.status-summary-card--rejected {
-    border-color: #ef4444;
-    background: linear-gradient(135deg, #fef2f2, #ffffff 62%);
-}
-
-.status-change-section {
-    border-left-width: 0.45rem;
-}
-
-.status-change-section--draft {
-    border-left-color: #f59e0b;
-}
-
-.status-change-section--sent {
-    border-left-color: #60a5fa;
-}
-
-.status-change-section--accepted {
-    border-left-color: #22c55e;
-}
-
-.status-change-section--rejected {
-    border-left-color: #ef4444;
-}
-
-@media (max-width: 575.98px) {
-    .quote-status {
-        min-width: auto;
-        max-width: 100%;
-        padding: 0.34rem 0.65rem;
-        font-size: 0.72rem;
-    }
-}
-
-
-/* Corrección final: acciones de presupuestos alineadas y estado sin punto */
-.quotes-table th:last-child,
-.quotes-table td:last-child {
-    width: 320px !important;
-    min-width: 320px !important;
-    max-width: 320px !important;
-    padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important;
-    overflow: visible !important;
-    text-align: center !important;
-}
-
-.quote-actions {
-    display: grid !important;
-    grid-template-columns: 78px 84px 92px;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 0.45rem !important;
-    min-width: 0 !important;
-    width: 100%;
-}
-
-.quote-actions .btn,
-.quote-actions form .btn {
-    width: 100%;
-    min-width: 0 !important;
-    white-space: nowrap;
-}
-
-.quote-status {
-    gap: 0;
-}
-
-.quote-status::before {
-    content: none !important;
-    display: none !important;
-}
-
-@media (max-width: 1199.98px) {
-    .quote-actions {
-        display: grid !important;
-        grid-template-columns: 1fr;
-        gap: 0.5rem !important;
-    }
-
-    .quote-actions .btn,
-    .quote-actions form,
-    .quote-actions form .btn {
-        width: 100%;
-    }
-}
-
-/* Corrección definitiva: Ver / Editar / Eliminar misma altura y misma línea en escritorio */
-@media (min-width: 992px) {
-    .quotes-table th:last-child,
-    .quotes-table td:last-child {
-        width: 340px !important;
-        min-width: 340px !important;
-        max-width: 340px !important;
-        text-align: center !important;
-        overflow: visible !important;
-        vertical-align: middle !important;
-    }
-
-    .quotes-table .quote-actions {
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        justify-content: center !important;
-        align-items: stretch !important;
-        gap: 0.5rem !important;
-        width: 100% !important;
-        min-width: 0 !important;
-    }
-
-    .quotes-table .quote-actions > .btn {
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        height: 36px !important;
-        min-height: 36px !important;
-        max-height: 36px !important;
-        padding: 0.375rem 0.7rem !important;
-        line-height: 1 !important;
-        margin: 0 !important;
-        white-space: nowrap !important;
-        flex: 0 0 auto !important;
-    }
-
-    .quotes-table .quote-actions > .btn:nth-child(1) {
-        width: 72px !important;
-        min-width: 72px !important;
-    }
-
-    .quotes-table .quote-actions > .btn:nth-child(2) {
-        width: 84px !important;
-        min-width: 84px !important;
-    }
-
-    .quotes-table .quote-actions > .btn:nth-child(3) {
-        width: 96px !important;
-        min-width: 96px !important;
-    }
-}
-
-/* En móvil/tablet siguen mandando las cards, no la tabla */
-@media (max-width: 991.98px) {
-    .desktop-table-wrapper {
-        display: none !important;
-    }
-
-    .mobile-card-list {
-        display: block !important;
-    }
-}
-
-@media (min-width: 992px) {
-    .desktop-table-wrapper {
-        display: block !important;
-    }
-
-    .mobile-card-list {
-        display: none !important;
-    }
-}
-
-
-/* ==========================================================
-   Normalización visual de listados ERP
-   Clientes / Productos / Presupuestos deben tener el mismo peso visual.
-   ========================================================== */
-:root {
-    --list-cell-padding-y: 0.9rem;
-    --list-cell-padding-x: 1rem;
-    --list-action-column: 340px;
-    --list-action-button-width: 104px;
-    --list-action-button-height: 38px;
-}
-
-.desktop-table-wrapper .erp-table {
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: separate;
-    border-spacing: 0;
-    font-size: 0.94rem;
-}
-
-.desktop-table-wrapper .erp-table thead th {
-    height: 52px;
-    padding: 0.85rem var(--list-cell-padding-x) !important;
-    vertical-align: middle;
-    font-size: 0.78rem;
-    line-height: 1.2;
-}
-
-.desktop-table-wrapper .erp-table tbody tr {
-    min-height: 72px;
-}
-
-.desktop-table-wrapper .erp-table tbody td {
-    padding: var(--list-cell-padding-y) var(--list-cell-padding-x) !important;
-    vertical-align: middle !important;
-    line-height: 1.35;
-}
-
-/* En escritorio, las descripciones no deben agrandar unas tablas más que otras. */
-.desktop-table-wrapper .cell-clamp-2 {
-    -webkit-line-clamp: 1;
-}
-
-.desktop-table-wrapper .small {
-    font-size: 0.82rem;
-    line-height: 1.35;
-}
-
-/* Misma anchura y comportamiento para la columna Acciones en todos los listados. */
-.clients-table th:last-child,
-.clients-table td:last-child,
-.products-table th:last-child,
-.products-table td:last-child,
-.quotes-table th:last-child,
-.quotes-table td:last-child {
-    width: var(--list-action-column) !important;
-    min-width: var(--list-action-column) !important;
-    max-width: var(--list-action-column) !important;
-    padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important;
-    overflow: visible !important;
-    text-align: center !important;
-    vertical-align: middle !important;
+  color: var(--erp-text-muted) !important;
 }
 
 .client-actions,
 .product-actions,
 .quote-actions,
-.quotes-table .quote-actions {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 0.5rem !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    white-space: nowrap !important;
+.invoice-actions,
+.payment-actions,
+.expense-actions {
+  display: flex !important;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
 }
 
 .client-actions form,
 .product-actions form,
-.quote-actions form {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex: 0 0 auto !important;
-    margin: 0 !important;
+.quote-actions form,
+.invoice-actions form,
+.payment-actions form,
+.expense-actions form {
+  display: flex;
+  margin: 0;
 }
 
-.client-actions .btn,
-.client-actions form .btn,
-.product-actions .btn,
-.product-actions form .btn,
-.quote-actions .btn,
-.quote-actions form .btn,
-.quotes-table .quote-actions > .btn {
-    width: var(--list-action-button-width) !important;
-    min-width: var(--list-action-button-width) !important;
-    max-width: var(--list-action-button-width) !important;
-    height: var(--list-action-button-height) !important;
-    min-height: var(--list-action-button-height) !important;
-    max-height: var(--list-action-button-height) !important;
-    padding: 0.35rem 0.55rem !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    line-height: 1 !important;
-    margin: 0 !important;
-    font-size: 0.84rem;
-    white-space: nowrap !important;
-    flex: 0 0 auto !important;
+/* ---------- Badges y estados ---------- */
+
+.badge,
+.invoice-status,
+.payment-status,
+.quote-status,
+.payment-method,
+.product-status,
+.client-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 27px;
+  padding: 0.28rem 0.58rem;
+  border: 1px solid var(--erp-border);
+  border-radius: 999px;
+  color: var(--erp-text-soft);
+  background: var(--erp-surface-muted) !important;
+  font-size: 0.68rem;
+  font-weight: 720;
+  letter-spacing: 0.015em;
+  line-height: 1;
+  white-space: nowrap;
 }
 
-/* Estado de presupuestos con presencia, pero sin agrandar la fila. */
-.quote-status {
-    min-width: 98px;
-    height: 30px;
-    min-height: 30px;
-    padding: 0.32rem 0.65rem;
-    font-size: 0.72rem;
-    line-height: 1;
+.text-bg-primary,
+.badge.bg-primary,
+.badge.text-bg-primary,
+.payment-method {
+  border-color: var(--erp-info-border) !important;
+  color: var(--erp-info) !important;
+  background: var(--erp-info-soft) !important;
 }
 
-/* Misma escala para tarjetas móviles de todos los listados. */
-.mobile-card-list {
-    padding: 1rem !important;
+.text-bg-success,
+.badge.bg-success,
+.badge.text-bg-success,
+.invoice-status--paid,
+.payment-status--paid,
+.quote-status--accepted,
+.product-status--active,
+.client-status--active {
+  border-color: var(--erp-success-border) !important;
+  color: var(--erp-success) !important;
+  background: var(--erp-success-soft) !important;
 }
 
-.mobile-list-card {
-    padding: 1rem !important;
+.text-bg-warning,
+.badge.bg-warning,
+.badge.text-bg-warning,
+.invoice-status--draft,
+.invoice-status--pending,
+.payment-status--pending,
+.quote-status--draft,
+.quote-status--pending {
+  border-color: var(--erp-warning-border) !important;
+  color: var(--erp-warning) !important;
+  background: var(--erp-warning-soft) !important;
 }
 
-.mobile-list-title {
-    font-size: 0.98rem;
-    line-height: 1.3;
+.text-bg-danger,
+.badge.bg-danger,
+.badge.text-bg-danger,
+.invoice-status--overdue,
+.invoice-status--cancelled,
+.payment-status--failed,
+.quote-status--rejected,
+.product-status--inactive,
+.client-status--inactive {
+  border-color: var(--erp-danger-border) !important;
+  color: var(--erp-danger) !important;
+  background: var(--erp-danger-soft) !important;
 }
 
-.mobile-actions .btn,
-.mobile-actions form,
-.mobile-actions form .btn {
-    min-height: 42px;
+.text-bg-info,
+.badge.bg-info,
+.badge.text-bg-info,
+.invoice-status--issued,
+.invoice-status--sent,
+.quote-status--sent {
+  border-color: var(--erp-info-border) !important;
+  color: var(--erp-info) !important;
+  background: var(--erp-info-soft) !important;
 }
 
-/* Patrón único: cards hasta tablet, tabla solo en escritorio amplio. */
+.text-bg-secondary,
+.badge.bg-secondary,
+.badge.text-bg-secondary {
+  border-color: var(--erp-border) !important;
+  color: var(--erp-text-soft) !important;
+  background: var(--erp-surface-muted) !important;
+}
+
+/* ---------- Dropdowns, pestañas, paginación y modales ---------- */
+
+.dropdown-menu {
+  padding: 0.42rem;
+  border: 1px solid var(--erp-border) !important;
+  border-radius: var(--erp-radius);
+  background: var(--erp-surface) !important;
+  box-shadow: var(--erp-shadow-md);
+}
+
+.dropdown-item {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  border-radius: var(--erp-radius-xs);
+  color: var(--erp-text-soft) !important;
+  background: transparent !important;
+  font-size: 0.82rem;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus,
+.dropdown-item.active,
+.dropdown-item:active {
+  color: var(--erp-text) !important;
+  background: var(--erp-surface-hover) !important;
+}
+
+.dropdown-item:hover *,
+.dropdown-item:focus *,
+.dropdown-item.active * {
+  color: inherit !important;
+}
+
+.nav-tabs {
+  border-color: var(--erp-border) !important;
+}
+
+.nav-tabs .nav-link {
+  color: var(--erp-text-muted);
+}
+
+.nav-tabs .nav-link:hover {
+  border-color: var(--erp-border) var(--erp-border) transparent;
+  color: var(--erp-text);
+  background: var(--erp-surface-hover);
+}
+
+.nav-tabs .nav-link.active {
+  border-color: var(--erp-border) var(--erp-border) var(--erp-surface) !important;
+  color: var(--erp-primary) !important;
+  background: var(--erp-surface) !important;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: var(--erp-primary) !important;
+  background: var(--erp-primary-soft) !important;
+}
+
+.pagination {
+  gap: 0.3rem;
+}
+
+.page-link {
+  min-width: 36px;
+  border: 1px solid var(--erp-border) !important;
+  border-radius: var(--erp-radius-sm) !important;
+  color: var(--erp-text-soft) !important;
+  background: var(--erp-surface) !important;
+}
+
+.page-link:hover,
+.page-link:focus {
+  border-color: var(--erp-border-strong) !important;
+  color: var(--erp-text) !important;
+  background: var(--erp-surface-hover) !important;
+  box-shadow: none;
+}
+
+.page-item.active .page-link {
+  border-color: var(--erp-primary) !important;
+  color: #ffffff !important;
+  background: var(--erp-primary) !important;
+}
+
+.modal-content {
+  border: 1px solid var(--erp-border) !important;
+  border-radius: var(--erp-radius-lg) !important;
+  color: var(--erp-text);
+  background: var(--erp-surface) !important;
+  box-shadow: var(--erp-shadow-md);
+}
+
+html[data-theme="dark"] .modal-backdrop.show {
+  opacity: 0.72;
+}
+
+.accordion-item,
+.accordion-button {
+  border-color: var(--erp-border) !important;
+  color: var(--erp-text) !important;
+  background: var(--erp-surface) !important;
+}
+
+.accordion-button:not(.collapsed) {
+  color: var(--erp-primary) !important;
+  background: var(--erp-primary-soft) !important;
+  box-shadow: inset 0 -1px 0 var(--erp-border) !important;
+}
+
+.accordion-button:focus {
+  border-color: var(--erp-primary) !important;
+  box-shadow: 0 0 0 3px var(--bs-focus-ring-color) !important;
+}
+
+html[data-theme="dark"] .accordion-button::after {
+  filter: invert(0.82);
+}
+
+/* ---------- Alertas ---------- */
+
+.alert {
+  border: 1px solid var(--erp-border) !important;
+  border-radius: var(--erp-radius-sm) !important;
+  color: var(--erp-text);
+  background: var(--erp-surface-soft);
+}
+
+.alert-primary,
+.alert-info {
+  border-color: var(--erp-info-border) !important;
+  color: var(--erp-info) !important;
+  background: var(--erp-info-soft) !important;
+}
+
+.alert-success {
+  border-color: var(--erp-success-border) !important;
+  color: var(--erp-success) !important;
+  background: var(--erp-success-soft) !important;
+}
+
+.alert-warning {
+  border-color: var(--erp-warning-border) !important;
+  color: var(--erp-warning) !important;
+  background: var(--erp-warning-soft) !important;
+}
+
+.alert-danger {
+  border-color: var(--erp-danger-border) !important;
+  color: var(--erp-danger) !important;
+  background: var(--erp-danger-soft) !important;
+}
+
+.alert .alert-link {
+  color: inherit !important;
+}
+
+/* ---------- Login ---------- */
+
+.auth-page {
+  min-height: 100vh;
+  color: var(--erp-text);
+  background: var(--erp-bg) !important;
+}
+
+.auth-card {
+  width: min(100%, 460px);
+  padding: 2.15rem;
+  border: 1px solid var(--erp-border);
+  border-radius: var(--erp-radius-lg);
+  color: var(--erp-text);
+  background: var(--erp-surface) !important;
+  box-shadow: var(--erp-shadow-md);
+}
+
+.auth-card h1,
+.auth-card h2 {
+  color: var(--erp-heading);
+}
+
+.auth-side {
+  position: relative;
+  overflow: hidden;
+  border-right: 1px solid var(--erp-border);
+  color: var(--erp-text);
+  background: var(--erp-surface-soft) !important;
+}
+
+.auth-side::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: var(--erp-primary);
+}
+
+.auth-side::after {
+  content: none !important;
+}
+
+.auth-side h1,
+.auth-side h2,
+.auth-side p {
+  color: var(--erp-heading);
+}
+/* ---------- Utilidades y correcciones de contraste ---------- */
+
+.text-primary,
+.link-primary {
+  color: var(--erp-primary) !important;
+}
+
+.text-success,
+.link-success {
+  color: var(--erp-success) !important;
+}
+
+.text-warning,
+.link-warning {
+  color: var(--erp-warning) !important;
+}
+
+.text-danger,
+.link-danger {
+  color: var(--erp-danger) !important;
+}
+
+.text-info,
+.link-info {
+  color: var(--erp-info) !important;
+}
+
+.border-primary {
+  border-color: var(--erp-primary) !important;
+}
+
+.border-success {
+  border-color: var(--erp-success) !important;
+}
+
+.border-warning {
+  border-color: var(--erp-warning) !important;
+}
+
+.border-danger {
+  border-color: var(--erp-danger) !important;
+}
+
+.border-info {
+  border-color: var(--erp-info) !important;
+}
+
+.progress {
+  background: var(--erp-surface-muted) !important;
+}
+
+.progress-bar {
+  background: var(--erp-primary) !important;
+}
+
+.tooltip-inner {
+  color: var(--erp-surface);
+  background: var(--erp-heading);
+}
+
+.erp-v6-force-surface {
+  border-color: var(--erp-border) !important;
+  color: var(--erp-text) !important;
+  background: var(--erp-surface) !important;
+}
+
+.erp-v6-force-soft-surface {
+  border-color: var(--erp-border) !important;
+  color: var(--erp-text) !important;
+  background: var(--erp-surface-soft) !important;
+}
+
+/* ---------- Responsive ---------- */
+
 @media (max-width: 1199.98px) {
-    .desktop-table-wrapper {
-        display: none !important;
-    }
+  .dashboard-pending-grid,
+  .pending-grid,
+  .erp-pending-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 
-    .mobile-card-list {
-        display: block !important;
-    }
+  .desktop-table-wrapper {
+    display: none !important;
+  }
+
+  .mobile-card-list {
+    display: block !important;
+  }
 }
 
 @media (min-width: 1200px) {
-    .desktop-table-wrapper {
-        display: block !important;
-    }
+  .desktop-table-wrapper {
+    display: block !important;
+  }
 
-    .mobile-card-list {
-        display: none !important;
-    }
+  .mobile-card-list {
+    display: none !important;
+  }
 }
 
-/* ==========================================================
-   Fix final responsive: acciones alineadas en cards móviles
-   Aplica a Clientes, Productos y Presupuestos.
-   ========================================================== */
-.mobile-actions {
+@media (max-width: 991.98px) {
+  .app-main > .container-fluid {
+    padding: 1.45rem 1.2rem 2.5rem !important;
+  }
+
+  .auth-side {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  :root {
+    --erp-header-height: 64px;
+  }
+
+  .app-main > .container-fluid {
+    padding: 1.1rem 0.85rem 2rem !important;
+  }
+
+  .dashboard-pending-grid,
+  .pending-grid,
+  .erp-pending-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .erp-v6-theme-toggle span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .erp-v6-theme-toggle {
+    width: 38px;
+    padding-inline: 0;
+  }
+
+  .client-actions,
+  .product-actions,
+  .quote-actions,
+  .invoice-actions,
+  .payment-actions,
+  .expense-actions,
+  .mobile-actions {
     display: grid !important;
     grid-template-columns: 1fr !important;
-    gap: 0.5rem !important;
-    width: 100% !important;
-    align-items: stretch !important;
-}
-
-.mobile-actions > a.btn,
-.mobile-actions > button.btn,
-.mobile-actions > form,
-.mobile-actions > form > button.btn {
-    width: 100% !important;
-    min-width: 100% !important;
-    max-width: 100% !important;
-    height: 44px !important;
-    min-height: 44px !important;
-    max-height: 44px !important;
-    margin: 0 !important;
-}
-
-.mobile-actions > a.btn,
-.mobile-actions > button.btn,
-.mobile-actions > form > button.btn {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0.5rem 0.75rem !important;
-    line-height: 1 !important;
-    font-size: 0.875rem !important;
-    white-space: nowrap !important;
-    border-radius: 0.75rem !important;
-}
-
-.mobile-actions > form {
-    display: block !important;
-    padding: 0 !important;
-}
-
-.mobile-actions > form > input[type="hidden"] {
-    display: none !important;
-}
-
-@media (min-width: 576px) and (max-width: 1199.98px) {
-    .mobile-actions {
-        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    }
-
-    .mobile-actions > a.btn,
-    .mobile-actions > button.btn,
-    .mobile-actions > form,
-    .mobile-actions > form > button.btn {
-        min-width: 0 !important;
-        max-width: 100% !important;
-    }
-}
-
-/* ==========================================================
-   Fase 1.5 - Facturas
-   Listados y estados alineados con Clientes/Productos/Presupuestos.
-   ========================================================== */
-.invoices-table th:last-child,
-.invoices-table td:last-child {
-    width: var(--list-action-column) !important;
-    min-width: var(--list-action-column) !important;
-    max-width: var(--list-action-column) !important;
-    padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important;
-    overflow: visible !important;
-    text-align: center !important;
-    vertical-align: middle !important;
-}
-
-.invoice-actions {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 0.5rem !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    white-space: nowrap !important;
-}
-
-.invoice-actions form {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex: 0 0 auto !important;
-    margin: 0 !important;
-}
-
-.invoice-actions .btn,
-.invoice-actions form .btn {
-    width: var(--list-action-button-width) !important;
-    min-width: var(--list-action-button-width) !important;
-    max-width: var(--list-action-button-width) !important;
-    height: var(--list-action-button-height) !important;
-    min-height: var(--list-action-button-height) !important;
-    max-height: var(--list-action-button-height) !important;
-    padding: 0.35rem 0.55rem !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    line-height: 1 !important;
-    margin: 0 !important;
-    font-size: 0.84rem;
-    white-space: nowrap !important;
-    flex: 0 0 auto !important;
-}
-
-.invoice-status {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 98px;
-    height: 30px;
-    min-height: 30px;
-    padding: 0.32rem 0.65rem;
-    border-radius: 999px;
-    font-size: 0.72rem;
-    line-height: 1;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-}
-
-.invoice-status-lg {
-    min-width: 120px;
-    height: 36px;
-    font-size: 0.82rem;
-}
-
-.invoice-status--draft {
-    color: #92400e;
-    background: #fef3c7;
-    border: 1px solid #fde68a;
-}
-
-.invoice-status--issued {
-    color: #1d4ed8;
-    background: #dbeafe;
-    border: 1px solid #bfdbfe;
-}
-
-.invoice-status--sent {
-    color: #3730a3;
-    background: #e0e7ff;
-    border: 1px solid #c7d2fe;
-}
-
-.invoice-status--paid {
-    color: #166534;
-    background: #dcfce7;
-    border: 1px solid #bbf7d0;
-}
-
-.invoice-status--overdue {
-    color: #991b1b;
-    background: #fee2e2;
-    border: 1px solid #fecaca;
-}
-
-.invoice-status--cancelled {
-    color: #374151;
-    background: #f3f4f6;
-    border: 1px solid #e5e7eb;
-}
-
-.invoice-status-card,
-.invoice-status-section {
-    border-left-width: 5px;
-}
-
-.invoice-status-card--draft,
-.invoice-status-section--draft {
-    border-left-color: #f59e0b;
-}
-
-.invoice-status-card--issued,
-.invoice-status-section--issued {
-    border-left-color: #3b82f6;
-}
-
-.invoice-status-card--sent,
-.invoice-status-section--sent {
-    border-left-color: #6366f1;
-}
-
-.invoice-status-card--paid,
-.invoice-status-section--paid {
-    border-left-color: #22c55e;
-}
-
-.invoice-status-card--overdue,
-.invoice-status-section--overdue {
-    border-left-color: #ef4444;
-}
-
-.invoice-status-card--cancelled,
-.invoice-status-section--cancelled {
-    border-left-color: #6b7280;
-}
-
-/* ==========================================================
-   Fase 1.5 - Corrección vínculo presupuesto/factura
-   Estados más sencillos y acciones protegidas.
-   ========================================================== */
-.detail-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
     width: 100%;
-}
+  }
 
-.detail-actions .btn {
-    min-height: 42px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-}
-
-.linked-document-notice {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
-    border: 1px solid #dbeafe;
-    border-left: 5px solid #3b82f6;
-    border-radius: 0.85rem;
-    background: #eff6ff;
-}
-
-.status-button-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.65rem;
-}
-
-.status-button-grid form {
-    min-width: 0;
-}
-
-.status-action-btn {
-    width: 100%;
-    min-height: 44px;
-    border-radius: 999px;
-    font-weight: 700;
-    line-height: 1;
-    opacity: 0.82;
-}
-
-.status-action-btn:hover,
-.status-action-btn:focus {
-    opacity: 1;
-}
-
-.status-action-btn--active,
-.status-action-btn:disabled {
-    opacity: 1;
-    box-shadow: inset 0 0 0 2px rgba(17, 24, 39, 0.18);
-    cursor: default;
-}
-
-.quote-actions .btn.disabled,
-.mobile-actions .btn.disabled,
-.detail-actions .btn.disabled {
-    pointer-events: none;
-    opacity: 0.78;
-}
-
-@media (min-width: 576px) {
-    .status-button-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media (min-width: 992px) {
-    .detail-actions {
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: center;
-        width: auto;
-    }
-
-    .linked-document-notice {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .status-button-grid {
-        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    }
-}
-
-/* ==========================================================
-   Fase 1.6 - Cobros
-   ========================================================== */
-.payments-table th:last-child,
-.payments-table td:last-child {
-    width: var(--list-action-column) !important;
-    min-width: var(--list-action-column) !important;
-    max-width: var(--list-action-column) !important;
-    padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important;
-    overflow: visible !important;
-    text-align: center !important;
-    vertical-align: middle !important;
-}
-
-.payment-actions {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 0.5rem !important;
+  .client-actions .btn,
+  .product-actions .btn,
+  .quote-actions .btn,
+  .invoice-actions .btn,
+  .payment-actions .btn,
+  .expense-actions .btn,
+  .mobile-actions .btn,
+  .mobile-actions form,
+  .mobile-actions form .btn {
     width: 100% !important;
-    min-width: 0 !important;
-    white-space: nowrap !important;
-}
-
-.payment-actions form {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex: 0 0 auto !important;
-    margin: 0 !important;
-}
-
-.payment-actions .btn,
-.payment-actions form .btn {
-    width: var(--list-action-button-width) !important;
-    min-width: var(--list-action-button-width) !important;
-    max-width: var(--list-action-button-width) !important;
-    height: var(--list-action-button-height) !important;
-    min-height: var(--list-action-button-height) !important;
-    max-height: var(--list-action-button-height) !important;
-    padding: 0.35rem 0.55rem !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    line-height: 1 !important;
-    margin: 0 !important;
-    font-size: 0.84rem;
-    white-space: nowrap !important;
-    flex: 0 0 auto !important;
-}
-
-.payment-method {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 92px;
-    min-height: 30px;
-    padding: 0.32rem 0.65rem;
-    border-radius: 999px;
-    font-size: 0.72rem;
-    line-height: 1;
-    font-weight: 700;
-    color: #075985;
-    background: #e0f2fe;
-    border: 1px solid #bae6fd;
-    white-space: nowrap;
-}
-
-.payment-summary-card {
-    height: 100%;
-    padding: 1rem;
-    border: 1px solid var(--app-border);
-    border-radius: 1rem;
-    background: #ffffff;
-}
-
-.payment-summary-card--paid {
-    border-left: 5px solid #22c55e;
-    background: #f0fdf4;
-}
-
-.payment-summary-card--pending {
-    border-left: 5px solid #f59e0b;
-    background: #fffbeb;
-}
-
-.invoice-payments-table {
-    font-size: 0.94rem;
-}
-
-.invoice-payments-table th,
-.invoice-payments-table td {
-    padding: 0.85rem 1rem !important;
-}
-
-/* Reportes */
-.report-export-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.65rem;
-}
-
-.report-export-actions .btn {
-    min-width: 150px;
-}
-
-.report-table-wrapper {
-    max-height: 440px;
-    overflow: auto;
-}
-
-.report-table {
-    table-layout: fixed;
-    margin-bottom: 0;
-}
-
-.report-table thead th {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    background: #ffffff;
-    padding: 0.85rem 1rem;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: #6b7280;
-    border-bottom: 1px solid var(--app-border);
-    white-space: nowrap;
-}
-
-.report-table tbody td {
-    padding: 0.85rem 1rem;
-    vertical-align: middle;
-    border-bottom: 1px solid #eef0f4;
-}
-
-@media (max-width: 767.98px) {
-    .report-export-actions {
-        width: 100%;
-        display: grid;
-        grid-template-columns: 1fr;
-    }
-
-    .report-export-actions .btn {
-        width: 100%;
-        min-width: 100%;
-    }
-
-    .report-table-wrapper {
-        max-height: none;
-    }
-}
-
-/* ==========================================================
-   Fase 1.8 - Gastos y dashboard operativo
-   ========================================================== */
-.expenses-table th:last-child,
-.expenses-table td:last-child {
-    width: var(--list-action-column) !important;
-    min-width: var(--list-action-column) !important;
-    max-width: var(--list-action-column) !important;
-    padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important;
-    overflow: visible !important;
-    text-align: center !important;
-    vertical-align: middle !important;
-}
-
-.expense-actions {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 0.5rem !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    white-space: nowrap !important;
-}
-
-.expense-actions .btn,
-.expense-actions form .btn {
-    width: var(--list-action-button-width) !important;
-    min-width: var(--list-action-button-width) !important;
-    max-width: var(--list-action-button-width) !important;
-    height: var(--list-action-button-height) !important;
-    min-height: var(--list-action-button-height) !important;
-    max-height: var(--list-action-button-height) !important;
-    padding: 0.35rem 0.55rem !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    line-height: 1 !important;
-    margin: 0 !important;
-    font-size: 0.84rem;
-    white-space: nowrap !important;
-    flex: 0 0 auto !important;
-}
-
-.expense-status,
-.expense-category {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 92px;
-    min-height: 30px;
-    padding: 0.32rem 0.65rem;
-    border-radius: 999px;
-    font-size: 0.72rem;
-    line-height: 1;
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-.expense-status--paid {
-    color: #166534;
-    background: #dcfce7;
-    border: 1px solid #bbf7d0;
-}
-
-.expense-status--pending {
-    color: #92400e;
-    background: #fef3c7;
-    border: 1px solid #fde68a;
-}
-
-.expense-category {
-    color: #374151;
-    background: #f3f4f6;
-    border: 1px solid #e5e7eb;
-}
-
-.dashboard-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.65rem;
-}
-
-.dashboard-actions .btn {
-    min-width: 145px;
-}
-
-.dashboard-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-}
-
-.dashboard-list-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.85rem 0;
-    border-bottom: 1px solid #eef0f4;
-}
-
-.dashboard-list-row:last-child {
-    border-bottom: 0;
-}
-
-.dashboard-list-row .text-end {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.45rem;
-}
-
-.dashboard-list-row .invoice-status,
-.dashboard-list-row .payment-method,
-.dashboard-list-row .expense-status {
-    margin-top: 0 !important;
-}
-
-.dashboard-list-row:hover,
-.dashboard-list-row:focus {
-    background: #f9fafb;
-    border-radius: 0.75rem;
-    padding-left: 0.65rem;
-    padding-right: 0.65rem;
-}
-
-.dashboard-alert-card {
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.dashboard-alert-card:hover,
-.dashboard-alert-card:focus {
-    transform: translateY(-2px);
-    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
-}
-
-.dashboard-result-positive {
-    border-left: 5px solid #22c55e;
-}
-
-.dashboard-result-negative {
-    border-left: 5px solid #ef4444;
-}
-
-@media (max-width: 767.98px) {
-    .dashboard-actions {
-        display: grid;
-        grid-template-columns: 1fr;
-        width: 100%;
-    }
-
-    .dashboard-actions .btn {
-        width: 100%;
-        min-width: 100%;
-    }
-
-    .dashboard-list-row {
-        align-items: flex-start;
-    }
-}
-
-.tax-rate-list,
-.tax-detail-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-}
-
-.tax-rate-row,
-.tax-detail-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.85rem 0;
-    border-bottom: 1px solid #eef0f4;
-}
-
-.tax-rate-row:last-child,
-.tax-detail-row:last-child {
-    border-bottom: 0;
-}
-
-.tax-rate-row:hover,
-.tax-detail-row:hover {
-    background: #f9fafb;
-    border-radius: 0.75rem;
-    padding-left: 0.65rem;
-    padding-right: 0.65rem;
+  }
 }
 
 @media (max-width: 575.98px) {
-    .tax-rate-row,
-    .tax-detail-row {
-        align-items: flex-start;
-    }
+  .erp-v6-wordmark small {
+    display: none;
+  }
+
+  .auth-card {
+    padding: 1.4rem;
+    border-radius: var(--erp-radius);
+    box-shadow: var(--erp-shadow-sm);
+  }
 }
 
-.dashboard-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
-.dashboard-refresh-note {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    flex-shrink: 0;
-    padding: 0.45rem 0.7rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 999px;
-    color: #4b5563;
-    background: #ffffff;
-    font-size: 0.875rem;
+/* Los navegadores que permiten tematizar las opciones nativas usarán este hover. */
+.form-select option:hover,
+select option:hover {
+  color: var(--erp-text) !important;
+  background: var(--erp-surface-hover) !important;
 }
 
-.dashboard-refresh-dot {
-    width: 0.55rem;
-    height: 0.55rem;
-    border-radius: 999px;
-    background: #22c55e;
-    box-shadow: 0 0 0 0.22rem rgba(34, 197, 94, 0.14);
-}
 
-.dashboard-card-link {
-    display: block;
-}
+/* =========================================================
+   Prisma V6.1 — compatibilidad Bootstrap y contraste final
+   ========================================================= */
 
-.dashboard-pending-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.75rem;
-}
-
-.dashboard-pending-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    min-height: 64px;
-    padding: 0.85rem 1rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 1rem;
-    background: #ffffff;
-    transition: box-shadow 0.15s ease, transform 0.15s ease;
+.app-main .text-reset,
+.app-main .text-body,
+.app-main .text-body-secondary,
+.app-main .text-body-tertiary,
+.app-main .text-body-emphasis {
+  color: inherit !important;
 }
 
 .dashboard-pending-item:hover,
-.dashboard-pending-item:focus {
-    transform: translateY(-1px);
-    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+.dashboard-pending-item:focus-visible,
+.pending-item:hover,
+.pending-item:focus-visible,
+.erp-pending-item:hover,
+.erp-pending-item:focus-visible {
+  border-color: var(--erp-border-strong) !important;
+  color: var(--erp-text) !important;
+  background: var(--erp-surface-hover) !important;
+  outline: none;
 }
 
-.dashboard-pending-item--danger {
-    border-color: #fecaca;
-    background: #fef2f2;
+html[data-theme="dark"] .dashboard-pending-item,
+html[data-theme="dark"] .pending-item,
+html[data-theme="dark"] .erp-pending-item {
+  background: #141f2e !important;
 }
 
-.dashboard-pending-label {
-    color: #6b7280;
-    font-size: 0.92rem;
+html[data-theme="dark"] .dashboard-pending-item:hover,
+html[data-theme="dark"] .dashboard-pending-item:focus-visible,
+html[data-theme="dark"] .pending-item:hover,
+html[data-theme="dark"] .pending-item:focus-visible,
+html[data-theme="dark"] .erp-pending-item:hover,
+html[data-theme="dark"] .erp-pending-item:focus-visible {
+  border-color: #3a4a60 !important;
+  background: #1a2738 !important;
 }
 
-.dashboard-pending-subtitle {
-    color: #6b7280;
-    font-size: 0.82rem;
-    white-space: nowrap;
+html[data-theme="dark"] .app-main .card-body,
+html[data-theme="dark"] .app-main .card-header,
+html[data-theme="dark"] .app-main .card-footer,
+html[data-theme="dark"] .app-main .form-section,
+html[data-theme="dark"] .app-main .summary-box,
+html[data-theme="dark"] .app-main .quote-line-card,
+html[data-theme="dark"] .app-main .mobile-list-card,
+html[data-theme="dark"] .app-main .detail-card,
+html[data-theme="dark"] .app-main fieldset,
+html[data-theme="dark"] .app-main .list-group-item {
+  border-color: var(--erp-border) !important;
+  color: var(--erp-text) !important;
 }
 
-@media (max-width: 1199.98px) {
-    .dashboard-pending-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+html[data-theme="dark"] .app-main .bg-white,
+html[data-theme="dark"] .app-main .bg-light,
+html[data-theme="dark"] .app-main .bg-body,
+html[data-theme="dark"] .app-main .bg-body-secondary,
+html[data-theme="dark"] .app-main .bg-body-tertiary,
+html[data-theme="dark"] .app-main .table-light,
+html[data-theme="dark"] .app-main .table-light > * > * {
+  color: var(--erp-text) !important;
+  background-color: var(--erp-surface-soft) !important;
+}
+
+/* =========================================================
+   Prisma V6.2 — filas del dashboard y estados compactos
+   ========================================================= */
+
+/* Las filas de Últimas facturas/cobros/gastos quedan alineadas y respiradas. */
+.dashboard-list {
+  display: grid;
+  gap: 0;
+}
+
+.dashboard-list-row {
+  display: flex !important;
+  min-width: 0;
+  min-height: 68px;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 1rem !important;
+  padding: 0.78rem 0.15rem !important;
+  border-bottom: 1px solid var(--erp-border) !important;
+  border-color: var(--erp-border) !important;
+  border-radius: 0 !important;
+  color: var(--erp-text) !important;
+  background: transparent !important;
+}
+
+.dashboard-list-row:last-child {
+  border-bottom: 0 !important;
+}
+
+.dashboard-list-row:hover,
+.dashboard-list-row:focus-visible {
+  color: var(--erp-text) !important;
+  background: var(--erp-surface-hover) !important;
+  outline: none;
+}
+
+/* Identificador y cliente/fecha en dos líneas para evitar amontonamientos. */
+.dashboard-list-row > .min-w-0 {
+  display: grid;
+  min-width: 0;
+  flex: 1 1 auto;
+  gap: 0.16rem;
+}
+
+.dashboard-list-row > .min-w-0 > span {
+  display: block;
+  min-width: 0;
+}
+
+/* El total y el estado quedan en la misma línea con separación fija. */
+.dashboard-list-row > .text-end.flex-shrink-0 {
+  display: flex !important;
+  min-width: max-content;
+  flex: 0 0 auto;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 0.68rem !important;
+  text-align: right !important;
+  white-space: nowrap;
+}
+
+.dashboard-list-row > .text-end.flex-shrink-0 > .fw-semibold {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 !important;
+  color: var(--erp-heading) !important;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.dashboard-list-row .invoice-status,
+.dashboard-list-row .payment-status,
+.dashboard-list-row .quote-status,
+.dashboard-list-row .payment-method,
+.dashboard-list-row .expense-status,
+.dashboard-list-row .badge {
+  margin-top: 0 !important;
+  flex: 0 0 auto;
+}
+
+/* Unifica también los estados de gastos, que antes quedaban como texto plano. */
+.badge,
+.invoice-status,
+.payment-status,
+.quote-status,
+.payment-method,
+.expense-status,
+.product-status,
+.client-status {
+  min-width: 0;
+  min-height: 28px;
+  padding: 0.32rem 0.65rem;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 999px;
+  line-height: 1;
+  box-shadow: none !important;
+  transform: none !important;
+  white-space: nowrap;
+}
+
+.expense-status--paid {
+  border-color: var(--erp-success-border) !important;
+  color: var(--erp-success) !important;
+  background: var(--erp-success-soft) !important;
+}
+
+.expense-status--pending {
+  border-color: var(--erp-warning-border) !important;
+  color: var(--erp-warning) !important;
+  background: var(--erp-warning-soft) !important;
+}
+
+/* Los estados informativos no cambian de color al pasar por la fila. */
+.dashboard-list-row:hover .invoice-status,
+.dashboard-list-row:hover .payment-status,
+.dashboard-list-row:hover .quote-status,
+.dashboard-list-row:hover .payment-method,
+.dashboard-list-row:hover .expense-status,
+.dashboard-list-row:hover .badge,
+.dashboard-list-row:focus-visible .invoice-status,
+.dashboard-list-row:focus-visible .payment-status,
+.dashboard-list-row:focus-visible .quote-status,
+.dashboard-list-row:focus-visible .payment-method,
+.dashboard-list-row:focus-visible .expense-status,
+.dashboard-list-row:focus-visible .badge {
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+/* En las leyendas verticales los estados se mantienen compactos y uniformes. */
+.invoice-status + .invoice-status,
+.payment-status + .payment-status,
+.quote-status + .quote-status,
+.expense-status + .expense-status {
+  margin-top: 0.35rem;
+}
+
+@media (max-width: 575.98px) {
+  .dashboard-list-row {
+    min-height: 0;
+    align-items: flex-start !important;
+    gap: 0.65rem !important;
+    padding-block: 0.82rem !important;
+  }
+
+  .dashboard-list-row > .text-end.flex-shrink-0 {
+    align-items: flex-end !important;
+    flex-direction: column !important;
+    gap: 0.38rem !important;
+  }
+}
+
+/* =========================================================
+   Prisma V6.3 — corrección visual de tipo y estados apilados
+   ========================================================= */
+
+/* 1) Columna TIPO de productos: texto claro y pastilla más definida */
+.products-table tbody td:nth-child(3) .badge,
+.products-table tbody td:nth-child(3) .product-type,
+.products-table tbody td:nth-child(3) .service-type,
+.products-table tbody td:nth-child(3) .text-bg-light,
+.products-table tbody td:nth-child(3) .bg-light,
+.products-table tbody td:nth-child(3) [class*="type-pill"],
+.products-table tbody td:nth-child(3) [class*="product-type"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 94px;
+  min-height: 30px;
+  padding: 0.34rem 0.76rem !important;
+  border: 1px solid rgba(123, 160, 225, 0.26) !important;
+  border-radius: 999px !important;
+  color: #f2f7ff !important;
+  background: rgba(74, 103, 154, 0.18) !important;
+  font-size: 0.73rem !important;
+  font-weight: 740 !important;
+  line-height: 1 !important;
+  letter-spacing: 0.01em;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] .products-table tbody td:nth-child(3) .badge,
+html[data-theme="light"] .products-table tbody td:nth-child(3) .product-type,
+html[data-theme="light"] .products-table tbody td:nth-child(3) .service-type,
+html[data-theme="light"] .products-table tbody td:nth-child(3) [class*="type-pill"],
+html[data-theme="light"] .products-table tbody td:nth-child(3) [class*="product-type"] {
+  color: #eef4ff !important;
+  background: #486aa4 !important;
+  border-color: #5679b5 !important;
+}
+
+/* 2) Mejora visual de los estados apilados en ver/editar factura y presupuesto */
+.app-main .btn-group-vertical {
+  gap: 0.46rem;
+  align-items: flex-start;
+}
+
+.app-main .btn-group-vertical > .btn,
+.app-main .invoice-status:has(+ .invoice-status),
+.app-main .invoice-status + .invoice-status,
+.app-main .quote-status:has(+ .quote-status),
+.app-main .quote-status + .quote-status,
+.app-main .expense-status:has(+ .expense-status),
+.app-main .expense-status + .expense-status {
+  min-width: 104px;
+  min-height: 38px;
+  justify-content: flex-start !important;
+  padding: 0.58rem 0.9rem !important;
+  border-radius: 14px !important;
+  font-size: 0.79rem !important;
+  font-weight: 760 !important;
+  letter-spacing: 0.01em;
+  box-shadow: 0 10px 26px rgba(2, 10, 26, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.app-main .invoice-status + .invoice-status,
+.app-main .quote-status + .quote-status,
+.app-main .expense-status + .expense-status {
+  margin-top: 0.44rem;
+}
+
+/* El estado actual y las leyendas fuera de tablas quedan algo más refinados */
+.app-main .summary-box .invoice-status,
+.app-main .summary-box .quote-status,
+.app-main .summary-box .expense-status,
+.app-main .detail-card .invoice-status,
+.app-main .detail-card .quote-status,
+.app-main .detail-card .expense-status,
+.app-main .form-section .invoice-status,
+.app-main .form-section .quote-status,
+.app-main .form-section .expense-status {
+  min-height: 34px;
+  padding: 0.44rem 0.82rem;
+  border-radius: 13px;
+  font-size: 0.76rem;
+  font-weight: 740;
+}
+
+/* 3) En tablas y listas compactas se mantiene un tamaño contenido */
+.table .invoice-status,
+.table .payment-status,
+.table .quote-status,
+.table .expense-status,
+.table .product-status,
+.table .client-status,
+.table .badge,
+.dashboard-list-row .invoice-status,
+.dashboard-list-row .payment-status,
+.dashboard-list-row .quote-status,
+.dashboard-list-row .payment-method,
+.dashboard-list-row .expense-status,
+.dashboard-list-row .badge {
+  min-width: 0;
+  min-height: 28px;
+  padding: 0.32rem 0.65rem !important;
+  border-radius: 999px !important;
+  font-size: 0.71rem !important;
+  box-shadow: none !important;
+}
+
+/* 4) Botones de estado apilados: hover más limpio */
+.app-main .btn-group-vertical > .btn:hover,
+.app-main .btn-group-vertical > .btn:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(2, 10, 26, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+html[data-theme="dark"] .app-main .btn-group-vertical > .btn,
+html[data-theme="dark"] .app-main .invoice-status:has(+ .invoice-status),
+html[data-theme="dark"] .app-main .invoice-status + .invoice-status,
+html[data-theme="dark"] .app-main .quote-status:has(+ .quote-status),
+html[data-theme="dark"] .app-main .quote-status + .quote-status,
+html[data-theme="dark"] .app-main .expense-status:has(+ .expense-status),
+html[data-theme="dark"] .app-main .expense-status + .expense-status {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* =========================================================
+   ESTADOS Â· CONTROL CONSOLIDADO
+   ========================================================= */
+
+.erp-status-control {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.erp-status-control__title {
+  margin: 0 0 0.72rem;
+  color: var(--erp-text-soft) !important;
+  font-size: 0.72rem;
+  font-weight: 780;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Sin recuadro exterior. */
+.erp-status-tabs {
+  display: flex !important;
+  width: 100%;
+  flex-flow: row wrap !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  gap: 0.62rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.erp-status-tabs > .erp-status-tab-host,
+.erp-status-tabs > form.erp-status-tab-host {
+  display: block !important;
+  width: auto !important;
+  min-width: 0 !important;
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.erp-status-tabs .erp-status-tab {
+  position: relative;
+  display: inline-flex !important;
+  width: auto !important;
+  min-width: 112px !important;
+  min-height: 42px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0.62rem 1rem !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: 12px !important;
+  font-size: 0.79rem !important;
+  font-weight: 760 !important;
+  letter-spacing: 0.005em;
+  line-height: 1.1 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.erp-status-tabs .erp-status-tab:hover,
+.erp-status-tabs .erp-status-tab:focus-visible {
+  filter: brightness(1.06);
+  transform: translateY(-1px) !important;
+}
+
+.erp-status-tabs .erp-status-tab.is-current-state {
+  border-width: 2px !important;
+  padding: calc(0.62rem - 1px) calc(1rem - 1px) !important;
+  box-shadow:
+    0 0 0 3px rgba(124, 116, 255, 0.18) !important,
+    0 10px 25px rgba(4, 9, 22, 0.14) !important;
+}
+
+.erp-status-tabs .erp-status-tab.is-current-state::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  margin-right: 0.45rem;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.erp-status-tabs .erp-status-tab.is-current-state::after {
+  content: "ACTUAL";
+  position: absolute;
+  right: 8px;
+  top: -10px;
+  padding: 0.2rem 0.44rem;
+  border: 1px solid #746de0;
+  border-radius: 999px;
+  color: #ffffff;
+  background: #5e58d6;
+  font-size: 0.56rem;
+  font-weight: 850;
+  letter-spacing: 0.055em;
+  line-height: 1;
+}
+
+.erp-status-tab[data-erp-state="borrador"] {
+  border-color: var(--erp-warning-border) !important;
+  color: var(--erp-warning) !important;
+  background: var(--erp-warning-soft) !important;
+}
+
+.erp-status-tab[data-erp-state="emitida"],
+.erp-status-tab[data-erp-state="enviada"],
+.erp-status-tab[data-erp-state="enviado"] {
+  border-color: var(--erp-info-border) !important;
+  color: var(--erp-info) !important;
+  background: var(--erp-info-soft) !important;
+}
+
+.erp-status-tab[data-erp-state="aceptado"],
+.erp-status-tab[data-erp-state="cobrada"],
+.erp-status-tab[data-erp-state="pagado"] {
+  border-color: var(--erp-success-border) !important;
+  color: var(--erp-success) !important;
+  background: var(--erp-success-soft) !important;
+}
+
+.erp-status-tab[data-erp-state="vencida"],
+.erp-status-tab[data-erp-state="cancelada"],
+.erp-status-tab[data-erp-state="rechazado"] {
+  border-color: var(--erp-danger-border) !important;
+  color: var(--erp-danger) !important;
+  background: var(--erp-danger-soft) !important;
+}
+
+html[data-theme="dark"] .erp-status-tabs .erp-status-tab.is-current-state,
+html[data-bs-theme="dark"] .erp-status-tabs .erp-status-tab.is-current-state {
+  box-shadow:
+    0 0 0 3px rgba(139, 132, 255, 0.22) !important,
+    0 12px 30px rgba(0, 0, 0, 0.3) !important;
 }
 
 @media (max-width: 767.98px) {
-    .dashboard-header {
-        flex-direction: column;
-    }
+  .erp-status-tabs {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
 
-    .dashboard-refresh-note {
-        width: 100%;
-        justify-content: center;
-    }
+  .erp-status-tabs > .erp-status-tab-host,
+  .erp-status-tabs > form.erp-status-tab-host,
+  .erp-status-tabs .erp-status-tab {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}
 
-    .dashboard-pending-grid {
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 420px) {
+  .erp-status-tabs {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* =========================================================
+   Prisma V6.13 — login minimalista estable
+   No mueve la tarjeta del formulario ni altera el orden real
+   de las columnas. Evita superposiciones en cualquier plantilla.
+   ========================================================= */
+
+:root {
+  --erp-login-visual-bg: #f0f2f7;
+  --erp-login-form-bg: #ffffff;
+  --erp-login-card-bg: #ffffff;
+  --erp-login-heading: #182238;
+  --erp-login-text: #4d5a70;
+  --erp-login-muted: #7c879a;
+  --erp-login-border: #dce1eb;
+  --erp-login-border-strong: #c8d0de;
+  --erp-login-primary: #655cf3;
+  --erp-login-primary-hover: #564ddf;
+  --erp-login-primary-soft: #eeecff;
+  --erp-login-blue: #376fe8;
+  --erp-login-coral: #e96862;
+  --erp-login-amber: #c68b24;
+  --erp-login-focus: rgba(101, 92, 243, 0.18);
+  --erp-login-shadow: 0 20px 60px rgba(35, 48, 78, 0.10);
+}
+
+html[data-theme="dark"],
+html[data-bs-theme="dark"] {
+  --erp-login-visual-bg: #0e1521;
+  --erp-login-form-bg: #111a27;
+  --erp-login-card-bg: #151f2e;
+  --erp-login-heading: #f4f6fb;
+  --erp-login-text: #c0c9d8;
+  --erp-login-muted: #8c98ac;
+  --erp-login-border: #293548;
+  --erp-login-border-strong: #3a4860;
+  --erp-login-primary: #9b94ff;
+  --erp-login-primary-hover: #afa9ff;
+  --erp-login-primary-soft: #282844;
+  --erp-login-blue: #78a6ff;
+  --erp-login-coral: #ff9189;
+  --erp-login-amber: #e8bd67;
+  --erp-login-focus: rgba(155, 148, 255, 0.20);
+  --erp-login-shadow: 0 24px 68px rgba(0, 0, 0, 0.28);
+}
+
+/* Nunca mostrar estados de conexión o actividad. */
+header :where(
+  .online-status,
+  .environment-status,
+  .active-indicator,
+  .active-dot,
+  .online-dot,
+  [data-online-status],
+  [data-active-indicator],
+  .erp-workspace-label
+),
+.auth-page :where(
+  .online-status,
+  .environment-status,
+  .active-indicator,
+  .active-dot,
+  .online-dot,
+  [data-online-status],
+  [data-active-indicator],
+  .erp-workspace-label,
+  .status-dot,
+  .presence-dot
+) {
+  display: none !important;
+}
+
+body.auth-page.erp-login-stable {
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--erp-login-text) !important;
+  background: var(--erp-login-form-bg) !important;
+}
+
+/* Conserva el grid/row original; solo normaliza su altura. */
+body.erp-login-stable .erp-login-layout,
+body.erp-login-stable main,
+body.erp-login-stable .auth-layout,
+body.erp-login-stable .row.min-vh-100 {
+  min-height: 100vh !important;
+}
+
+body.erp-login-stable .erp-login-layout > *,
+body.erp-login-stable .row.min-vh-100 > * {
+  min-width: 0;
+}
+
+/* Panel visual: permanece en la columna .auth-side original. */
+body.erp-login-stable .auth-side {
+  position: relative !important;
+  inset: auto !important;
+  display: flex !important;
+  min-height: 100vh !important;
+  align-items: stretch !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  border-right: 1px solid var(--erp-login-border) !important;
+  color: var(--erp-login-heading) !important;
+  background: var(--erp-login-visual-bg) !important;
+  transform: none !important;
+}
+
+body.erp-login-stable .auth-side::before,
+body.erp-login-stable .auth-side::after {
+  content: none !important;
+}
+
+.erp-login-stable-visual {
+  display: grid;
+  width: 100%;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+  gap: 2rem;
+  padding: clamp(2rem, 5vw, 5rem);
+}
+
+.erp-login-stable-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.78rem;
+}
+
+.erp-login-stable-mark,
+.erp-login-form-brand__mark {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--erp-login-border);
+  color: var(--erp-login-primary);
+  background: transparent;
+}
+
+.erp-login-stable-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+}
+
+.erp-login-form-brand__mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+}
+
+.erp-login-stable-mark svg,
+.erp-login-form-brand__mark svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+}
+
+.erp-login-stable-wordmark,
+.erp-login-form-brand__text {
+  display: grid;
+  gap: 0.08rem;
+}
+
+.erp-login-stable-wordmark strong,
+.erp-login-form-brand__text strong {
+  color: var(--erp-login-heading) !important;
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.erp-login-stable-wordmark small,
+.erp-login-form-brand__text small {
+  color: var(--erp-login-muted) !important;
+  font-size: 0.61rem;
+  font-weight: 720;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.erp-login-stable-copy {
+  display: grid;
+  max-width: 650px;
+  align-content: center;
+  gap: 1.15rem;
+}
+
+.erp-login-stable-eyebrow {
+  color: var(--erp-login-primary) !important;
+  font-size: 0.69rem;
+  font-weight: 820;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+body.erp-login-stable .auth-side .erp-login-stable-title {
+  max-width: 620px;
+  margin: 0;
+  color: var(--erp-login-heading) !important;
+  font-size: clamp(2.55rem, 5vw, 4.8rem) !important;
+  font-weight: 810 !important;
+  letter-spacing: -0.062em !important;
+  line-height: 1 !important;
+}
+
+body.erp-login-stable .auth-side .erp-login-stable-description {
+  max-width: 535px;
+  margin: 0;
+  color: var(--erp-login-text) !important;
+  font-size: clamp(0.95rem, 1.15vw, 1.06rem);
+  line-height: 1.7;
+}
+
+.erp-login-stable-modules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1rem;
+  margin-top: 0.2rem;
+}
+
+.erp-login-stable-modules span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--erp-login-text) !important;
+  font-size: 0.72rem;
+  font-weight: 680;
+}
+
+.erp-login-stable-modules span::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 1px;
+  background: var(--module-color, var(--erp-login-primary));
+}
+
+.erp-login-stable-modules span:nth-child(2) { --module-color: var(--erp-login-blue); }
+.erp-login-stable-modules span:nth-child(3) { --module-color: var(--erp-login-coral); }
+.erp-login-stable-modules span:nth-child(4) { --module-color: var(--erp-login-amber); }
+
+.erp-login-stable-footer {
+  padding-top: 1rem;
+  border-top: 1px solid var(--erp-login-border);
+  color: var(--erp-login-muted) !important;
+  font-size: 0.64rem;
+  font-weight: 680;
+}
+
+/* Columna que ya contenía el formulario: no se mueve ni se reordena. */
+body.erp-login-stable .erp-login-form-pane {
+  position: relative !important;
+  inset: auto !important;
+  display: flex !important;
+  min-height: 100vh !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: auto !important;
+  padding: clamp(4.5rem, 7vw, 6rem) clamp(1.25rem, 5vw, 4rem) 2rem !important;
+  color: var(--erp-login-text) !important;
+  background: var(--erp-login-form-bg) !important;
+  transform: none !important;
+}
+
+body.erp-login-stable .erp-login-form-pane::before,
+body.erp-login-stable .erp-login-form-pane::after {
+  content: none !important;
+}
+
+/* La tarjeta nunca usa absolute/fixed y nunca abandona su columna. */
+body.erp-login-stable .auth-card {
+  position: relative !important;
+  inset: auto !important;
+  z-index: 1 !important;
+  display: block !important;
+  width: min(100%, 460px) !important;
+  max-width: 460px !important;
+  min-width: 0 !important;
+  margin: 0 auto !important;
+  padding: clamp(1.65rem, 3vw, 2.25rem) !important;
+  border: 1px solid var(--erp-login-border) !important;
+  border-radius: 18px !important;
+  color: var(--erp-login-text) !important;
+  background: var(--erp-login-card-bg) !important;
+  box-shadow: var(--erp-login-shadow) !important;
+  transform: none !important;
+}
+
+body.erp-login-stable .auth-card::before,
+body.erp-login-stable .auth-card::after {
+  content: none !important;
+}
+
+.erp-login-form-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.72rem;
+  margin-bottom: 1.55rem;
+}
+
+body.erp-login-stable .auth-card h1,
+body.erp-login-stable .auth-card h2 {
+  margin-bottom: 0.48rem !important;
+  color: var(--erp-login-heading) !important;
+  font-size: clamp(1.75rem, 3vw, 2.15rem) !important;
+  font-weight: 790 !important;
+  letter-spacing: -0.044em !important;
+  line-height: 1.08 !important;
+}
+
+body.erp-login-stable .auth-card :where(p, small, .text-muted, .text-body-secondary, .form-text) {
+  color: var(--erp-login-muted) !important;
+}
+
+body.erp-login-stable .auth-card form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.4rem !important;
+}
+
+body.erp-login-stable .auth-card form :where(.mb-3, .form-group) {
+  margin: 0 !important;
+}
+
+body.erp-login-stable .auth-card :where(.form-label, label) {
+  margin-bottom: 0.42rem !important;
+  color: var(--erp-login-text) !important;
+  font-size: 0.75rem !important;
+  font-weight: 710 !important;
+}
+
+body.erp-login-stable .auth-card :where(
+  .form-control,
+  .form-select,
+  input:not([type="checkbox"]):not([type="radio"]),
+  textarea
+) {
+  position: static !important;
+  width: 100% !important;
+  min-height: 48px !important;
+  padding: 0.72rem 0.88rem !important;
+  border: 1px solid var(--erp-login-border) !important;
+  border-radius: 11px !important;
+  color: var(--erp-login-heading) !important;
+  background: var(--erp-login-card-bg) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+body.erp-login-stable .auth-card :where(.form-control, input, textarea)::placeholder {
+  color: var(--erp-login-muted) !important;
+  opacity: 0.8;
+}
+
+body.erp-login-stable .auth-card :where(.form-control, .form-select, input, textarea):focus {
+  border-color: var(--erp-login-primary) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 4px var(--erp-login-focus) !important;
+}
+
+body.erp-login-stable .auth-card .form-check-label {
+  color: var(--erp-login-text) !important;
+}
+
+body.erp-login-stable .auth-card .form-check-input {
+  border-color: var(--erp-login-border-strong) !important;
+  background-color: var(--erp-login-card-bg) !important;
+}
+
+body.erp-login-stable .auth-card .form-check-input:checked {
+  border-color: var(--erp-login-primary) !important;
+  background-color: var(--erp-login-primary) !important;
+}
+
+body.erp-login-stable .auth-card :where(button[type="submit"], input[type="submit"]) {
+  position: static !important;
+  display: inline-flex !important;
+  width: 100% !important;
+  min-height: 48px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-top: 0.1rem !important;
+  padding: 0.72rem 1rem !important;
+  border: 1px solid var(--erp-login-primary) !important;
+  border-radius: 11px !important;
+  color: #ffffff !important;
+  background: var(--erp-login-primary) !important;
+  font-size: 0.83rem !important;
+  font-weight: 780 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+body.erp-login-stable .auth-card :where(button[type="submit"], input[type="submit"]):hover,
+body.erp-login-stable .auth-card :where(button[type="submit"], input[type="submit"]):focus-visible {
+  border-color: var(--erp-login-primary-hover) !important;
+  color: #ffffff !important;
+  background: var(--erp-login-primary-hover) !important;
+  box-shadow: 0 0 0 4px var(--erp-login-focus) !important;
+}
+
+body.erp-login-stable .auth-card a {
+  color: var(--erp-login-primary) !important;
+}
+
+body.erp-login-stable .erp-login-form-pane > :not(.auth-card):not(.erp-login-theme-toggle) {
+  max-width: 100%;
+}
+
+@media (max-width: 991.98px) {
+  body.erp-login-stable .auth-side {
+    display: none !important;
+  }
+
+  body.erp-login-stable .erp-login-form-pane {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 100vh !important;
+    padding: 4.75rem 1.15rem 1.5rem !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  body.erp-login-stable .auth-card {
+    padding: 1.35rem !important;
+    border-radius: 15px !important;
+    box-shadow: none !important;
+  }
+
+  .erp-login-form-brand {
+    margin-bottom: 1.25rem;
+  }
+}
+
+/* =========================================================
+   Prisma V6.14 — selector Claro / Oscuro del login
+   ========================================================= */
+
+/* Oculta cualquier botón de tema antiguo que haya quedado en la página de acceso. */
+body.erp-login-stable [data-erp-v6-theme-toggle],
+body.auth-page [data-erp-v6-theme-toggle] {
+  display: none !important;
+}
+
+/* Selector propio, aislado de Bootstrap y de reglas heredadas. */
+body.erp-login-stable .erp-login-theme-toggle {
+  all: unset !important;
+  box-sizing: border-box !important;
+  position: absolute !important;
+  top: 1.25rem !important;
+  right: 1.25rem !important;
+  z-index: 20 !important;
+  display: grid !important;
+  width: auto !important;
+  min-width: 188px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  grid-template-columns: 1fr 1fr !important;
+  align-items: stretch !important;
+  gap: 3px !important;
+  margin: 0 !important;
+  padding: 3px !important;
+  border: 1px solid var(--erp-login-border) !important;
+  border-radius: 13px !important;
+  color: var(--erp-login-muted) !important;
+  background: var(--erp-login-card-bg) !important;
+  font-family: inherit !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  box-shadow: 0 4px 16px rgba(35, 48, 78, 0.07) !important;
+}
+
+body.erp-login-stable .erp-login-theme-toggle:hover {
+  border-color: var(--erp-login-border-strong) !important;
+}
+
+body.erp-login-stable .erp-login-theme-toggle:focus-visible {
+  outline: none !important;
+  border-color: var(--erp-login-primary) !important;
+  box-shadow: 0 0 0 4px var(--erp-login-focus) !important;
+}
+
+body.erp-login-stable .erp-login-theme-option {
+  display: inline-flex !important;
+  min-width: 0 !important;
+  min-height: 36px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.42rem !important;
+  padding: 0 0.72rem !important;
+  border: 0 !important;
+  border-radius: 9px !important;
+  color: var(--erp-login-muted) !important;
+  background: transparent !important;
+  font-size: 0.72rem !important;
+  font-weight: 760 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  transition: color 150ms ease, background-color 150ms ease, box-shadow 150ms ease !important;
+}
+
+body.erp-login-stable .erp-login-theme-option svg {
+  display: block !important;
+  width: 16px !important;
+  height: 16px !important;
+  flex: 0 0 16px !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 1.9 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+
+/* Modo seleccionado: visible sin recurrir a verde ni a degradados. */
+html[data-theme="light"] body.erp-login-stable .erp-login-theme-option--light,
+html[data-bs-theme="light"] body.erp-login-stable .erp-login-theme-option--light {
+  color: #3f37b7 !important;
+  background: var(--erp-login-primary-soft) !important;
+  box-shadow: inset 0 0 0 1px rgba(101, 92, 243, 0.12) !important;
+}
+
+html[data-theme="dark"] body.erp-login-stable .erp-login-theme-option--dark,
+html[data-bs-theme="dark"] body.erp-login-stable .erp-login-theme-option--dark {
+  color: #f5f3ff !important;
+  background: var(--erp-login-primary-soft) !important;
+  box-shadow: inset 0 0 0 1px rgba(155, 148, 255, 0.22) !important;
+}
+
+html[data-theme="dark"] body.erp-login-stable .erp-login-theme-toggle,
+html[data-bs-theme="dark"] body.erp-login-stable .erp-login-theme-toggle {
+  border-color: var(--erp-login-border-strong) !important;
+  color: var(--erp-login-muted) !important;
+  background: #111a27 !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.20) !important;
+}
+
+@media (max-width: 575.98px) {
+  body.erp-login-stable .erp-login-theme-toggle {
+    top: 1rem !important;
+    right: 1rem !important;
+    min-width: 172px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+  }
+
+  body.erp-login-stable .erp-login-theme-option {
+    min-height: 34px !important;
+    padding-inline: 0.55rem !important;
+    font-size: 0.69rem !important;
+  }
+}
+
+
+/* ========================================================================== 
+   Navegación coherente — usuario, logout y botón Volver
+   ========================================================================== */
+.erp-navbar-session {
+  min-width: 0;
+}
+
+.erp-navbar-user {
+  max-width: min(34vw, 360px);
+  padding-inline: 0.8rem !important;
+  overflow: hidden;
+}
+
+.erp-navbar-user strong {
+  overflow: hidden;
+  color: var(--erp-heading);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.erp-navbar-user-label {
+  flex: 0 0 auto;
+  color: var(--erp-text-muted);
+  font-size: 0.72rem;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.erp-navbar-back {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.erp-mobile-session {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--erp-border);
+  border-radius: 12px;
+  color: var(--erp-text);
+  background: var(--erp-surface-soft);
+}
+
+.erp-mobile-session span {
+  color: var(--erp-text-muted);
+  font-size: 0.68rem;
+  font-weight: 720;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+.erp-mobile-session strong {
+  overflow-wrap: anywhere;
+  font-size: 0.82rem;
+}
+
+@media (min-width: 992px) {
+  .erp-navbar-back {
+    margin-left: 1rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .erp-navbar-back {
+    margin-left: auto;
+    margin-right: 0.5rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .erp-navbar-back span:last-child {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .erp-navbar-back {
+    width: 38px;
+    min-width: 38px;
+    padding-inline: 0 !important;
+  }
+}
+
+/* =========================================================
+   Navegación contextual — botón Volver bajo el navbar
+   ========================================================= */
+.erp-page-header {
+  width: 100%;
+}
+
+.erp-page-back {
+  display: inline-flex !important;
+  flex: 0 0 auto;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.48rem;
+  min-height: 40px;
+  padding-inline: 0.9rem !important;
+  white-space: nowrap;
+  align-self: flex-start;
+}
+
+.erp-page-back__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  font-size: 1rem;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+/* El navbar queda reservado a marca, sesión y logout. */
+.erp-navbar-back,
+.erp-mobile-back {
+  display: none !important;
+}
+
+@media (max-width: 575.98px) {
+  .erp-page-back {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   ACCIONES RESPONSIVE Â· ESPACIADO Y CENTRADO
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+  .app-main .btn {
+    display: inline-flex !important;
+    min-height: 44px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.42rem;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    white-space: normal;
+  }
+
+  .app-main .btn > span,
+  .app-main .btn > strong,
+  .app-main .btn > i,
+  .app-main .btn > svg {
+    align-self: center !important;
+  }
+
+  .app-main .client-actions,
+  .app-main .product-actions,
+  .app-main .quote-actions,
+  .app-main .invoice-actions,
+  .app-main .payment-actions,
+  .app-main .expense-actions,
+  .app-main .mobile-actions,
+  .app-main .page-actions,
+  .app-main .erp-page-actions {
+    gap: 0.75rem !important;
+    padding-block: 0.4rem !important;
+  }
+
+  .app-main .client-actions form,
+  .app-main .product-actions form,
+  .app-main .quote-actions form,
+  .app-main .invoice-actions form,
+  .app-main .payment-actions form,
+  .app-main .expense-actions form,
+  .app-main .mobile-actions form,
+  .app-main .page-actions form,
+  .app-main .erp-page-actions form {
+    display: flex !important;
+    align-items: stretch !important;
+    margin: 0 !important;
+  }
+
+  .app-main .mobile-list-card .mobile-actions {
+    margin-top: 0.9rem !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .app-main .client-actions,
+  .app-main .product-actions,
+  .app-main .quote-actions,
+  .app-main .invoice-actions,
+  .app-main .payment-actions,
+  .app-main .expense-actions,
+  .app-main .mobile-actions,
+  .app-main .page-actions,
+  .app-main .erp-page-actions {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 0.8rem !important;
+    width: 100% !important;
+    padding: 0.45rem 0 !important;
+  }
+
+  .app-main .client-actions > *,
+  .app-main .product-actions > *,
+  .app-main .quote-actions > *,
+  .app-main .invoice-actions > *,
+  .app-main .payment-actions > *,
+  .app-main .expense-actions > *,
+  .app-main .mobile-actions > *,
+  .app-main .page-actions > *,
+  .app-main .erp-page-actions > * {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .app-main .client-actions .btn,
+  .app-main .product-actions .btn,
+  .app-main .quote-actions .btn,
+  .app-main .invoice-actions .btn,
+  .app-main .payment-actions .btn,
+  .app-main .expense-actions .btn,
+  .app-main .mobile-actions .btn,
+  .app-main .page-actions .btn,
+  .app-main .erp-page-actions .btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 46px !important;
+    padding: 0.7rem 0.9rem !important;
+  }
+
+  .app-main .mobile-list-card {
+    padding: 1.05rem !important;
+  }
+
+  .app-main .erp-page-back {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   DESACTIVAR CLIENTE / PRODUCTO
+   ========================================================= */
+
+.erp-client-deactivate,
+.erp-product-deactivate {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 2px solid #e11d48 !important;
+  color: #be123c !important;
+  background: #fff1f4 !important;
+  font-weight: 750 !important;
+  text-align: center !important;
+  box-shadow: 0 0 0 1px rgba(225, 29, 72, 0.08) !important;
+}
+
+.erp-client-deactivate:hover,
+.erp-client-deactivate:focus-visible,
+.erp-client-deactivate:active,
+.erp-product-deactivate:hover,
+.erp-product-deactivate:focus-visible,
+.erp-product-deactivate:active {
+  border-color: #be123c !important;
+  color: #ffffff !important;
+  background: #e11d48 !important;
+  box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.16) !important;
+}
+
+html[data-theme="dark"] .erp-client-deactivate,
+html[data-bs-theme="dark"] .erp-client-deactivate,
+html[data-theme="dark"] .erp-product-deactivate,
+html[data-bs-theme="dark"] .erp-product-deactivate {
+  border-color: #ff8ca1 !important;
+  color: #ffc0cb !important;
+  background: #3d1924 !important;
+  box-shadow: 0 0 0 1px rgba(255, 140, 161, 0.16) !important;
+}
+
+html[data-theme="dark"] .erp-client-deactivate:hover,
+html[data-bs-theme="dark"] .erp-client-deactivate:hover,
+html[data-theme="dark"] .erp-client-deactivate:focus-visible,
+html[data-bs-theme="dark"] .erp-client-deactivate:focus-visible,
+html[data-theme="dark"] .erp-product-deactivate:hover,
+html[data-bs-theme="dark"] .erp-product-deactivate:hover,
+html[data-theme="dark"] .erp-product-deactivate:focus-visible,
+html[data-bs-theme="dark"] .erp-product-deactivate:focus-visible {
+  border-color: #ff9daf !important;
+  color: #ffffff !important;
+  background: #be123c !important;
+}
+
+/* =========================================================
+   ACCIONES RESPONSIVE Â· ESPACIADO Y CENTRADO
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+  .app-main .btn {
+    display: inline-flex !important;
+    min-height: 44px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.42rem;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    white-space: normal;
+  }
+
+  .app-main .btn > span,
+  .app-main .btn > strong,
+  .app-main .btn > i,
+  .app-main .btn > svg {
+    align-self: center !important;
+  }
+
+  .app-main .client-actions,
+  .app-main .product-actions,
+  .app-main .quote-actions,
+  .app-main .invoice-actions,
+  .app-main .payment-actions,
+  .app-main .expense-actions,
+  .app-main .mobile-actions,
+  .app-main .page-actions,
+  .app-main .erp-page-actions {
+    gap: 0.75rem !important;
+    padding-block: 0.4rem !important;
+  }
+
+  .app-main .client-actions form,
+  .app-main .product-actions form,
+  .app-main .quote-actions form,
+  .app-main .invoice-actions form,
+  .app-main .payment-actions form,
+  .app-main .expense-actions form,
+  .app-main .mobile-actions form,
+  .app-main .page-actions form,
+  .app-main .erp-page-actions form {
+    display: flex !important;
+    align-items: stretch !important;
+    margin: 0 !important;
+  }
+
+  .app-main .mobile-list-card .mobile-actions {
+    margin-top: 0.9rem !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .app-main .client-actions,
+  .app-main .product-actions,
+  .app-main .quote-actions,
+  .app-main .invoice-actions,
+  .app-main .payment-actions,
+  .app-main .expense-actions,
+  .app-main .mobile-actions,
+  .app-main .page-actions,
+  .app-main .erp-page-actions {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 0.8rem !important;
+    width: 100% !important;
+    padding: 0.45rem 0 !important;
+  }
+
+  .app-main .client-actions > *,
+  .app-main .product-actions > *,
+  .app-main .quote-actions > *,
+  .app-main .invoice-actions > *,
+  .app-main .payment-actions > *,
+  .app-main .expense-actions > *,
+  .app-main .mobile-actions > *,
+  .app-main .page-actions > *,
+  .app-main .erp-page-actions > * {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .app-main .client-actions .btn,
+  .app-main .product-actions .btn,
+  .app-main .quote-actions .btn,
+  .app-main .invoice-actions .btn,
+  .app-main .payment-actions .btn,
+  .app-main .expense-actions .btn,
+  .app-main .mobile-actions .btn,
+  .app-main .page-actions .btn,
+  .app-main .erp-page-actions .btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 46px !important;
+    padding: 0.7rem 0.9rem !important;
+  }
+
+  .app-main .mobile-list-card {
+    padding: 1.05rem !important;
+  }
+
+  .app-main .erp-page-back {
+    width: 100%;
+  }
 }

@@ -7,8 +7,26 @@
     <title th:text="${pageTitle} + ' | ERP Spain'">Gasto | ERP Spain</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="ERP Spain: gestión ligera de clientes, presupuestos, facturas, cobros, gastos e impuestos.">
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.7/dist/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/app.css}">
+<!-- ERP_V6_HEAD_START -->
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem("erp-spain-theme-v6");
+    var theme = saved === "dark" || saved === "light"
+      ? saved
+      : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-bs-theme", theme);
+    document.documentElement.style.colorScheme = theme;
+  } catch (error) {
+    document.documentElement.setAttribute("data-theme", "light");
+    document.documentElement.setAttribute("data-bs-theme", "light");
+  }
+})();
+</script>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.7/dist/css/bootstrap.min.css}" href="/webjars/bootstrap/5.3.7/dist/css/bootstrap.min.css">
+<link rel="stylesheet" th:href="@{/css/app.css(v=2)}" href="/css/app.css?v=2">
+<!-- ERP_V6_HEAD_END -->
 </head>
 <body class="app-page">
 <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
@@ -16,12 +34,18 @@
 <header class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
     <nav class="container-fluid px-3 px-md-4" aria-label="Navegación principal">
         <a class="navbar-brand fw-bold" th:href="@{/dashboard}">ERP Spain</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
+        <button class="navbar-toggler " type="button"
+                data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
                 aria-controls="mobileMenu" aria-label="Abrir menú">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="d-none d-lg-flex align-items-center gap-3 ms-auto">
-            <span class="small text-muted">Usuario: <strong sec:authentication="name">admin@erp.local</strong></span>
+
+        <div class="d-none d-lg-flex align-items-center gap-2 ms-auto erp-navbar-session">
+            <span class="erp-v6-user-chip erp-navbar-user" aria-label="Usuario autenticado">
+                <span class="erp-navbar-user-label">Usuario:</span>
+                <strong sec:authentication="name">admin@erp.local</strong>
+            </span>
+
             <form th:action="@{/logout}" method="post" class="m-0">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <button type="submit" class="btn btn-outline-secondary btn-sm">Salir</button>
@@ -35,6 +59,7 @@
         <h2 class="offcanvas-title h5" id="mobileMenuTitle">Menú</h2>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar menú"></button>
     </div>
+
     <div class="offcanvas-body">
         <nav aria-label="Menú móvil">
             <ul class="nav flex-column gap-1">
@@ -48,9 +73,16 @@
                     <li class="nav-item"><a class="nav-link" th:href="@{/reports}">Reportes</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/taxes}">Impuestos</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/settings/company}">Configuración</a></li>
-                </ul>
+            </ul>
         </nav>
+
         <hr>
+
+<div class="erp-mobile-session mb-3">
+            <span>Usuario</span>
+            <strong sec:authentication="name">admin@erp.local</strong>
+        </div>
+
         <form th:action="@{/logout}" method="post">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <button type="submit" class="btn btn-outline-secondary w-100">Salir</button>
@@ -79,15 +111,16 @@
 
         <main id="main-content" class="col-12 col-lg-10 app-main">
             <div class="container-fluid py-4 py-md-5">
-                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-3 mb-4 erp-page-header">
                     <div>
                         <p class="text-uppercase text-primary fw-semibold mb-1">Gastos</p>
                         <h1 class="h3 fw-bold mb-1" th:text="${pageTitle}">Nuevo gasto</h1>
                         <p class="text-muted mb-0">Introduce el gasto con su base, IVA y estado de pago.</p>
                     </div>
-                    <div>
-                        <a th:href="@{/expenses}" class="btn btn-outline-secondary">Volver a gastos</a>
-                    </div>
+                    <a th:href="@{/expenses}" class="btn btn-outline-secondary erp-page-back" aria-label="Volver a gastos">
+                        <span class="erp-page-back__icon" aria-hidden="true">←</span>
+                        <span>Volver a gastos</span>
+                    </a>
                 </div>
 
                 <section class="card" aria-labelledby="expenseFormTitle">
@@ -207,6 +240,9 @@
 </div>
 
 <script th:src="@{/webjars/bootstrap/5.3.7/dist/js/bootstrap.bundle.min.js}" defer></script>
-<script th:src="@{/js/expense-form.js}" defer></script>
+<script th:src="@{/js/pages/expense-form.js}" defer></script>
+<!-- ERP_V6_BODY_START -->
+<script th:src="@{/js/app.js(v=1)}" src="/js/app.js?v=1" defer></script>
+<!-- ERP_V6_BODY_END -->
 </body>
 </html>
