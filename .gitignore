@@ -1,0 +1,41 @@
+# Build
+/target/
+*.class
+*.jar
+
+# Automatic installers and local backups
+/.erp-v6-clean-backups/
+*.bak
+*.bak-*
+*.old
+*.orig
+*.rej
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*~
+
+# Local archives and exports
+*.zip
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# IDEs
+/.idea/
+/.vscode/
+*.iws
+*.iml
+*.ipr
+.classpath
+.project
+.settings/
+.sts4-cache/
+
+# Operating system
+.DS_Store
+Thumbs.db

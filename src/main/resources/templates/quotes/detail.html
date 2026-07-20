@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${quote.quoteNumber} + ' | ERP Spain'">Presupuesto | ERP Spain</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="ERP Spain: gestión ligera de clientes, presupuestos, facturas, cobros, gastos e impuestos.">
+<!-- ERP_V6_HEAD_START -->
+<script th:src="@{/js/theme-init.js(v=1)}" src="/js/theme-init.js?v=1"></script>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.7/dist/css/bootstrap.min.css}" href="/webjars/bootstrap/5.3.7/dist/css/bootstrap.min.css">
+<link rel="stylesheet" th:href="@{/css/app.css(v=2)}" href="/css/app.css?v=2">
+<!-- ERP_V6_HEAD_END -->
+</head>
+<body class="app-page">
+
+<a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+<header class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+    <nav class="container-fluid px-3 px-md-4" aria-label="Navegación principal">
+        <a class="navbar-brand fw-bold" th:href="@{/dashboard}">ERP Spain</a>
+        <button class="navbar-toggler " type="button"
+                data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
+                aria-controls="mobileMenu" aria-label="Abrir menú">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="d-none d-lg-flex align-items-center gap-2 ms-auto erp-navbar-session">
+            <span class="erp-v6-user-chip erp-navbar-user" aria-label="Usuario autenticado">
+                <span class="erp-navbar-user-label">Usuario:</span>
+                <strong sec:authentication="name">admin@erp.local</strong>
+            </span>
+
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <button type="submit" class="btn btn-outline-secondary btn-sm">Salir</button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuTitle">
+    <div class="offcanvas-header">
+        <h2 class="offcanvas-title h5" id="mobileMenuTitle">Menú</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar menú"></button>
+    </div>
+
+    <div class="offcanvas-body">
+        <nav aria-label="Menú móvil">
+            <ul class="nav flex-column gap-1">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/clients}">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/products}">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link active" th:href="@{/quotes}">Presupuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/payments}">Cobros</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/expenses}">Gastos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/reports}">Reportes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/taxes}">Impuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/settings/company}">Configuración</a></li>
+            </ul>
+        </nav>
+
+        <hr>
+
+<div class="erp-mobile-session mb-3">
+            <span>Usuario</span>
+            <strong sec:authentication="name">admin@erp.local</strong>
+        </div>
+
+        <form th:action="@{/logout}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button type="submit" class="btn btn-outline-secondary w-100">Salir</button>
+        </form>
+    </div>
+</div>
+
+<main id="main-content" class="container-fluid py-4 py-md-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-xl-11">
+
+            <div th:if="${successMessage}" class="alert alert-success" role="alert" th:text="${successMessage}">Guardado.</div>
+            <div th:if="${errorMessage}" class="alert alert-danger" role="alert" th:text="${errorMessage}">Error.</div>
+
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-start gap-3 mb-4">
+                <div>
+                    <p class="text-uppercase text-primary fw-semibold mb-1">Presupuesto</p>
+                    <h1 class="h3 fw-bold mb-1" th:text="${quote.quoteNumber}">PRE-2026-000001</h1>
+                    <p class="text-muted mb-0">
+                        Cliente:
+                        <span class="fw-semibold" th:text="${quote.client.legalName}">Cliente Demo S.L.</span>
+                    </p>
+                </div>
+
+                <div class="detail-actions">
+                    <a th:href="@{/quotes}" class="btn btn-outline-secondary erp-page-back" aria-label="Volver a presupuestos">
+                        <span class="erp-page-back__icon" aria-hidden="true">←</span>
+                        <span>Volver a presupuestos</span>
+                    </a>
+
+                    <a th:if="${invoice != null}" class="btn btn-success" th:href="@{/invoices/{id}(id=${invoice.id})}">
+                        Ver factura
+                    </a>
+
+                    <a sec:authorize="hasAnyRole('ADMIN','MANAGER')"
+                       th:if="${invoice == null}"
+                       class="btn btn-outline-success"
+                       th:href="@{/invoices/new}">
+                        Facturar desde Facturas
+                    </a>
+
+                    <a sec:authorize="hasAnyRole('ADMIN','MANAGER')"
+                       th:if="${invoice == null}"
+                       class="btn btn-outline-primary"
+                       th:href="@{/quotes/{id}/edit(id=${quote.id})}">
+                        Editar
+                    </a>
+
+                    <button sec:authorize="hasAnyRole('ADMIN','MANAGER')"
+                            th:if="${invoice == null}"
+                            type="button"
+                            class="btn btn-outline-danger"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteQuoteModal">
+                        Eliminar
+                    </button>
+
+                    <span th:if="${invoice != null}" class="btn btn-outline-secondary disabled" aria-disabled="true">
+                        Presupuesto bloqueado
+                    </span>
+                </div>
+            </div>
+
+            <section class="row g-3 g-md-4 mb-4" aria-label="Resumen del presupuesto">
+                <div class="col-12 col-md-3">
+                    <article class="card h-100 status-summary-card"
+                             th:classappend="${' status-summary-card--' + #strings.toLowerCase(quote.status.name())}">
+                        <div class="card-body">
+                            <p class="text-muted mb-2">Estado</p>
+                            <span class="quote-status quote-status-lg"
+                                  th:classappend="${' quote-status--' + #strings.toLowerCase(quote.status.name())}"
+                                  th:text="${quote.status.label}">Borrador</span>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-12 col-md-3">
+                    <article class="card h-100">
+                        <div class="card-body">
+                            <p class="text-muted mb-1">Fecha</p>
+                            <p class="h5 fw-bold mb-0" th:text="${#temporals.format(quote.issueDate, 'dd/MM/yyyy')}">08/07/2026</p>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-12 col-md-3">
+                    <article class="card h-100">
+                        <div class="card-body">
+                            <p class="text-muted mb-1">Válido hasta</p>
+                            <p class="h5 fw-bold mb-0" th:text="${quote.validUntil != null ? #temporals.format(quote.validUntil, 'dd/MM/yyyy') : '-'}">-</p>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-12 col-md-3">
+                    <article class="card h-100">
+                        <div class="card-body">
+                            <p class="text-muted mb-1">Total</p>
+                            <p class="h5 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(quote.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="card mb-4 status-change-section"
+                     th:classappend="${' status-change-section--' + #strings.toLowerCase(quote.status.name())}"
+                     aria-labelledby="statusTitle"
+                     sec:authorize="hasAnyRole('ADMIN','MANAGER')">
+                <div class="card-body p-3 p-md-4">
+                    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-3">
+                        <div>
+                            <h2 id="statusTitle" class="h5 fw-bold mb-2">Estado del presupuesto</h2>
+                            <p class="text-muted mb-0">
+                                Estado actual:
+                                <span class="quote-status"
+                                      th:classappend="${' quote-status--' + #strings.toLowerCase(quote.status.name())}"
+                                      th:text="${quote.status.label}">Borrador</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div th:if="${invoice != null}" class="linked-document-notice">
+                        <div>
+                            <p class="fw-semibold mb-1">Este presupuesto ya está facturado.</p>
+                            <p class="text-muted mb-0">
+                                Para mantener la trazabilidad, el presupuesto queda en estado aceptado y no se puede editar, eliminar ni cambiar manualmente.
+                                Gestiona ahora el ciclo desde la factura.
+                            </p>
+                        </div>
+                        <a class="btn btn-success" th:href="@{/invoices/{id}(id=${invoice.id})}">Ver factura</a>
+                    </div>
+
+                    <div th:if="${invoice == null}" class="status-button-grid">
+                        <form th:each="status : ${statuses}"
+                              th:action="@{/quotes/{id}/status(id=${quote.id})}"
+                              method="post"
+                              class="m-0">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <input type="hidden" name="status" th:value="${status}">
+                            <button type="submit"
+                                    class="btn status-action-btn"
+                                    th:classappend="${' quote-status--' + #strings.toLowerCase(status.name()) + (status == quote.status ? ' status-action-btn--active' : '')}"
+                                    th:disabled="${status == quote.status}"
+                                    th:text="${status.label}">
+                                Borrador
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card mb-4" aria-labelledby="clientTitle">
+                <div class="card-body p-3 p-md-4">
+                    <h2 id="clientTitle" class="h5 fw-bold mb-3">Datos del cliente</h2>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <p class="text-muted mb-1">Nombre fiscal</p>
+                            <p class="fw-semibold mb-0" th:text="${quote.client.legalName}">Cliente Demo S.L.</p>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <p class="text-muted mb-1">NIF/CIF</p>
+                            <p class="fw-semibold mb-0" th:text="${quote.client.taxId}">B00000000</p>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <p class="text-muted mb-1">Email</p>
+                            <p class="fw-semibold mb-0 cell-ellipsis" th:title="${quote.client.email}" th:text="${quote.client.email != null ? quote.client.email : '-'}">-</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card" aria-labelledby="linesTitle">
+                <div class="card-body p-3 p-md-4">
+                    <h2 id="linesTitle" class="h5 fw-bold mb-3">Líneas</h2>
+
+                    <div class="desktop-table-wrapper">
+                        <table class="table align-middle erp-table quote-lines-table">
+                            <caption class="visually-hidden">Líneas del presupuesto</caption>
+                            <colgroup>
+                                <col style="width: 38%;">
+                                <col style="width: 12%;">
+                                <col style="width: 14%;">
+                                <col style="width: 10%;">
+                                <col style="width: 13%;">
+                                <col style="width: 13%;">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">IVA</th>
+                                <th scope="col">Base</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="line : ${quote.lines}">
+                                <td><span class="cell-clamp-2" th:title="${line.description}" th:text="${line.description}">Descripción</span></td>
+                                <td th:text="${#numbers.formatDecimal(line.quantity, 1, 'POINT', 2, 'COMMA')}">1,00</td>
+                                <td><span th:text="${#numbers.formatDecimal(line.unitPrice, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</td>
+                                <td><span th:text="${#numbers.formatDecimal(line.vatRate, 1, 'POINT', 2, 'COMMA')}">21,00</span> %</td>
+                                <td><span th:text="${#numbers.formatDecimal(line.lineSubtotal, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</td>
+                                <td><span th:text="${#numbers.formatDecimal(line.lineTotal, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mobile-card-list">
+                        <article class="mobile-list-card" th:each="line : ${quote.lines}">
+                            <h3 class="h6 mobile-list-title mb-2" th:title="${line.description}" th:text="${line.description}">Descripción</h3>
+                            <dl class="row small mb-0">
+                                <dt class="col-5 text-muted">Cantidad</dt>
+                                <dd class="col-7 text-end" th:text="${#numbers.formatDecimal(line.quantity, 1, 'POINT', 2, 'COMMA')}">1,00</dd>
+                                <dt class="col-5 text-muted">Precio</dt>
+                                <dd class="col-7 text-end"><span th:text="${#numbers.formatDecimal(line.unitPrice, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</dd>
+                                <dt class="col-5 text-muted">IVA</dt>
+                                <dd class="col-7 text-end"><span th:text="${#numbers.formatDecimal(line.vatRate, 1, 'POINT', 2, 'COMMA')}">21,00</span> %</dd>
+                                <dt class="col-5 text-muted">Total</dt>
+                                <dd class="col-7 text-end fw-semibold"><span th:text="${#numbers.formatDecimal(line.lineTotal, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</dd>
+                            </dl>
+                        </article>
+                    </div>
+
+                    <div class="quote-totals ms-auto mt-4">
+                        <div class="d-flex justify-content-between gap-3 py-2 border-bottom">
+                            <span class="text-muted">Base imponible</span>
+                            <strong><span th:text="${#numbers.formatDecimal(quote.subtotal, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</strong>
+                        </div>
+                        <div class="d-flex justify-content-between gap-3 py-2 border-bottom">
+                            <span class="text-muted">IVA</span>
+                            <strong><span th:text="${#numbers.formatDecimal(quote.vatTotal, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</strong>
+                        </div>
+                        <div class="d-flex justify-content-between gap-3 py-3">
+                            <span class="h5 fw-bold mb-0">Total</span>
+                            <span class="h5 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(quote.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</span>
+                        </div>
+                    </div>
+
+                    <div th:if="${quote.notes != null}" class="mt-4">
+                        <h3 class="h6 fw-bold">Notas</h3>
+                        <p class="text-muted mb-0" th:text="${quote.notes}">Notas del presupuesto.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" id="deleteQuoteModal" tabindex="-1" aria-labelledby="deleteQuoteModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title h5" id="deleteQuoteModalTitle">Confirmar eliminación</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-2">¿Seguro que quieres eliminar este presupuesto?</p>
+                <p class="fw-semibold mb-2" th:text="${quote.quoteNumber}">PRE-2026-000001</p>
+                <p class="text-muted small mb-0">Esta acción eliminará el presupuesto y todas sus líneas.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form th:action="@{/quotes/{id}/delete(id=${quote.id})}" method="post" class="m-0">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.7/dist/js/bootstrap.bundle.min.js}" defer></script>
+<!-- ERP_V6_BODY_START -->
+<script th:src="@{/js/app.js(v=1)}" src="/js/app.js?v=1" defer></script>
+<!-- ERP_V6_BODY_END -->
+</body>
+</html>

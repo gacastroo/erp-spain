@@ -1,0 +1,126 @@
+package com.ivan.erp.quote;
+
+import com.ivan.erp.product.Product;
+import com.ivan.erp.shared.BaseEntity;
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+@Entity
+@Table(
+        name = "quote_lines",
+        indexes = {
+                @Index(name = "idx_quote_lines_quote", columnList = "quote_id"),
+                @Index(name = "idx_quote_lines_product", columnList = "product_id")
+        }
+)
+public class QuoteLine extends BaseEntity {
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "quote_id", nullable = false)
+    private Quote quote;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @Column(nullable = false, length = 500)
+    private String description;
+
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal quantity;
+
+    @Column(name = "unit_price", nullable = false, precision = 12, scale = 2)
+    private BigDecimal unitPrice;
+
+    @Column(name = "vat_rate", nullable = false, precision = 5, scale = 2)
+    private BigDecimal vatRate;
+
+    @Column(name = "line_subtotal", nullable = false, precision = 12, scale = 2)
+    private BigDecimal lineSubtotal = BigDecimal.ZERO;
+
+    @Column(name = "line_vat", nullable = false, precision = 12, scale = 2)
+    private BigDecimal lineVat = BigDecimal.ZERO;
+
+    @Column(name = "line_total", nullable = false, precision = 12, scale = 2)
+    private BigDecimal lineTotal = BigDecimal.ZERO;
+
+    @Column(name = "sort_order", nullable = false)
+    private int sortOrder;
+
+    protected QuoteLine() {
+    }
+
+    public QuoteLine(Product product, String description, BigDecimal quantity, BigDecimal unitPrice, BigDecimal vatRate) {
+        this.product = product;
+        this.description = clean(description);
+        this.quantity = normalizeMoney(quantity);
+        this.unitPrice = normalizeMoney(unitPrice);
+        this.vatRate = normalizeMoney(vatRate);
+        recalculate();
+    }
+
+    public void attachToQuote(Quote quote, int sortOrder) {
+        this.quote = quote;
+        this.sortOrder = sortOrder;
+    }
+
+    public void recalculate() {
+        this.lineSubtotal = normalizeMoney(quantity.multiply(unitPrice));
+        this.lineVat = normalizeMoney(lineSubtotal.multiply(vatRate).divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP));
+        this.lineTotal = normalizeMoney(lineSubtotal.add(lineVat));
+    }
+
+    private BigDecimal normalizeMoney(BigDecimal value) {
+        if (value == null) {
+            return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+        }
+
+        return value.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private String clean(String value) {
+        return value == null ? "" : value.trim();
+    }
+
+    public Quote getQuote() {
+        return quote;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public BigDecimal getQuantity() {
+        return quantity;
+    }
+
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
+    }
+
+    public BigDecimal getVatRate() {
+        return vatRate;
+    }
+
+    public BigDecimal getLineSubtotal() {
+        return lineSubtotal;
+    }
+
+    public BigDecimal getLineVat() {
+        return lineVat;
+    }
+
+    public BigDecimal getLineTotal() {
+        return lineTotal;
+    }
+
+    public int getSortOrder() {
+        return sortOrder;
+    }
+}

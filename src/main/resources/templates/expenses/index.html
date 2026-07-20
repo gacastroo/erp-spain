@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Gastos | ERP Spain</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="ERP Spain: gestión ligera de clientes, presupuestos, facturas, cobros, gastos e impuestos.">
+<!-- ERP_V6_HEAD_START -->
+<script th:src="@{/js/theme-init.js(v=1)}" src="/js/theme-init.js?v=1"></script>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.7/dist/css/bootstrap.min.css}" href="/webjars/bootstrap/5.3.7/dist/css/bootstrap.min.css">
+<link rel="stylesheet" th:href="@{/css/app.css(v=2)}" href="/css/app.css?v=2">
+<!-- ERP_V6_HEAD_END -->
+</head>
+<body class="app-page">
+<a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+<header class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+    <nav class="container-fluid px-3 px-md-4" aria-label="Navegación principal">
+        <a class="navbar-brand fw-bold" th:href="@{/dashboard}">ERP Spain</a>
+
+        <button class="navbar-toggler ms-auto" type="button"
+                data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
+                aria-controls="mobileMenu" aria-label="Abrir menú">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="d-none d-lg-flex align-items-center gap-2 ms-auto erp-navbar-session">
+            <span class="erp-v6-user-chip erp-navbar-user" aria-label="Usuario autenticado">
+                <span class="erp-navbar-user-label">Usuario:</span>
+                <strong sec:authentication="name">admin@erp.local</strong>
+            </span>
+
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <button type="submit" class="btn btn-outline-secondary btn-sm">Salir</button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuTitle">
+    <div class="offcanvas-header">
+        <h2 class="offcanvas-title h5" id="mobileMenuTitle">Menú</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar menú"></button>
+    </div>
+
+    <div class="offcanvas-body">
+        <nav aria-label="Menú móvil">
+            <ul class="nav flex-column gap-1">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/clients}">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/products}">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/payments}">Cobros</a></li>
+                    <li class="nav-item"><a class="nav-link active" th:href="@{/expenses}">Gastos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/reports}">Reportes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/taxes}">Impuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/settings/company}">Configuración</a></li>
+            </ul>
+        </nav>
+
+        <hr>
+
+        <div class="erp-mobile-session mb-3">
+            <span>Usuario</span>
+            <strong sec:authentication="name">admin@erp.local</strong>
+        </div>
+
+        <form th:action="@{/logout}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button type="submit" class="btn btn-outline-secondary w-100">Salir</button>
+        </form>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <aside class="col-lg-2 d-none d-lg-block app-sidebar border-end">
+            <nav class="p-3" aria-label="Menú lateral">
+                <ul class="nav flex-column gap-1">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/clients}">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/products}">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/payments}">Cobros</a></li>
+                    <li class="nav-item"><a class="nav-link active" th:href="@{/expenses}">Gastos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/reports}">Reportes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/taxes}">Impuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/settings/company}">Configuración</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main id="main-content" class="col-12 col-lg-10 app-main">
+            <div class="container-fluid py-4 py-md-5">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+                    <div>
+                        <p class="text-uppercase text-primary fw-semibold mb-1">Control de costes</p>
+                        <h1 class="h3 fw-bold mb-1">Gastos</h1>
+                        <p class="text-muted mb-0">Registra compras, suministros y costes para ver el resultado real del negocio.</p>
+                    </div>
+                    <div sec:authorize="hasAnyRole('ADMIN','MANAGER')" class="d-grid d-md-flex gap-2">
+                        <a th:href="@{/expenses/new}" class="btn btn-primary">Nuevo gasto</a>
+                    </div>
+                </div>
+
+                <div th:if="${successMessage}" class="alert alert-success" role="alert" th:text="${successMessage}"></div>
+                <div th:if="${errorMessage}" class="alert alert-danger" role="alert" th:text="${errorMessage}"></div>
+
+                <section class="card mb-4" aria-labelledby="expenseSearchTitle">
+                    <div class="card-body p-3 p-md-4">
+                        <h2 id="expenseSearchTitle" class="h5 fw-bold mb-3">Buscar gastos</h2>
+                        <form th:action="@{/expenses}" method="get" class="row g-3 align-items-end">
+                            <div class="col-12 col-md-8 col-xl-9">
+                                <label for="query" class="form-label">Buscar por proveedor, factura o descripción</label>
+                                <input id="query" type="search" name="query" class="form-control"
+                                       placeholder="Ej. asesoría, luz, alquiler, factura A-123"
+                                       th:value="${query}" autocomplete="off">
+                            </div>
+                            <div class="col-12 col-md-4 col-xl-3 d-grid d-md-flex gap-2">
+                                <button type="submit" class="btn btn-primary flex-fill">Buscar</button>
+                                <a th:href="@{/expenses}" class="btn btn-outline-secondary flex-fill">Limpiar</a>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <section class="card" aria-labelledby="expensesTableTitle">
+                    <div class="card-body p-0">
+                        <div class="p-3 p-md-4 border-bottom d-flex flex-column flex-md-row justify-content-between gap-2">
+                            <div>
+                                <h2 id="expensesTableTitle" class="h5 fw-bold mb-1">Listado</h2>
+                                <p class="text-muted mb-0 small">
+                                    <span th:text="${expenses.totalElements}">0</span> gasto(s) encontrado(s)
+                                </p>
+                            </div>
+                        </div>
+
+                        <div th:if="${expenses.totalElements == 0}" class="empty-state text-center p-4 p-md-5">
+                            <h3 class="h5 fw-bold">Aún no tienes gastos</h3>
+                            <p class="text-muted mb-3">Registra tu primer gasto para que el dashboard y los reportes sean más reales.</p>
+                            <a sec:authorize="hasAnyRole('ADMIN','MANAGER')" class="btn btn-primary" th:href="@{/expenses/new}">Crear gasto</a>
+                        </div>
+
+                        <div th:if="${expenses.totalElements > 0}" class="desktop-table-wrapper">
+                            <table class="table align-middle erp-table expenses-table">
+                                <caption class="visually-hidden">Listado de gastos registrados</caption>
+                                <colgroup>
+                                    <col style="width: 11%;">
+                                    <col style="width: 22%;">
+                                    <col style="width: 14%;">
+                                    <col style="width: 14%;">
+                                    <col style="width: 10%;">
+                                    <col style="width: 9%;">
+                                    <col style="width: 340px;">
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Proveedor</th>
+                                    <th scope="col">Categoría</th>
+                                    <th scope="col">Factura</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col" class="text-center actions-column-title">Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="expense : ${expenses.content}">
+                                    <td th:text="${#temporals.format(expense.expenseDate, 'dd/MM/yyyy')}">08/07/2026</td>
+                                    <td>
+                                        <span class="fw-semibold cell-ellipsis" th:title="${expense.supplierName}" th:text="${expense.supplierName}">Proveedor</span>
+                                        <span class="small text-muted cell-clamp-2" th:if="${expense.description != null}" th:title="${expense.description}" th:text="${expense.description}">Descripción</span>
+                                    </td>
+                                    <td><span class="expense-category" th:text="${expense.category.label}">Otros</span></td>
+                                    <td><span class="cell-ellipsis" th:title="${expense.invoiceNumber}" th:text="${expense.invoiceNumber != null ? expense.invoiceNumber : '-'}">-</span></td>
+                                    <td><span th:text="${#numbers.formatDecimal(expense.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</td>
+                                    <td>
+                                        <span th:if="${expense.paid}" class="expense-status expense-status--paid">Pagado</span>
+                                        <span th:unless="${expense.paid}" class="expense-status expense-status--pending">Pendiente</span>
+                                    </td>
+                                    <td class="text-center actions-column-cell">
+                                        <div class="expense-actions">
+                                            <a sec:authorize="hasAnyRole('ADMIN','MANAGER')" class="btn btn-outline-primary btn-sm" th:href="@{/expenses/{id}/edit(id=${expense.id})}">Editar</a>
+                                            <button sec:authorize="hasAnyRole('ADMIN','MANAGER')" type="button" class="btn btn-outline-danger btn-sm"
+                                                    data-bs-toggle="modal" th:attr="data-bs-target='#deleteExpenseModal' + ${expense.id}">Eliminar</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div th:if="${expenses.totalElements > 0}" class="mobile-card-list p-3 p-md-4">
+                            <article class="mobile-list-card" th:each="expense : ${expenses.content}">
+                                <div class="d-flex justify-content-between gap-3 mb-2">
+                                    <div class="min-w-0">
+                                        <h3 class="h6 mobile-list-title mb-1" th:title="${expense.supplierName}" th:text="${expense.supplierName}">Proveedor</h3>
+                                        <p class="mobile-list-description mb-0" th:if="${expense.description != null}" th:text="${expense.description}">Descripción</p>
+                                    </div>
+                                    <div class="text-end flex-shrink-0">
+                                        <span th:if="${expense.paid}" class="expense-status expense-status--paid">Pagado</span>
+                                        <span th:unless="${expense.paid}" class="expense-status expense-status--pending">Pendiente</span>
+                                    </div>
+                                </div>
+
+                                <dl class="row small mb-3">
+                                    <dt class="col-5 text-muted">Fecha</dt>
+                                    <dd class="col-7 text-end" th:text="${#temporals.format(expense.expenseDate, 'dd/MM/yyyy')}">08/07/2026</dd>
+
+                                    <dt class="col-5 text-muted">Categoría</dt>
+                                    <dd class="col-7 text-end" th:text="${expense.category.label}">Otros</dd>
+
+                                    <dt class="col-5 text-muted">Factura</dt>
+                                    <dd class="col-7 text-end cell-ellipsis" th:title="${expense.invoiceNumber}" th:text="${expense.invoiceNumber != null ? expense.invoiceNumber : '-'}">-</dd>
+
+                                    <dt class="col-5 text-muted">Total</dt>
+                                    <dd class="col-7 text-end fw-semibold"><span th:text="${#numbers.formatDecimal(expense.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</dd>
+                                </dl>
+
+                                <div class="mobile-actions">
+                                    <a sec:authorize="hasAnyRole('ADMIN','MANAGER')" class="btn btn-outline-primary btn-sm" th:href="@{/expenses/{id}/edit(id=${expense.id})}">Editar</a>
+                                    <button sec:authorize="hasAnyRole('ADMIN','MANAGER')" type="button" class="btn btn-outline-danger btn-sm"
+                                            data-bs-toggle="modal" th:attr="data-bs-target='#deleteExpenseMobileModal' + ${expense.id}">Eliminar</button>
+                                </div>
+                            </article>
+                        </div>
+
+                        <div th:if="${expenses.totalPages > 1}" class="p-3 p-md-4 border-top">
+                            <nav aria-label="Paginación de gastos">
+                                <ul class="pagination justify-content-center mb-0 flex-wrap gap-1">
+                                    <li class="page-item" th:classappend="${expenses.first} ? 'disabled'">
+                                        <a class="page-link" th:href="@{/expenses(query=${query}, page=${currentPage - 1})}">Anterior</a>
+                                    </li>
+                                    <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, expenses.totalPages - 1)}" th:classappend="${pageNumber == currentPage} ? 'active'">
+                                        <a class="page-link" th:href="@{/expenses(query=${query}, page=${pageNumber})}" th:text="${pageNumber + 1}">1</a>
+                                    </li>
+                                    <li class="page-item" th:classappend="${expenses.last} ? 'disabled'">
+                                        <a class="page-link" th:href="@{/expenses(query=${query}, page=${currentPage + 1})}">Siguiente</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </section>
+
+                <div th:each="expense : ${expenses.content}">
+                    <div class="modal fade" th:id="${'deleteExpenseModal' + expense.id}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="modal-title h5">Eliminar gasto</h2>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="mb-0">Vas a eliminar el gasto de <strong th:text="${expense.supplierName}">Proveedor</strong>.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <form th:action="@{/expenses/{id}/delete(id=${expense.id})}" method="post" class="m-0">
+                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" th:id="${'deleteExpenseMobileModal' + expense.id}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="modal-title h5">Eliminar gasto</h2>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="mb-0">Vas a eliminar el gasto de <strong th:text="${expense.supplierName}">Proveedor</strong>.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <form th:action="@{/expenses/{id}/delete(id=${expense.id})}" method="post" class="m-0">
+                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.7/dist/js/bootstrap.bundle.min.js}" defer></script>
+<!-- ERP_V6_BODY_START -->
+<script th:src="@{/js/app.js(v=1)}" src="/js/app.js?v=1" defer></script>
+<!-- ERP_V6_BODY_END -->
+</body>
+</html>

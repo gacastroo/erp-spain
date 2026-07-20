@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Reportes | ERP Spain</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="ERP Spain: gestión ligera de clientes, presupuestos, facturas, cobros, gastos e impuestos.">
+<!-- ERP_V6_HEAD_START -->
+<script th:src="@{/js/theme-init.js(v=1)}" src="/js/theme-init.js?v=1"></script>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.7/dist/css/bootstrap.min.css}" href="/webjars/bootstrap/5.3.7/dist/css/bootstrap.min.css">
+<link rel="stylesheet" th:href="@{/css/app.css(v=2)}" href="/css/app.css?v=2">
+<!-- ERP_V6_HEAD_END -->
+</head>
+<body class="app-page">
+
+<a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+<header class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+    <nav class="container-fluid px-3 px-md-4" aria-label="Navegación principal">
+        <a class="navbar-brand fw-bold" th:href="@{/dashboard}">ERP Spain</a>
+
+        <button class="navbar-toggler ms-auto" type="button"
+                data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
+                aria-controls="mobileMenu" aria-label="Abrir menú">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="d-none d-lg-flex align-items-center gap-2 ms-auto erp-navbar-session">
+            <span class="erp-v6-user-chip erp-navbar-user" aria-label="Usuario autenticado">
+                <span class="erp-navbar-user-label">Usuario:</span>
+                <strong sec:authentication="name">admin@erp.local</strong>
+            </span>
+
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <button type="submit" class="btn btn-outline-secondary btn-sm">Salir</button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuTitle">
+    <div class="offcanvas-header">
+        <h2 class="offcanvas-title h5" id="mobileMenuTitle">Menú</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar menú"></button>
+    </div>
+
+    <div class="offcanvas-body">
+        <nav aria-label="Menú móvil">
+            <ul class="nav flex-column gap-1">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/clients}">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/products}">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/payments}">Cobros</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/expenses}">Gastos</a></li>
+                    <li class="nav-item"><a class="nav-link active" th:href="@{/reports}">Reportes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/taxes}">Impuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/settings/company}">Configuración</a></li>
+            </ul>
+        </nav>
+
+        <hr>
+
+        <div class="erp-mobile-session mb-3">
+            <span>Usuario</span>
+            <strong sec:authentication="name">admin@erp.local</strong>
+        </div>
+
+        <form th:action="@{/logout}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button type="submit" class="btn btn-outline-secondary w-100">Salir</button>
+        </form>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <aside class="col-lg-2 d-none d-lg-block app-sidebar border-end">
+            <nav class="p-3" aria-label="Menú lateral">
+                <ul class="nav flex-column gap-1">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/clients}">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/products}">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/payments}">Cobros</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/expenses}">Gastos</a></li>
+                    <li class="nav-item"><a class="nav-link active" th:href="@{/reports}">Reportes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/taxes}">Impuestos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/settings/company}">Configuración</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main id="main-content" class="col-12 col-lg-10 app-main">
+            <div class="container-fluid py-4 py-md-5">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+                    <div>
+                        <p class="text-uppercase text-primary fw-semibold mb-1">Análisis</p>
+                        <h1 class="h3 fw-bold mb-1">Reportes</h1>
+                        <p class="text-muted mb-0">Consulta ventas, cobros, gastos, clientes y productos en un periodo concreto.</p>
+                    </div>
+                    <div class="report-export-actions">
+                        <a class="btn btn-outline-primary"
+                           th:href="@{/reports/sales.xlsx(startDate=${startDate}, endDate=${endDate})}">
+                            Exportar Excel
+                        </a>
+                        <a class="btn btn-outline-danger"
+                           th:href="@{/reports/sales.pdf(startDate=${startDate}, endDate=${endDate})}">
+                            Exportar PDF
+                        </a>
+                    </div>
+                </div>
+
+                <section class="card mb-4" aria-labelledby="reportFiltersTitle">
+                    <div class="card-body p-3 p-md-4">
+                        <h2 id="reportFiltersTitle" class="h5 fw-bold mb-3">Filtros</h2>
+                        <form th:action="@{/reports}" method="get" class="row g-3 align-items-end">
+                            <div class="col-12 col-md-4">
+                                <label for="startDate" class="form-label">Desde</label>
+                                <input id="startDate" type="date" name="startDate" class="form-control" th:value="${startDate}">
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="endDate" class="form-label">Hasta</label>
+                                <input id="endDate" type="date" name="endDate" class="form-control" th:value="${endDate}">
+                            </div>
+                            <div class="col-12 col-md-4 d-grid">
+                                <button type="submit" class="btn btn-primary">Aplicar filtro</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <section aria-labelledby="reportSummaryTitle" class="mb-4">
+                    <h2 id="reportSummaryTitle" class="visually-hidden">Resumen del reporte</h2>
+                    <div class="row g-3 g-md-4">
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <article class="card metric-card h-100"><div class="card-body"><p class="text-muted mb-1">Facturado</p><p class="h4 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(report.invoicedTotal, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p></div></article>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <article class="card metric-card h-100"><div class="card-body"><p class="text-muted mb-1">Cobrado</p><p class="h4 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(report.collectedTotal, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p></div></article>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <article class="card metric-card h-100"><div class="card-body"><p class="text-muted mb-1">Gastos registrados</p><p class="h4 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(report.expensesTotal, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p></div></article>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <article class="card metric-card h-100"><div class="card-body"><p class="text-muted mb-1">Gastos pagados</p><p class="h4 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(report.paidExpensesTotal, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p></div></article>
+                        </div>
+                        <div class="col-12 col-md-6 col-xl">
+                            <article class="card metric-card h-100"><div class="card-body"><p class="text-muted mb-1">Resultado caja</p><p class="h4 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(report.cashResult, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p><p class="small text-muted mb-0">Cobrado - gastos pagados</p></div></article>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <article class="card metric-card h-100"><div class="card-body"><p class="text-muted mb-1">Pendiente estimado</p><p class="h4 fw-bold mb-0"><span th:text="${#numbers.formatDecimal(report.pendingEstimated, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</p></div></article>
+                        </div>
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <article class="card metric-card h-100"><div class="card-body"><p class="text-muted mb-1">Actividad</p><p class="h4 fw-bold mb-0"><span th:text="${report.invoiceCount}">0</span> facturas</p><p class="small text-muted mb-0"><span th:text="${report.paymentCount}">0</span> cobros · <span th:text="${report.expenseCount}">0</span> gastos</p></div></article>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="row g-4">
+                    <div class="col-12 col-xl-6">
+                        <section class="card h-100" aria-labelledby="clientsReportTitle">
+                            <div class="card-body p-3 p-md-4">
+                                <h2 id="clientsReportTitle" class="h5 fw-bold mb-3">Ventas por cliente</h2>
+                                <div th:if="${report.salesByClient.isEmpty()}" class="text-center py-4 text-muted">No hay ventas en este periodo.</div>
+                                <div th:if="${!report.salesByClient.isEmpty()}" class="table-responsive report-table-wrapper">
+                                    <table class="table align-middle report-table">
+                                        <caption class="visually-hidden">Ventas agrupadas por cliente</caption>
+                                        <thead><tr><th>Cliente</th><th class="text-end">Facturas</th><th class="text-end">Total</th></tr></thead>
+                                        <tbody>
+                                        <tr th:each="row : ${report.salesByClient}">
+                                            <td><span class="cell-ellipsis" th:title="${row.clientName}" th:text="${row.clientName}">Cliente</span></td>
+                                            <td class="text-end" th:text="${row.invoiceCount}">0</td>
+                                            <td class="text-end"><span th:text="${#numbers.formatDecimal(row.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="col-12 col-xl-6">
+                        <section class="card h-100" aria-labelledby="productsReportTitle">
+                            <div class="card-body p-3 p-md-4">
+                                <h2 id="productsReportTitle" class="h5 fw-bold mb-3">Productos y servicios vendidos</h2>
+                                <div th:if="${report.salesByProduct.isEmpty()}" class="text-center py-4 text-muted">No hay productos vendidos en este periodo.</div>
+                                <div th:if="${!report.salesByProduct.isEmpty()}" class="table-responsive report-table-wrapper">
+                                    <table class="table align-middle report-table">
+                                        <caption class="visually-hidden">Ventas agrupadas por producto o servicio</caption>
+                                        <thead><tr><th>Concepto</th><th class="text-end">Cantidad</th><th class="text-end">Total</th></tr></thead>
+                                        <tbody>
+                                        <tr th:each="row : ${report.salesByProduct}">
+                                            <td><span class="cell-ellipsis" th:title="${row.description}" th:text="${row.description}">Concepto</span></td>
+                                            <td class="text-end" th:text="${#numbers.formatDecimal(row.quantity, 1, 'POINT', 2, 'COMMA')}">0,00</td>
+                                            <td class="text-end"><span th:text="${#numbers.formatDecimal(row.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <section class="card mt-4" aria-labelledby="expensesReportTitle">
+                    <div class="card-body p-3 p-md-4">
+                        <h2 id="expensesReportTitle" class="h5 fw-bold mb-3">Gastos del periodo</h2>
+                        <div th:if="${report.expenses.isEmpty()}" class="text-center py-4 text-muted">No hay gastos en este periodo.</div>
+                        <div th:if="${!report.expenses.isEmpty()}" class="table-responsive report-table-wrapper">
+                            <table class="table align-middle report-table">
+                                <caption class="visually-hidden">Gastos incluidos en el reporte</caption>
+                                <thead><tr><th>Fecha</th><th>Proveedor</th><th>Categoría</th><th>Factura</th><th class="text-end">Total</th></tr></thead>
+                                <tbody>
+                                <tr th:each="expense : ${report.expenses}">
+                                    <td th:text="${#temporals.format(expense.expenseDate, 'dd/MM/yyyy')}">08/07/2026</td>
+                                    <td><span class="cell-ellipsis" th:title="${expense.supplierName}" th:text="${expense.supplierName}">Proveedor</span></td>
+                                    <td><span class="expense-category" th:text="${expense.category.label}">Otros</span></td>
+                                    <td><span class="cell-ellipsis" th:title="${expense.invoiceNumber}" th:text="${expense.invoiceNumber != null ? expense.invoiceNumber : '-'}">-</span></td>
+                                    <td class="text-end"><span th:text="${#numbers.formatDecimal(expense.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card mt-4" aria-labelledby="invoicesReportTitle">
+                    <div class="card-body p-3 p-md-4">
+                        <h2 id="invoicesReportTitle" class="h5 fw-bold mb-3">Facturas del periodo</h2>
+                        <div th:if="${report.invoices.isEmpty()}" class="text-center py-4 text-muted">No hay facturas en este periodo.</div>
+                        <div th:if="${!report.invoices.isEmpty()}" class="table-responsive report-table-wrapper">
+                            <table class="table align-middle report-table">
+                                <caption class="visually-hidden">Facturas incluidas en el reporte</caption>
+                                <thead><tr><th>Factura</th><th>Cliente</th><th>Fecha</th><th>Estado</th><th class="text-end">Total</th></tr></thead>
+                                <tbody>
+                                <tr th:each="invoice : ${report.invoices}">
+                                    <td><span class="fw-semibold cell-ellipsis" th:title="${invoice.invoiceNumber}" th:text="${invoice.invoiceNumber}">FAC</span></td>
+                                    <td><span class="cell-ellipsis" th:title="${invoice.client.legalName}" th:text="${invoice.client.legalName}">Cliente</span></td>
+                                    <td th:text="${#temporals.format(invoice.issueDate, 'dd/MM/yyyy')}">08/07/2026</td>
+                                    <td><span class="invoice-status" th:classappend="${' invoice-status--' + #strings.toLowerCase(invoice.status.name())}" th:text="${invoice.status.label}">Estado</span></td>
+                                    <td class="text-end"><span th:text="${#numbers.formatDecimal(invoice.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.7/dist/js/bootstrap.bundle.min.js}" defer></script>
+<!-- ERP_V6_BODY_START -->
+<script th:src="@{/js/app.js(v=1)}" src="/js/app.js?v=1" defer></script>
+<!-- ERP_V6_BODY_END -->
+</body>
+</html>
