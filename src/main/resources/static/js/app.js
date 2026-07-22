@@ -655,6 +655,23 @@ const header = document.querySelector(".app-page > header.navbar, header.navbar,
       </span>`;
   }
 
+  function syncLoginFieldTheme(theme) {
+    const safeTheme = theme === "dark" ? "dark" : "light";
+    const palette = safeTheme === "dark"
+      ? { text: "#f4f6fb", background: "#151f2e" }
+      : { text: "#182238", background: "#ffffff" };
+
+    document.querySelectorAll("body.auth-page #username, body.auth-page #password")
+      .forEach((field) => {
+        /* Valores explícitos: Chromium no puede conservar los del tema anterior. */
+        field.style.setProperty("color", palette.text, "important");
+        field.style.setProperty("-webkit-text-fill-color", palette.text, "important");
+        field.style.setProperty("caret-color", palette.text, "important");
+        field.style.setProperty("background-color", palette.background, "important");
+        field.style.setProperty("color-scheme", safeTheme);
+      });
+  }
+
   function applyTheme(theme, persist = true) {
     const safeTheme = theme === "dark" ? "dark" : "light";
     root.dataset.theme = safeTheme;
@@ -662,6 +679,8 @@ const header = document.querySelector(".app-page > header.navbar, header.navbar,
     root.style.colorScheme = safeTheme;
     if (persist) localStorage.setItem(STORAGE_KEY, safeTheme);
     document.querySelectorAll(".erp-login-theme-toggle").forEach(render);
+    syncLoginFieldTheme(safeTheme);
+    window.requestAnimationFrame(() => syncLoginFieldTheme(safeTheme));
   }
 
   function install() {
@@ -685,6 +704,7 @@ const header = document.querySelector(".app-page > header.navbar, header.navbar,
 
     render(button);
     pane.appendChild(button);
+    syncLoginFieldTheme(currentTheme());
   }
 
   function schedule() {

@@ -212,7 +212,7 @@
                                     <dt class="col-5 text-muted">Total</dt>
                                     <dd class="col-7 text-end"><span th:text="${#numbers.formatDecimal(quote.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</dd>
                                 </dl>
-                                <div class="mobile-actions">
+                                <div class="mobile-actions quote-mobile-actions">
                                     <a class="btn btn-outline-secondary btn-sm" th:href="@{/quotes/{id}(id=${quote.id})}">Ver</a>
                                     <a sec:authorize="hasAnyRole('ADMIN','MANAGER')"
                                        th:if="${!invoicedQuoteIds.contains(quote.id)}"

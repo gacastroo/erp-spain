@@ -207,7 +207,7 @@
                                     <dt class="col-5 text-muted">Total</dt>
                                     <dd class="col-7 text-end"><span th:text="${#numbers.formatDecimal(invoice.total, 1, 'POINT', 2, 'COMMA')}">0,00</span> €</dd>
                                 </dl>
-                                <div class="mobile-actions">
+                                <div class="mobile-actions invoice-mobile-actions">
                                     <a class="btn btn-outline-secondary btn-sm" th:href="@{/invoices/{id}(id=${invoice.id})}">Ver</a>
                                     <button sec:authorize="hasAnyRole('ADMIN','MANAGER')"
                                             th:if="${invoice.deletable}"

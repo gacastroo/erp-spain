@@ -2917,6 +2917,62 @@ html[data-bs-theme="dark"] body.erp-login-stable .erp-login-theme-toggle {
 }
 
 
+/* =========================================================
+   Login: contraste inmediato del texto al alternar el tema.
+   Los colores son explícitos para evitar que Chromium conserve
+   el valor resuelto del tema anterior, incluido el autocompletado.
+   ========================================================= */
+body.erp-login-stable .auth-card :is(#username, #password) {
+  transition: border-color 150ms ease, box-shadow 150ms ease !important;
+}
+
+html[data-theme="light"] body.erp-login-stable .auth-card :is(#username, #password),
+html[data-bs-theme="light"] body.erp-login-stable .auth-card :is(#username, #password) {
+  color: #182238 !important;
+  caret-color: #182238 !important;
+  -webkit-text-fill-color: #182238 !important;
+  background-color: #ffffff !important;
+  color-scheme: light;
+}
+
+html[data-theme="dark"] body.erp-login-stable .auth-card :is(#username, #password),
+html[data-bs-theme="dark"] body.erp-login-stable .auth-card :is(#username, #password) {
+  color: #f4f6fb !important;
+  caret-color: #f4f6fb !important;
+  -webkit-text-fill-color: #f4f6fb !important;
+  background-color: #151f2e !important;
+  color-scheme: dark;
+}
+
+html[data-theme="light"] body.erp-login-stable .auth-card :is(#username, #password):-webkit-autofill,
+html[data-theme="light"] body.erp-login-stable .auth-card :is(#username, #password):-webkit-autofill:hover,
+html[data-theme="light"] body.erp-login-stable .auth-card :is(#username, #password):-webkit-autofill:focus,
+html[data-bs-theme="light"] body.erp-login-stable .auth-card :is(#username, #password):-webkit-autofill,
+html[data-bs-theme="light"] body.erp-login-stable .auth-card :is(#username, #password):-webkit-autofill:hover,
+html[data-bs-theme="light"] body.erp-login-stable .auth-card :is(#username, #password):-webkit-autofill:focus {
+  color: #182238 !important;
+  caret-color: #182238 !important;
+  -webkit-text-fill-color: #182238 !important;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+  transition: none !important;
+}
+
+html[data-theme="dark"] body.erp-login-stable .auth-card :is(#username, #password):-webkit-autofill,
+html[data-theme="dark"] body.erp-login-stable .auth-card :is(#username, #password):-webkit-autofill:hover,
+html[data-theme="dark"] body.erp-login-stable .auth-card :is(#username, #password):-webkit-autofill:focus,
+html[data-bs-theme="dark"] body.erp-login-stable .auth-card :is(#username, #password):-webkit-autofill,
+html[data-bs-theme="dark"] body.erp-login-stable .auth-card :is(#username, #password):-webkit-autofill:hover,
+html[data-bs-theme="dark"] body.erp-login-stable .auth-card :is(#username, #password):-webkit-autofill:focus {
+  color: #f4f6fb !important;
+  caret-color: #f4f6fb !important;
+  -webkit-text-fill-color: #f4f6fb !important;
+  -webkit-box-shadow: 0 0 0 1000px #151f2e inset !important;
+  box-shadow: 0 0 0 1000px #151f2e inset !important;
+  transition: none !important;
+}
+
+
 /* ========================================================================== 
    Navegación coherente — usuario, logout y botón Volver
    ========================================================================== */
@@ -3319,5 +3375,159 @@ html[data-bs-theme="dark"] .erp-product-deactivate:focus-visible {
 
   .app-main .erp-page-back {
     width: 100%;
+  }
+}
+
+/* =========================================================
+   AJUSTES ESPECÍFICOS DE ACCIONES · CLIENTES, PRODUCTOS, PRESUPUESTOS Y FACTURAS
+   ========================================================= */
+
+/* Desactivar conserva su significado sin competir visualmente con Eliminar. */
+.erp-client-deactivate,
+.erp-product-deactivate {
+  border: 1px solid var(--erp-border-strong) !important;
+  color: var(--erp-text-soft) !important;
+  background: transparent !important;
+  font-weight: 620 !important;
+  box-shadow: none !important;
+}
+
+.erp-client-deactivate:hover,
+.erp-client-deactivate:active,
+.erp-product-deactivate:hover,
+.erp-product-deactivate:active {
+  border-color: var(--erp-danger-border) !important;
+  color: var(--erp-danger) !important;
+  background: var(--erp-danger-soft) !important;
+  box-shadow: none !important;
+}
+
+.erp-client-deactivate:focus-visible,
+.erp-product-deactivate:focus-visible {
+  border-color: var(--erp-danger-border) !important;
+  color: var(--erp-danger) !important;
+  background: var(--erp-danger-soft) !important;
+  box-shadow: 0 0 0 0.2rem rgba(var(--bs-danger-rgb), 0.12) !important;
+}
+
+/* Librería visual compartida: todas las acciones usan el mismo ancho y altura. */
+.client-actions,
+.product-actions,
+.quote-actions,
+.invoice-actions {
+  --erp-action-button-width: 104px;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, var(--erp-action-button-width)) !important;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  margin-inline: auto;
+  padding-block: 0 !important;
+  gap: 0.5rem !important;
+}
+
+.client-actions > *,
+.product-actions > *,
+.quote-actions > *,
+.invoice-actions > *,
+.client-actions form,
+.product-actions form,
+.quote-actions form,
+.invoice-actions form,
+.client-actions .btn,
+.product-actions .btn,
+.quote-actions .btn,
+.invoice-actions .btn {
+  box-sizing: border-box;
+  width: var(--erp-action-button-width) !important;
+  min-width: var(--erp-action-button-width) !important;
+  max-width: var(--erp-action-button-width) !important;
+  min-height: 36px;
+  margin: 0 !important;
+}
+
+.client-actions form,
+.product-actions form,
+.quote-actions form,
+.invoice-actions form {
+  display: flex !important;
+  align-items: stretch !important;
+}
+
+.client-actions form .btn,
+.product-actions form .btn,
+.quote-actions form .btn,
+.invoice-actions form .btn {
+  flex: 1 1 auto;
+}
+
+/* La misma librería se aplica a las tarjetas responsive. */
+.app-main .client-mobile-actions,
+.app-main .product-mobile-actions,
+.app-main .quote-mobile-actions,
+.app-main .invoice-mobile-actions {
+  --erp-action-button-width: 104px;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, var(--erp-action-button-width)) !important;
+  justify-content: center;
+  align-items: stretch;
+  width: min(100%, 520px) !important;
+  margin-inline: auto !important;
+  padding-block: 0 !important;
+  gap: 0.65rem !important;
+}
+
+.app-main .client-mobile-actions > *,
+.app-main .product-mobile-actions > *,
+.app-main .quote-mobile-actions > *,
+.app-main .invoice-mobile-actions > *,
+.app-main .client-mobile-actions form,
+.app-main .product-mobile-actions form,
+.app-main .quote-mobile-actions form,
+.app-main .invoice-mobile-actions form,
+.app-main .client-mobile-actions .btn,
+.app-main .product-mobile-actions .btn,
+.app-main .quote-mobile-actions .btn,
+.app-main .invoice-mobile-actions .btn {
+  box-sizing: border-box;
+  width: var(--erp-action-button-width) !important;
+  min-width: var(--erp-action-button-width) !important;
+  max-width: var(--erp-action-button-width) !important;
+  min-height: 44px !important;
+  margin: 0 !important;
+}
+
+.app-main .client-mobile-actions form,
+.app-main .product-mobile-actions form,
+.app-main .quote-mobile-actions form,
+.app-main .invoice-mobile-actions form {
+  display: flex !important;
+  align-items: stretch !important;
+}
+
+@media (max-width: 575.98px) {
+  .app-main .client-mobile-actions,
+  .app-main .product-mobile-actions,
+  .app-main .quote-mobile-actions,
+  .app-main .invoice-mobile-actions {
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+  }
+
+  .app-main .client-mobile-actions > *,
+  .app-main .product-mobile-actions > *,
+  .app-main .quote-mobile-actions > *,
+  .app-main .invoice-mobile-actions > *,
+  .app-main .client-mobile-actions form,
+  .app-main .product-mobile-actions form,
+  .app-main .quote-mobile-actions form,
+  .app-main .invoice-mobile-actions form,
+  .app-main .client-mobile-actions .btn,
+  .app-main .product-mobile-actions .btn,
+  .app-main .quote-mobile-actions .btn,
+  .app-main .invoice-mobile-actions .btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
   }
 }
