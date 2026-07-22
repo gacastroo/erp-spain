@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 
@@ -35,7 +36,7 @@ public class LoginRateLimitFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         String username = request.getParameter("username");
         if (loginAttemptService.isBlocked(request.getRemoteAddr(), username)) {
-            response.setStatus(HttpServletResponse.SC_TOO_MANY_REQUESTS);
+            response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
             response.setContentType("text/plain;charset=UTF-8");
             response.getWriter().write("Demasiados intentos fallidos. Espera unos minutos antes de volver a intentarlo.");
             return;

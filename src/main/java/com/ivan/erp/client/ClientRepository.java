@@ -33,4 +33,18 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
                 or lower(c.email) like lower(concat('%', :q, '%')))
             """)
     Page<Client> search(@Param("q") String query, Pageable pageable);
+
+    @Query("""
+            SELECT COUNT(i)
+            FROM Invoice i
+            WHERE i.client.id = :clientId
+            """)
+    long countInvoicesByClientId(@Param("clientId") Long clientId);
+
+    @Query("""
+            SELECT COUNT(q)
+            FROM Quote q
+            WHERE q.client.id = :clientId
+            """)
+    long countQuotesByClientId(@Param("clientId") Long clientId);
 }

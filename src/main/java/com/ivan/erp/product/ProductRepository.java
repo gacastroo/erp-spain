@@ -28,4 +28,18 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     boolean existsBySkuIgnoreCase(String sku);
 
     boolean existsBySkuIgnoreCaseAndIdNot(String sku, Long id);
+
+    @Query("""
+            SELECT COUNT(l)
+            FROM InvoiceLine l
+            WHERE l.product.id = :productId
+            """)
+    long countInvoiceLinesByProductId(@Param("productId") Long productId);
+
+    @Query("""
+            SELECT COUNT(l)
+            FROM QuoteLine l
+            WHERE l.product.id = :productId
+            """)
+    long countQuoteLinesByProductId(@Param("productId") Long productId);
 }

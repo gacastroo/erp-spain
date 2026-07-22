@@ -4,6 +4,7 @@ import com.ivan.erp.product.Product;
 import com.ivan.erp.product.ProductRepository;
 import com.ivan.erp.product.web.ProductForm;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductService {
 
     private static final int PAGE_SIZE = 10;
+    private static final String PRODUCT_IN_USE_MESSAGE =
+            "No se puede eliminar este producto porque está incluido en facturas o presupuestos. Puedes desactivarlo.";
 
     private final ProductRepository productRepository;
 
@@ -82,6 +85,14 @@ public class ProductService {
     @Transactional
     public void delete(Long id) {
         Product product = getById(id);
+
+        boolean usedInInvoices = productRepository.countInvoiceLinesByProductId(id) > 0;
+        boolean usedInQuotes = productRepository.countQuoteLinesByProductId(id) > 0;
+
+        if (usedInInvoices || usedInQuotes) {
+            throw new DataIntegrityViolationException(PRODUCT_IN_USE_MESSAGE);
+        }
+
         productRepository.delete(product);
     }
 

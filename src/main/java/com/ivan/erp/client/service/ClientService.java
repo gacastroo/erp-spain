@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClientService {
 
     private static final int MAX_PAGE_SIZE = 50;
+    private static final String CLIENT_IN_USE_MESSAGE =
+            "No se puede eliminar este cliente porque tiene facturas o presupuestos relacionados. Puedes desactivarlo.";
 
     private final ClientRepository clientRepository;
 
@@ -111,6 +113,14 @@ public class ClientService {
     @Transactional
     public void delete(Long id) {
         Client client = getById(id);
+
+        boolean hasInvoices = clientRepository.countInvoicesByClientId(id) > 0;
+        boolean hasQuotes = clientRepository.countQuotesByClientId(id) > 0;
+
+        if (hasInvoices || hasQuotes) {
+            throw new DataIntegrityViolationException(CLIENT_IN_USE_MESSAGE);
+        }
+
         clientRepository.delete(client);
     }
 

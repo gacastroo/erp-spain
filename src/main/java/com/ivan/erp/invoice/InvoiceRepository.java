@@ -188,24 +188,30 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
             @Param("excludedStatuses") Collection<InvoiceStatus> excludedStatuses
     );
 
-    @Query("""
-            SELECT CASE
-                       WHEN p.id IS NULL THEN CONCAT('Línea libre: ', l.description)
-                       ELSE p.name
-                   END,
-                   COALESCE(SUM(l.quantity), 0),
-                   COALESCE(SUM(l.lineTotal), 0)
-            FROM Invoice i
-            JOIN i.lines l
-            LEFT JOIN l.product p
-            WHERE i.issueDate BETWEEN :start AND :end
-              AND i.status NOT IN :excludedStatuses
-            GROUP BY p.id, p.name, CASE WHEN p.id IS NULL THEN l.description ELSE '' END
-            ORDER BY COALESCE(SUM(l.lineTotal), 0) DESC
-            """)
-    List<Object[]> salesByProduct(
-            @Param("start") LocalDate start,
-            @Param("end") LocalDate end,
-            @Param("excludedStatuses") Collection<InvoiceStatus> excludedStatuses
-    );
+   @Query("""
+        SELECT CASE
+                   WHEN p.id IS NULL
+                       THEN CONCAT('Línea libre: ', l.description)
+                   ELSE p.name
+               END,
+               COALESCE(SUM(l.quantity), 0),
+               COALESCE(SUM(l.lineTotal), 0)
+        FROM Invoice i
+        JOIN i.lines l
+        LEFT JOIN l.product p
+        WHERE i.issueDate BETWEEN :start AND :end
+          AND i.status NOT IN :excludedStatuses
+        GROUP BY CASE
+                     WHEN p.id IS NULL
+                         THEN CONCAT('Línea libre: ', l.description)
+                     ELSE p.name
+                 END
+        ORDER BY COALESCE(SUM(l.lineTotal), 0) DESC
+        """)
+List<Object[]> salesByProduct(
+        @Param("start") LocalDate start,
+        @Param("end") LocalDate end,
+        @Param("excludedStatuses")
+        Collection<InvoiceStatus> excludedStatuses
+);
 }
