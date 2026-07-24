@@ -43,6 +43,11 @@ public class ProductService {
 
     @Transactional
     public Product create(ProductForm form) {
+        String sku = form.getSku();
+        if (sku != null && !sku.isBlank() && productRepository.existsBySkuIgnoreCase(sku.trim())) {
+            throw new DataIntegrityViolationException("Ya existe un producto con esa referencia");
+        }
+
         Product product = new Product(
                 form.getName(),
                 form.getDescription(),

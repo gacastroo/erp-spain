@@ -106,7 +106,8 @@
                         <p class="text-muted mb-0">Consulta, crea y administra clientes activos e inactivos.</p>
                     </div>
 
-                    <div sec:authorize="hasAnyRole('ADMIN','MANAGER')">
+                    <div class="d-flex flex-column flex-sm-row gap-2" sec:authorize="hasAnyRole('ADMIN','MANAGER')">
+                        <a class="btn btn-outline-primary" th:href="@{/clients/import}">Importar CSV / Excel</a>
                         <a class="btn btn-primary" th:href="@{/clients/new}">Nuevo cliente</a>
                     </div>
                 </div>

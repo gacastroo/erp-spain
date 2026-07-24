@@ -78,6 +78,8 @@ Permite administrar la cartera de clientes:
 - Eliminar clientes sin información relacionada.
 - Evitar la eliminación accidental de clientes con documentos asociados.
 - Consultar clientes desde tablas de escritorio o tarjetas móviles.
+- Importar clientes en bloque desde CSV, XLSX o XLS mediante una plantilla descargable.
+- Validar cada fila y mostrar errores sin impedir que se creen las filas correctas.
 
 ### Productos y servicios
 
@@ -89,6 +91,8 @@ Permite mantener el catálogo utilizado en presupuestos y facturas:
 - Editar elementos existentes.
 - Activar o desactivar productos.
 - Utilizar los productos en líneas de documentos comerciales.
+- Importar productos y servicios en bloque desde CSV, XLSX o XLS.
+- Admitir precios con coma o punto decimal, tipos localizados y un IVA predeterminado del 21%.
 
 ### Presupuestos
 

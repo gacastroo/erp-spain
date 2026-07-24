@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Importar Productos y servicios | ERP Spain</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script th:src="@{/js/theme-init.js(v=1)}" src="/js/theme-init.js?v=1"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.7/dist/css/bootstrap.min.css}" href="/webjars/bootstrap/5.3.7/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/app.css(v=4)}" href="/css/app.css?v=4">
+</head>
+<body class="app-page">
+<a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+<header class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+    <nav class="container-fluid px-3 px-md-4" aria-label="Navegación principal">
+        <a class="navbar-brand fw-bold" th:href="@{/dashboard}">ERP Spain</a>
+        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-controls="mobileMenu" aria-label="Abrir menú"><span class="navbar-toggler-icon"></span></button>
+        <div class="d-none d-lg-flex align-items-center gap-2 ms-auto erp-navbar-session">
+            <span class="erp-v6-user-chip erp-navbar-user"><span class="erp-navbar-user-label">Usuario:</span> <strong sec:authentication="name">admin@erp.local</strong></span>
+            <form th:action="@{/logout}" method="post" class="m-0"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"><button type="submit" class="btn btn-outline-secondary btn-sm">Salir</button></form>
+        </div>
+    </nav>
+</header>
+<div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuTitle">
+    <div class="offcanvas-header"><h2 class="offcanvas-title h5" id="mobileMenuTitle">Menú</h2><button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar menú"></button></div>
+    <div class="offcanvas-body">
+        <nav aria-label="Menú móvil"><ul class="nav flex-column gap-1">
+            <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/clients}">Clientes</a></li>
+            <li class="nav-item"><a class="nav-link active" th:href="@{/products}">Productos</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/payments}">Cobros</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/expenses}">Gastos</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/reports}">Reportes</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/taxes}">Impuestos</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/settings/company}">Configuración</a></li>
+        </ul></nav>
+        <hr>
+        <div class="erp-mobile-session mb-3"><span>Usuario</span><strong sec:authentication="name">admin@erp.local</strong></div>
+        <form th:action="@{/logout}" method="post"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"><button type="submit" class="btn btn-outline-secondary w-100">Salir</button></form>
+    </div>
+</div>
+<div class="container-fluid"><div class="row">
+    <aside class="col-lg-2 d-none d-lg-block app-sidebar border-end"><nav class="p-3" aria-label="Menú lateral"><ul class="nav flex-column gap-1">
+        <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/clients}">Clientes</a></li>
+        <li class="nav-item"><a class="nav-link active" th:href="@{/products}">Productos</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/quotes}">Presupuestos</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/invoices}">Facturas</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/payments}">Cobros</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/expenses}">Gastos</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/reports}">Reportes</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/taxes}">Impuestos</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/settings/company}">Configuración</a></li>
+    </ul></nav></aside>
+    <main id="main-content" class="col-12 col-lg-10 app-main"><div class="container-fluid py-4 py-md-5">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-3 mb-4">
+            <div><p class="text-uppercase text-primary fw-semibold mb-1">Importación de datos</p><h1 class="h3 fw-bold mb-1">Importar Productos y servicios</h1><p class="text-muted mb-0">Añade el catálogo desde una hoja de cálculo usando la misma lógica que el alta manual.</p></div>
+            <a th:href="@{/products}" class="btn btn-outline-secondary">← Volver a productos y servicios</a>
+        </div>
+
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert" th:text="${errorMessage}"></div>
+
+        <div class="row g-4">
+            <div class="col-12 col-xl-7">
+                <section class="card" aria-labelledby="uploadTitle"><div class="card-body p-3 p-md-4">
+                    <h2 id="uploadTitle" class="h5 fw-bold">1. Selecciona el archivo</h2>
+                    <p class="text-muted">Se admite CSV, XLSX y XLS. Máximo 5 MB y 5.000 filas. La primera fila debe contener los nombres de las columnas.</p>
+                    <form th:action="@{/products/import}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <label for="file" class="form-label fw-semibold">Archivo</label>
+                        <input id="file" name="file" type="file" class="form-control" accept=".csv,.xlsx,.xls" required aria-describedby="fileHelp">
+                        <div id="fileHelp" class="form-text">Los registros válidos se crearán como si los hubieras guardado desde el formulario.</div>
+                        <div class="d-grid d-sm-flex justify-content-sm-end mt-4"><button type="submit" class="btn btn-primary">Importar productos y servicios</button></div>
+                    </form>
+                </div></section>
+            </div>
+            <div class="col-12 col-xl-5">
+                <section class="card h-100" aria-labelledby="templateTitle"><div class="card-body p-3 p-md-4">
+                    <h2 id="templateTitle" class="h5 fw-bold">2. Usa una plantilla</h2>
+                    <p class="text-muted">Descarga una plantilla vacía para conservar los encabezados correctos.</p>
+                    <div class="d-grid gap-2 mb-4">
+                        <a class="btn btn-outline-primary" th:href="@{/products/import/template(format='xlsx')}">Descargar plantilla Excel</a>
+                        <a class="btn btn-outline-secondary" th:href="@{/products/import/template(format='csv')}">Descargar plantilla CSV</a>
+                    </div>
+                    <h3 class="h6 fw-bold">Columnas obligatorias</h3><p class="small"><code>nombre, precio</code></p>
+                    <h3 class="h6 fw-bold">Columnas opcionales</h3><p class="small text-break"><code>descripcion, sku, tipo, iva</code></p>
+                    <p class="small mb-2">En tipo puedes usar Producto o Servicio. Si tipo o IVA están vacíos, se usarán Producto e IVA 21%.</p>
+                    <p class="small text-muted mb-0">Ejemplo: <code>Mantenimiento mensual;SERV-001;Servicio;49,90;21</code></p>
+                </div></section>
+            </div>
+        </div>
+
+        <section th:if="${importResult}" class="card mt-4" aria-labelledby="resultTitle"><div class="card-body p-3 p-md-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-3">
+                <div><h2 id="resultTitle" class="h5 fw-bold mb-1">Resultado de la importación</h2><p class="text-muted small mb-0" th:if="${uploadedFileName}">Archivo: <span th:text="${uploadedFileName}">archivo.xlsx</span></p></div>
+                <a th:href="@{/products}" class="btn btn-outline-primary align-self-md-start">Ver productos y servicios</a>
+            </div>
+            <div class="row g-3 mb-3">
+                <div class="col-12 col-sm-4"><div class="border rounded p-3 h-100"><div class="text-muted small">Filas procesadas</div><div class="h4 mb-0" th:text="${importResult.processedRows}">0</div></div></div>
+                <div class="col-12 col-sm-4"><div class="border border-success rounded p-3 h-100"><div class="text-muted small">Importadas</div><div class="h4 mb-0 text-success" th:text="${importResult.importedRows}">0</div></div></div>
+                <div class="col-12 col-sm-4"><div class="border border-danger rounded p-3 h-100"><div class="text-muted small">No importadas</div><div class="h4 mb-0 text-danger" th:text="${importResult.failedRows}">0</div></div></div>
+            </div>
+            <div th:if="${importResult.importedRows > 0}" class="alert alert-success" role="status"><strong th:text="${importResult.importedRows}">0</strong> registro(s) creado(s) correctamente.</div>
+            <div th:if="${importResult.failedRows > 0}" class="alert alert-warning" role="alert">Las filas con errores no se han creado. Corrígelas y vuelve a importar únicamente esas filas.</div>
+            <div th:if="${importResult.failedRows > 0}" class="table-responsive">
+                <table class="table align-middle"><caption class="visually-hidden">Errores encontrados durante la importación</caption><thead><tr><th scope="col">Fila</th><th scope="col">Registro</th><th scope="col">Motivo</th></tr></thead>
+                <tbody><tr th:each="error : ${importResult.errors}"><td th:text="${error.rowNumber}">2</td><td th:text="${error.identifier}">Referencia</td><td th:text="${error.message}">Error</td></tr></tbody></table>
+            </div>
+            <p th:if="${importResult.omittedErrors > 0}" class="text-muted small mb-0">Hay <span th:text="${importResult.omittedErrors}">0</span> errores adicionales no mostrados.</p>
+        </div></section>
+    </div></main>
+</div></div>
+<script th:src="@{/webjars/bootstrap/5.3.7/dist/js/bootstrap.bundle.min.js}" defer></script>
+<script th:src="@{/js/app.js(v=1)}" src="/js/app.js?v=1" defer></script>
+</body></html>

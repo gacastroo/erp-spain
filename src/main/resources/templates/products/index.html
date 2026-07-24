@@ -204,7 +204,10 @@
                 </p>
               </div>
 
-              <div sec:authorize="hasAnyRole('ADMIN','MANAGER')">
+              <div class="d-flex flex-column flex-sm-row gap-2" sec:authorize="hasAnyRole('ADMIN','MANAGER')">
+                <a th:href="@{/products/import}" class="btn btn-outline-primary">
+                  Importar CSV / Excel
+                </a>
                 <a th:href="@{/products/new}" class="btn btn-primary">
                   Nuevo producto
                 </a>
