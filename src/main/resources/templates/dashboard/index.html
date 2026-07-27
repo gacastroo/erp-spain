@@ -109,6 +109,26 @@
 
                 </div>
 
+                <section th:if="${activeClients == 0}" class="card mb-4 onboarding-card" aria-labelledby="onboardingTitle">
+                    <div class="card-body p-3 p-md-4">
+                        <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-3">
+                            <div>
+                                <p class="text-uppercase text-primary fw-semibold small mb-1">Primeros pasos</p>
+                                <h2 id="onboardingTitle" class="h5 fw-bold mb-1">Prepara la aplicación para empezar a facturar</h2>
+                                <p class="text-muted mb-0">Sigue este recorrido y tendrás el circuito completo listo.</p>
+                            </div>
+                            <a th:href="@{/settings/company}" class="btn btn-outline-primary align-self-lg-start">Configurar empresa</a>
+                        </div>
+                        <div class="onboarding-steps">
+                            <a th:href="@{/settings/company}" class="onboarding-step"><span>1</span><strong>Configura tu empresa</strong></a>
+                            <a th:href="@{/clients/import}" class="onboarding-step"><span>2</span><strong>Añade o importa clientes</strong></a>
+                            <a th:href="@{/products/import}" class="onboarding-step"><span>3</span><strong>Añade o importa productos</strong></a>
+                            <a th:href="@{/quotes/new}" class="onboarding-step"><span>4</span><strong>Crea un presupuesto</strong></a>
+                            <a th:href="@{/invoices/new}" class="onboarding-step"><span>5</span><strong>Acéptalo y factúralo</strong></a>
+                        </div>
+                    </div>
+                </section>
+
                 <div id="dashboard-live-region"
                      th:fragment="liveDashboard"
                      data-live-url="/dashboard/live"

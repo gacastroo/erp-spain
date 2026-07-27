@@ -16,13 +16,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.ivan.erp.shared.web.PaginationSupport;
 
 import java.util.List;
 
 @Service
 public class QuoteService {
 
-    private static final int PAGE_SIZE = 10;
 
     private final QuoteRepository quoteRepository;
     private final ClientRepository clientRepository;
@@ -46,11 +46,16 @@ public class QuoteService {
 
     @Transactional(readOnly = true)
     public Page<Quote> search(String query, int page) {
+        return search(query, page, 10);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Quote> search(String query, int page, int size) {
         String normalizedQuery = normalizeQuery(query);
 
         Pageable pageable = PageRequest.of(
                 Math.max(page, 0),
-                PAGE_SIZE,
+                PaginationSupport.sanitizeSize(size),
                 Sort.by(Sort.Direction.DESC, "issueDate").and(Sort.by(Sort.Direction.DESC, "id"))
         );
 

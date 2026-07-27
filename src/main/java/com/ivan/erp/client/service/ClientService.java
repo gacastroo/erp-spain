@@ -11,11 +11,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.ivan.erp.shared.web.PaginationSupport;
 
 @Service
 public class ClientService {
 
-    private static final int MAX_PAGE_SIZE = 50;
     private static final String CLIENT_IN_USE_MESSAGE =
             "No se puede eliminar este cliente porque tiene facturas o presupuestos relacionados. Puedes desactivarlo.";
 
@@ -28,7 +28,7 @@ public class ClientService {
     @Transactional(readOnly = true)
     public Page<Client> search(String query, int page, int size) {
         int safePage = Math.max(page, 0);
-        int safeSize = Math.min(Math.max(size, 5), MAX_PAGE_SIZE);
+        int safeSize = PaginationSupport.sanitizeSize(size);
 
         Pageable pageable = PageRequest.of(
                 safePage,

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.ivan.erp.shared.web.PaginationSupport;
 
 @Controller
 @RequestMapping("/expenses")
@@ -28,12 +29,13 @@ public class ExpenseController {
     public String index(
             @RequestParam(defaultValue = "") String query,
             @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
             Model model
     ) {
-        Page<Expense> expenses = expenseService.search(query, page);
+        Page<Expense> expenses = expenseService.search(query, page, size);
         model.addAttribute("expenses", expenses);
         model.addAttribute("query", query);
-        model.addAttribute("currentPage", page);
+        PaginationSupport.addToModel(model, expenses, size);
         return "expenses/index";
     }
 

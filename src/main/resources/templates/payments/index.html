@@ -114,6 +114,7 @@
                     <div class="card-body p-3 p-md-4">
                         <h2 id="paymentSearchTitle" class="visually-hidden">Buscar cobros</h2>
                         <form th:action="@{/payments}" method="get" class="row g-3 align-items-end">
+                    <input type="hidden" name="size" th:value="${size}">
                             <div class="col-12 col-md-8 col-xl-9">
                                 <label for="query" class="form-label">Buscar</label>
                                 <input id="query" type="search" name="query" class="form-control"
@@ -233,19 +234,24 @@
                             </div>
                         </div>
 
-                        <nav th:if="${payments.totalPages > 1}" class="mt-4" aria-label="Paginación de cobros">
-                            <ul class="pagination justify-content-center flex-wrap gap-1">
-                                <li class="page-item" th:classappend="${payments.first} ? 'disabled'">
-                                    <a class="page-link" th:href="@{/payments(query=${query}, page=${currentPage - 1})}">Anterior</a>
-                                </li>
-                                <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, payments.totalPages - 1)}" th:classappend="${pageNumber == currentPage} ? 'active'">
-                                    <a class="page-link" th:href="@{/payments(query=${query}, page=${pageNumber})}" th:text="${pageNumber + 1}">1</a>
-                                </li>
-                                <li class="page-item" th:classappend="${payments.last} ? 'disabled'">
-                                    <a class="page-link" th:href="@{/payments(query=${query}, page=${currentPage + 1})}">Siguiente</a>
-                                </li>
-                            </ul>
-                        </nav>
+                        <div th:if="${payments.totalElements > 0}" class="erp-pagination-bar mt-4">
+                  <form th:action="@{/payments}" method="get" class="erp-page-size-form">
+                    <input type="hidden" name="query" th:value="${query}">
+                    <label class="form-label mb-0" for="pageSize-payments">Mostrar</label>
+                    <select id="pageSize-payments" name="size" class="form-select form-select-sm" onchange="this.form.submit()">
+                      <option th:each="pageSize : ${pageSizes}" th:value="${pageSize}" th:selected="${pageSize == size}" th:text="${pageSize + ' por página'}">10 por página</option>
+                    </select>
+                  </form>
+                  <nav th:if="${payments.totalPages > 1}" aria-label="Paginación">
+                    <ul class="pagination justify-content-center flex-wrap gap-1 mb-0">
+                      <li class="page-item d-none d-sm-block" th:classappend="${payments.first} ? 'disabled'"><a class="page-link" th:href="@{/payments(query=${query}, page=0, size=${size})}">Primera</a></li>
+                      <li class="page-item" th:classappend="${payments.first} ? 'disabled'"><a class="page-link" th:href="@{/payments(query=${query}, page=${currentPage - 1}, size=${size})}">Anterior</a></li>
+                      <li class="page-item" th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber == currentPage} ? 'active'"><a class="page-link" th:href="@{/payments(query=${query}, page=${pageNumber}, size=${size})}" th:text="${pageNumber + 1}">1</a></li>
+                      <li class="page-item" th:classappend="${payments.last} ? 'disabled'"><a class="page-link" th:href="@{/payments(query=${query}, page=${currentPage + 1}, size=${size})}">Siguiente</a></li>
+                      <li class="page-item d-none d-sm-block" th:classappend="${payments.last} ? 'disabled'"><a class="page-link" th:href="@{/payments(query=${query}, page=${payments.totalPages - 1}, size=${size})}">Última</a></li>
+                    </ul>
+                  </nav>
+                </div>
                     </div>
                 </section>
             </div>

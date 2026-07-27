@@ -8,6 +8,7 @@
     const subtotalPreview = document.getElementById('subtotalPreview');
     const vatPreview = document.getElementById('vatPreview');
     const totalPreview = document.getElementById('totalPreview');
+    const mobileTotalPreview = document.getElementById('mobileTotalPreview');
     const issueDateInput = document.getElementById('issueDate');
     const validUntilInput = document.getElementById('validUntil');
 
@@ -54,7 +55,21 @@
 
         subtotalPreview.textContent = formatMoney(subtotal);
         vatPreview.textContent = formatMoney(vat);
-        totalPreview.textContent = formatMoney(subtotal + vat);
+        const formattedTotal = formatMoney(subtotal + vat);
+        totalPreview.textContent = formattedTotal;
+        if (mobileTotalPreview) {
+            mobileTotalPreview.textContent = formattedTotal;
+        }
+    }
+
+    function updateRemoveButtons() {
+        const cards = linesContainer.querySelectorAll('.quote-line-card');
+        cards.forEach(card => {
+            const button = card.querySelector('.remove-line-button');
+            if (button) {
+                button.hidden = cards.length === 1;
+            }
+        });
     }
 
     function renumberLines() {
@@ -69,6 +84,7 @@
                 field.id = field.id.replace(/lines\d+\./, `lines${index}.`);
             });
         });
+        updateRemoveButtons();
     }
 
     function bindLine(card) {

@@ -8,11 +8,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.ivan.erp.shared.web.PaginationSupport;
 
 @Service
 public class ProductService {
 
-    private static final int PAGE_SIZE = 10;
     private static final String PRODUCT_IN_USE_MESSAGE =
             "No se puede eliminar este producto porque está incluido en facturas o presupuestos. Puedes desactivarlo.";
 
@@ -24,11 +24,16 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Page<Product> search(String query, int page) {
+        return search(query, page, 10);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Product> search(String query, int page, int size) {
         String normalizedQuery = normalizeQuery(query);
 
         Pageable pageable = PageRequest.of(
                 Math.max(page, 0),
-                PAGE_SIZE,
+                PaginationSupport.sanitizeSize(size),
                 Sort.by(Sort.Direction.ASC, "name")
         );
 
@@ -43,6 +48,11 @@ public class ProductService {
 
     @Transactional
     public Product create(ProductForm form) {
+        String sku = form.getSku();
+        if (sku != null && !sku.isBlank() && productRepository.existsBySkuIgnoreCase(sku.trim())) {
+            throw new DataIntegrityViolationException("Ya existe un producto con esa referencia");
+        }
+
         Product product = new Product(
                 form.getName(),
                 form.getDescription(),

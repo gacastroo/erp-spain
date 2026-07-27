@@ -123,7 +123,7 @@
 
                         <div class="row g-3">
                             <div class="col-12 col-md-6">
-                                <label for="legalName" class="form-label">Nombre fiscal</label>
+                                <label for="legalName" class="form-label">Nombre fiscal <span class="text-danger" aria-hidden="true">*</span></label>
                                 <input id="legalName" type="text" class="form-control" th:field="*{legalName}" required>
                                 <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('legalName')}" th:errors="*{legalName}">Error</div>
                             </div>
@@ -133,7 +133,7 @@
                                 <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('commercialName')}" th:errors="*{commercialName}">Error</div>
                             </div>
                             <div class="col-12 col-md-4">
-                                <label for="taxId" class="form-label">NIF/CIF</label>
+                                <label for="taxId" class="form-label">NIF/CIF <span class="text-danger" aria-hidden="true">*</span></label>
                                 <input id="taxId" type="text" class="form-control" th:field="*{taxId}" required>
                                 <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('taxId')}" th:errors="*{taxId}">Error</div>
                             </div>
@@ -181,13 +181,13 @@
                         <h2 id="documentSettingsTitle" class="h5 fw-bold mb-3">Series y documentos</h2>
                         <div class="row g-3">
                             <div class="col-12 col-md-4">
-                                <label for="quoteSeries" class="form-label">Serie de presupuestos</label>
+                                <label for="quoteSeries" class="form-label">Serie de presupuestos <span class="text-danger" aria-hidden="true">*</span></label>
                                 <input id="quoteSeries" type="text" class="form-control" th:field="*{quoteSeries}" required>
                                 <div class="form-text">Ejemplo: PRE → PRE-2026-000001</div>
                                 <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('quoteSeries')}" th:errors="*{quoteSeries}">Error</div>
                             </div>
                             <div class="col-12 col-md-4">
-                                <label for="invoiceSeries" class="form-label">Serie de facturas</label>
+                                <label for="invoiceSeries" class="form-label">Serie de facturas <span class="text-danger" aria-hidden="true">*</span></label>
                                 <input id="invoiceSeries" type="text" class="form-control" th:field="*{invoiceSeries}" required>
                                 <div class="form-text">Ejemplo: FAC → FAC-2026-000001</div>
                                 <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('invoiceSeries')}" th:errors="*{invoiceSeries}">Error</div>

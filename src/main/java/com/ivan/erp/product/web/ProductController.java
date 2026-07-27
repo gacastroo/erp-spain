@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.ivan.erp.shared.web.PaginationSupport;
 
 @Controller
 @RequestMapping("/products")
@@ -28,13 +29,14 @@ public class ProductController {
     public String index(
             @RequestParam(defaultValue = "") String query,
             @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
             Model model
     ) {
-        Page<Product> products = productService.search(query, page);
+        Page<Product> products = productService.search(query, page, size);
 
         model.addAttribute("products", products);
         model.addAttribute("query", query);
-        model.addAttribute("currentPage", page);
+        PaginationSupport.addToModel(model, products, size);
 
         return "products/index";
     }

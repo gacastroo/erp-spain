@@ -105,7 +105,10 @@
 
                         <div class="row g-3 mb-4">
                             <div class="col-12 col-lg-6">
-                                <label for="clientId" class="form-label">Cliente *</label>
+                                <div class="d-flex justify-content-between align-items-center gap-2">
+                                    <label for="clientId" class="form-label">Cliente *</label>
+                                    <a th:href="@{/clients/new}" target="_blank" rel="noopener" class="small mb-2">Crear cliente nuevo ↗</a>
+                                </div>
                                 <select id="clientId" th:field="*{clientId}" class="form-select"
                                         th:classappend="${#fields.hasErrors('clientId')} ? 'is-invalid'" required>
                                     <option value="">Selecciona un cliente</option>
@@ -257,7 +260,8 @@
                             </div>
                         </aside>
 
-                        <div class="d-flex flex-column flex-md-row justify-content-end gap-2 mt-4">
+                        <div class="quote-form-actions d-flex flex-column flex-md-row justify-content-end align-items-md-center gap-2 mt-4">
+                            <div class="quote-form-mobile-total d-md-none me-auto">Total: <strong><span id="mobileTotalPreview">0,00</span> €</strong></div>
                             <a th:href="@{/quotes}" class="btn btn-outline-secondary">Cancelar</a>
                             <button type="submit" class="btn btn-primary">Guardar presupuesto</button>
                         </div>

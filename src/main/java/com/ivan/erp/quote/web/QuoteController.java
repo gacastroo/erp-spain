@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.ivan.erp.shared.web.PaginationSupport;
 
 import java.util.List;
 import java.util.Set;
@@ -51,9 +52,10 @@ public class QuoteController {
     public String index(
             @RequestParam(defaultValue = "") String query,
             @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
             Model model
     ) {
-        Page<Quote> quotes = quoteService.search(query, page);
+        Page<Quote> quotes = quoteService.search(query, page, size);
         List<Long> quoteIds = quotes.getContent().stream().map(Quote::getId).toList();
         Set<Long> invoicedQuoteIds = quoteIds.isEmpty()
                 ? Set.of()
@@ -62,7 +64,7 @@ public class QuoteController {
         model.addAttribute("quotes", quotes);
         model.addAttribute("invoicedQuoteIds", invoicedQuoteIds);
         model.addAttribute("query", query);
-        model.addAttribute("currentPage", page);
+        PaginationSupport.addToModel(model, quotes, size);
 
         return "quotes/index";
     }

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.ivan.erp.shared.web.PaginationSupport;
 
 @Controller
 @RequestMapping("/clients")
@@ -36,7 +37,7 @@ public class ClientController {
 
         model.addAttribute("clients", clients);
         model.addAttribute("q", query);
-        model.addAttribute("size", size);
+        PaginationSupport.addToModel(model, clients, size);
 
         return "clients/index";
     }

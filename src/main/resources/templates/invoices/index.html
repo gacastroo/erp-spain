@@ -104,7 +104,7 @@
                         <h1 class="h3 fw-bold mb-1">Facturas</h1>
                         <p class="text-muted mb-0">Controla facturas, vencimientos y estados de cobro desde el módulo de facturación.</p>
                     </div>
-                    <a sec:authorize="hasAnyRole('ADMIN','MANAGER')" th:href="@{/invoices/new}" class="btn btn-primary">Nueva factura</a>
+                    <a sec:authorize="hasAnyRole('ADMIN','MANAGER')" th:href="@{/invoices/new}" class="btn btn-primary">Facturar presupuesto</a>
                 </div>
 
                 <div th:if="${successMessage}" class="alert alert-success" role="alert" th:text="${successMessage}">Guardado.</div>
@@ -114,6 +114,7 @@
                     <div class="card-body p-3 p-md-4">
                         <h2 id="invoiceSearchTitle" class="visually-hidden">Buscar facturas</h2>
                         <form th:action="@{/invoices}" method="get" class="row g-3 align-items-end">
+                    <input type="hidden" name="size" th:value="${size}">
                             <div class="col-12 col-md-8 col-xl-9">
                                 <label for="query" class="form-label">Buscar</label>
                                 <input id="query" type="search" name="query" class="form-control"
@@ -132,7 +133,7 @@
 
                         <div th:if="${invoices.totalElements == 0}" class="text-center py-5">
                             <p class="h5 fw-semibold mb-2">No hay facturas todavía</p>
-                            <p class="text-muted mb-0">Crea tu primera factura desde el botón Nueva factura.</p>
+                            <p class="text-muted mb-0">Acepta un presupuesto y conviértelo en factura desde el botón Facturar presupuesto.</p>
                         </div>
 
                         <div th:if="${invoices.totalElements > 0}" class="desktop-table-wrapper">
@@ -244,19 +245,24 @@
                             </div>
                         </div>
 
-                        <nav th:if="${invoices.totalPages > 1}" class="mt-4" aria-label="Paginación de facturas">
-                            <ul class="pagination justify-content-center flex-wrap gap-1">
-                                <li class="page-item" th:classappend="${invoices.first} ? 'disabled'">
-                                    <a class="page-link" th:href="@{/invoices(query=${query}, page=${currentPage - 1})}">Anterior</a>
-                                </li>
-                                <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, invoices.totalPages - 1)}" th:classappend="${pageNumber == currentPage} ? 'active'">
-                                    <a class="page-link" th:href="@{/invoices(query=${query}, page=${pageNumber})}" th:text="${pageNumber + 1}">1</a>
-                                </li>
-                                <li class="page-item" th:classappend="${invoices.last} ? 'disabled'">
-                                    <a class="page-link" th:href="@{/invoices(query=${query}, page=${currentPage + 1})}">Siguiente</a>
-                                </li>
-                            </ul>
-                        </nav>
+                        <div th:if="${invoices.totalElements > 0}" class="erp-pagination-bar mt-4">
+                  <form th:action="@{/invoices}" method="get" class="erp-page-size-form">
+                    <input type="hidden" name="query" th:value="${query}">
+                    <label class="form-label mb-0" for="pageSize-invoices">Mostrar</label>
+                    <select id="pageSize-invoices" name="size" class="form-select form-select-sm" onchange="this.form.submit()">
+                      <option th:each="pageSize : ${pageSizes}" th:value="${pageSize}" th:selected="${pageSize == size}" th:text="${pageSize + ' por página'}">10 por página</option>
+                    </select>
+                  </form>
+                  <nav th:if="${invoices.totalPages > 1}" aria-label="Paginación">
+                    <ul class="pagination justify-content-center flex-wrap gap-1 mb-0">
+                      <li class="page-item d-none d-sm-block" th:classappend="${invoices.first} ? 'disabled'"><a class="page-link" th:href="@{/invoices(query=${query}, page=0, size=${size})}">Primera</a></li>
+                      <li class="page-item" th:classappend="${invoices.first} ? 'disabled'"><a class="page-link" th:href="@{/invoices(query=${query}, page=${currentPage - 1}, size=${size})}">Anterior</a></li>
+                      <li class="page-item" th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber == currentPage} ? 'active'"><a class="page-link" th:href="@{/invoices(query=${query}, page=${pageNumber}, size=${size})}" th:text="${pageNumber + 1}">1</a></li>
+                      <li class="page-item" th:classappend="${invoices.last} ? 'disabled'"><a class="page-link" th:href="@{/invoices(query=${query}, page=${currentPage + 1}, size=${size})}">Siguiente</a></li>
+                      <li class="page-item d-none d-sm-block" th:classappend="${invoices.last} ? 'disabled'"><a class="page-link" th:href="@{/invoices(query=${query}, page=${invoices.totalPages - 1}, size=${size})}">Última</a></li>
+                    </ul>
+                  </nav>
+                </div>
                     </div>
                 </section>
             </div>

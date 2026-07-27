@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.ivan.erp.shared.web.PaginationSupport;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -25,7 +26,6 @@ import java.util.List;
 @Service
 public class PaymentService {
 
-    private static final int PAGE_SIZE = 10;
     private static final Collection<InvoiceStatus> NOT_PAYABLE_STATUSES = List.of(
             InvoiceStatus.DRAFT,
             InvoiceStatus.PAID,
@@ -42,10 +42,15 @@ public class PaymentService {
 
     @Transactional(readOnly = true)
     public Page<Payment> search(String query, int page) {
+        return search(query, page, 10);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Payment> search(String query, int page, int size) {
         String normalizedQuery = normalizeQuery(query);
         Pageable pageable = PageRequest.of(
                 Math.max(page, 0),
-                PAGE_SIZE,
+                PaginationSupport.sanitizeSize(size),
                 Sort.by(Sort.Direction.DESC, "paymentDate").and(Sort.by(Sort.Direction.DESC, "id"))
         );
         return paymentRepository.search(normalizedQuery, pageable);

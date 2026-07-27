@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.ivan.erp.shared.web.PaginationSupport;
 
 @Controller
 @RequestMapping("/invoices")
@@ -42,13 +43,14 @@ public class InvoiceController {
     public String index(
             @RequestParam(defaultValue = "") String query,
             @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
             Model model
     ) {
-        Page<Invoice> invoices = invoiceService.search(query, page);
+        Page<Invoice> invoices = invoiceService.search(query, page, size);
 
         model.addAttribute("invoices", invoices);
         model.addAttribute("query", query);
-        model.addAttribute("currentPage", page);
+        PaginationSupport.addToModel(model, invoices, size);
 
         return "invoices/index";
     }
@@ -67,9 +69,9 @@ public class InvoiceController {
             RedirectAttributes redirectAttributes
     ) {
         try {
-            invoiceService.createFromQuote(quoteId);
+            Invoice invoice = invoiceService.createFromQuote(quoteId);
             redirectAttributes.addFlashAttribute("successMessage", "Factura creada correctamente");
-            return "redirect:/invoices";
+            return "redirect:/invoices/" + invoice.getId();
         } catch (EntityNotFoundException | IllegalStateException ex) {
             redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
             return "redirect:/invoices/new";

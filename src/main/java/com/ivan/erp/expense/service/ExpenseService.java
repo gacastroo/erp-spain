@@ -10,11 +10,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.ivan.erp.shared.web.PaginationSupport;
 
 @Service
 public class ExpenseService {
 
-    private static final int PAGE_SIZE = 10;
 
     private final ExpenseRepository expenseRepository;
 
@@ -24,9 +24,14 @@ public class ExpenseService {
 
     @Transactional(readOnly = true)
     public Page<Expense> search(String query, int page) {
+        return search(query, page, 10);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Expense> search(String query, int page, int size) {
         Pageable pageable = PageRequest.of(
                 Math.max(page, 0),
-                PAGE_SIZE,
+                PaginationSupport.sanitizeSize(size),
                 Sort.by(Sort.Direction.DESC, "expenseDate").and(Sort.by(Sort.Direction.DESC, "id"))
         );
 
